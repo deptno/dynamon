@@ -1,0 +1,24 @@
+{
+  "name": "dynamo-fe",
+  "version": "0.1.0",
+  "description": "dynamodb client ui gui local",
+  "main": "index.js",
+  "repository": "https://github.com/deptno/dynamo.git",
+  "author": "Bonggyun Lee <deptno@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@types/node": "^9.6.1",
+    "parcel-bundler": "^1.7.0",
+    "typescript": "^2.8.1"
+  },
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --public-url ./"
+  },
+  "dependencies": {
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
+    "tslint": "^5.9.1"
+  }
+}

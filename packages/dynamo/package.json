@@ -1,0 +1,19 @@
+{
+  "name": "dynamo",
+  "version": "0.1.0",
+  "description": "dynamodb client ui gui local",
+  "main": "index.js",
+  "repository": "https://github.com/deptno/dynamo.git",
+  "author": "Bonggyun Lee <deptno@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@types/node": "^9.6.1",
+    "electron": "^1.8.4",
+    "typescript": "^2.8.1"
+  },
+  "scripts": {
+    "start-dev": "ELECTRON_URL=http://localhost:1234 electron .",
+    "start": "electron ."
+  }
+}
