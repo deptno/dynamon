@@ -13,7 +13,7 @@
     "typescript": "^2.8.1"
   },
   "scripts": {
-    "start": "parcel index.html",
+    "dev": "parcel index.html",
     "build": "parcel build index.html --public-url ./"
   },
   "dependencies": {
