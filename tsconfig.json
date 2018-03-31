@@ -15,7 +15,7 @@
     "baseUrl": ".",
     "paths": {
       "*": [
-        "./packages/*/src"
+        "./packages/*"
       ]
     }
   }

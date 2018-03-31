@@ -1,0 +1,19 @@
+{
+  "name": "react-deep-json-table",
+  "version": "0.1.0",
+  "description": "dynamodb client ui gui local",
+  "main": "dist/index.js",
+  "repository": "https://github.com/deptno/dynamo.git",
+  "author": "Bonggyun Lee <deptno@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "typescript": "^2.8.1"
+  },
+  "scripts": {
+    "test": "echo 'do implement'"
+  },
+  "peerDependencies": {
+    "react": "*"
+  }
+}

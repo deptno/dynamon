@@ -9,11 +9,12 @@
   "private": false,
   "devDependencies": {
     "@types/node": "^9.6.1",
+    "@types/react": "^16.1.0",
     "parcel-bundler": "^1.7.0",
     "typescript": "^2.8.1"
   },
   "scripts": {
-    "dev": "parcel index.html",
+    "dev": "parcel index.html --no-autoinstall",
     "build": "parcel build index.html --public-url ./"
   },
   "dependencies": {
