@@ -13,11 +13,7 @@ export class RowComponent extends React.Component<Props, State> {
             } else if (column === null) {
               content = 'null'
             } else if (typeof column === 'object') {
-              if (Object.keys(column).length > 0) {
-                content = <button onClick={() => onEnter(headers[i])}>JSON</button>
-              } else {
-                content = '{}'
-              }
+              content = <button onClick={() => onEnter(headers[i])}>JSON</button>
             } else {
               content = column.toString()
             }
