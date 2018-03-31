@@ -33,7 +33,9 @@ export class DeepJsonTableComponent extends React.Component<Props, State> {
   private handleEnter = (key: string) => {
     console.log('handleEnter', key)
     const step = [...this.state.step, key]
-    const collection = this.state.collection.map(row => row[key])
+    const collection = this.state.collection
+      .map(row => row[key])
+      .filter(Boolean)
     const headers = Object.keys(collection[0])
 
     this.setState({step, collection, headers})
@@ -41,11 +43,9 @@ export class DeepJsonTableComponent extends React.Component<Props, State> {
 
   private handleLeave = () => {
     const step = this.state.step.slice(0, -1)
-    const collection = this.props.data.map(row => {
-      return step.reduce((p, c) => {
-        return p[c]
-      }, row)
-    })
+    const collection = this.props.data
+      .map(row => step.reduce((p, c) => p[c], row))
+      .filter(Boolean)
     const headers = Object.keys(collection[0])
     console.log('handleEnter')
     console.log(step)
