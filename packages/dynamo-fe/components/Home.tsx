@@ -3,13 +3,14 @@ import {DeepJsonTableComponent} from 'react-deep-json-table'
 
 const data = [
   {
-    a: 1,
+    key: 1,
+    key2: 2,
     b: 'string',
     c: true,
     d: false,
     A: {
       a: 2,
-      b: 'string',
+      b: 'string2',
       c: false,
       B: {
         a: 3,
@@ -28,7 +29,8 @@ const data = [
     g: undefined
   },
   {
-    a: 4,
+    key: 2,
+    key2: 4,
     b: 'string',
     c: true,
     d: false,
@@ -53,7 +55,8 @@ const data = [
     g: undefined
   },
   {
-    a: 4,
+    key: 4,
+    key2: 3,
     b: 'string',
     c: true,
     d: false,
@@ -72,7 +75,7 @@ export class HomeComponent extends React.Component<Props, State> {
   render() {
     return (
       <div>
-        <DeepJsonTableComponent headers={headers} data={data}/>
+        <DeepJsonTableComponent keepHeader={['key', 'key2', 'b']} headers={headers} data={data}/>
       </div>
     )
   }

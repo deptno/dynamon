@@ -21,8 +21,7 @@ export class DeepJsonTableComponent extends React.Component<Props, State> {
     )
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    console.log('getDerivedStateFromProps')
+  static getDerivedStateFromProps(nextProps, _) {
     return {
       step      : [],
       headers   : nextProps.headers,
@@ -31,25 +30,41 @@ export class DeepJsonTableComponent extends React.Component<Props, State> {
   }
 
   private handleEnter = (key: string) => {
-    console.log('handleEnter', key)
     const step = [...this.state.step, key]
     const collection = this.state.collection
-      .map(row => row[key])
+      .map(row => this.keepHeader(row, key))
       .filter(Boolean)
     const headers = Object.keys(collection[0])
 
     this.setState({step, collection, headers})
   }
 
+  private keepHeader(row: object, key: string) {
+    const nextRow = row[key]
+
+    if (!nextRow) {
+      return null
+    } else if (this.props.keepHeader.length === 0) {
+      return nextRow
+    } else if (Object.keys(nextRow).length === 0) {
+      return nextRow
+    }
+    return {
+      ...this.props.keepHeader.reduce((p, keep) => {
+        const key = `#${keep}`
+        p[key] = row[key] || row[keep]
+        return p
+      }, {}),
+      ...nextRow
+    }
+  }
+
   private handleLeave = () => {
     const step = this.state.step.slice(0, -1)
     const collection = this.props.data
-      .map(row => step.reduce((p, c) => p[c], row))
+      .map(row => step.reduce((p, c) => this.keepHeader(p, c), row))
       .filter(Boolean)
     const headers = Object.keys(collection[0])
-    console.log('handleEnter')
-    console.log(step)
-    console.table(collection)
 
     this.setState({step, collection, headers})
   }
@@ -60,6 +75,7 @@ export class DeepJsonTableComponent extends React.Component<Props, State> {
 }
 
 interface Props {
+  keepHeader: string[]
   headers: string[]
   data: any[]
 }
