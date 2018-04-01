@@ -7,9 +7,10 @@ export class DeepJsonTableComponent extends React.Component<Props, State> {
   }
 
   static getDerivedStateFromProps(nextProps, _) {
+    console.log(nextProps.data)
     return {
       step      : [],
-      headers   : nextProps.headers,
+      headers   : Object.keys(nextProps.data[0]),
       collection: nextProps.data
     }
   }
@@ -18,12 +19,17 @@ export class DeepJsonTableComponent extends React.Component<Props, State> {
     const {step, headers, collection} = this.state
     return (
       <table>
-        <caption>{this.caption()} {step.length > 0 && <button onClick={this.handleLeave}>back</button>}</caption>
+        <caption id="caption">
+          <button onClick={this.handleLeave} disabled={step.length === 0}>back</button>
+          {this.caption()}
+        </caption>
         <thead>
         <tr>{headers.map(header => <th key={header}>{header}</th>)}</tr>
         </thead>
         <tbody>
-        {collection.map((row, i) => <RowComponent key={i} headers={headers} data={row} onEnter={this.handleEnter}/>)}
+        {collection.map((row, i) =>
+          <RowComponent key={i} headers={headers} data={row} onEnter={this.handleEnter} onRowClick={this.handleRowClick}/>
+        )}
         </tbody>
       </table>
     )
@@ -40,6 +46,15 @@ export class DeepJsonTableComponent extends React.Component<Props, State> {
 
   private handleEnter = (key: string) => {
     const step = [...this.state.step, key]
+
+    if (this.state.collection.some(row => Array.isArray(row[key]))) {
+        console.log('is collection')
+        return this.props.onEnterArray(
+          this.state.collection
+            .map(row => this.keepHeader(row, key))
+            .filter(Boolean)
+        )
+    }
     const collection = this.state.collection
       .map(row => this.keepHeader(row, key))
       .filter(Boolean)
@@ -58,6 +73,12 @@ export class DeepJsonTableComponent extends React.Component<Props, State> {
     const headers = Object.keys(collection[0])
 
     this.setState({step, collection, headers})
+  }
+
+  private handleRowClick = (json) => {
+    if (this.props.onRowClick) {
+      this.props.onRowClick(json)
+    }
   }
 
   private keepHeader(row: object, key: string) {
@@ -85,7 +106,9 @@ export class DeepJsonTableComponent extends React.Component<Props, State> {
 }
 
 interface Props {
-  caption?: (step: string[]) => string
+  onEnterArray?(array): void
+  onRowClick?(key: object): void
+  caption?(step: string[]): string
   keepHeader?: string[]
   headers: string[]
   data: any[]

@@ -20,6 +20,7 @@
   "dependencies": {
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
+    "react-json-view": "^1.16.1",
     "tslint": "^5.9.1"
   }
 }
