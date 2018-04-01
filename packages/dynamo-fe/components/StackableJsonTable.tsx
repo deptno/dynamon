@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {DeepJsonTableComponent} from 'react-deep-json-table'
+import {BlueprintDJTComponent} from 'react-deep-json-table/BlueprintDJT'
 
 export class StackableJsonTableComponent extends React.Component<Props, State> {
   state = {
@@ -19,7 +19,7 @@ export class StackableJsonTableComponent extends React.Component<Props, State> {
     return (
       <div>
         {this.state.stack.map(({collection, keepHeader}, i) =>
-          <DeepJsonTableComponent
+          <BlueprintDJTComponent
             key={i}
             keepHeader={keepHeader}
             data={collection}

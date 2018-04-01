@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {JSONFormat} from '@blueprintjs/table'
 
 export class RowComponent extends React.Component<Props, State> {
   render() {
@@ -6,38 +7,26 @@ export class RowComponent extends React.Component<Props, State> {
     return data
       ? (
         <tr onClick={() => onRowClick(data)}>
-          {
-            headers
-              .map((key, i) => {
-                const column = data[key]
-
-                let content
-                if (column === undefined) {
-                  content = 'undefined'
-                } else if (column === null) {
-                  content = 'null'
-                } else if (Array.isArray(column)) {
-                  content = (
-                    <p>
-                      <button onClick={() => onEnter(headers[i], column)}>Array</button>
-                      {JSON.stringify(column)}
-                    </p>
-                  )
-                } else if (typeof column === 'object') {
-                  content = (
-                    <p>
-                      <button onClick={() => onEnter(headers[i])}>JSON</button>
-                      {JSON.stringify(column)}
-                    </p>
-                  )
-                } else {
-                  content = column.toString()
-                }
-                return <td key={i}>{content}</td>
-              })}
+          {headers.map((key, i) => <td key={i}>{RowModel.content(data[key])}</td>)}
         </tr>
       )
       : null
+  }
+}
+
+export class RowModel {
+  static content(column) {
+    if (column === undefined) {
+      return 'undefined'
+    } else if (column === null) {
+      return 'null'
+    } else if (Array.isArray(column)) {
+      return <JSONFormat>{JSON.stringify(column)}</JSONFormat>
+    } else if (typeof column === 'object') {
+      return <JSONFormat>{JSON.stringify(column)}</JSONFormat>
+    } else {
+      return column.toString()
+    }
   }
 }
 
