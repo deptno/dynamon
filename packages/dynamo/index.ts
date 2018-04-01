@@ -1,8 +1,6 @@
-import * as electron from 'electron'
+import {app, BrowserWindow, ipcMain} from 'electron'
 import * as path from 'path'
 import * as url from 'url'
-
-const {app, BrowserWindow} = electron
 
 let mainWindow
 
@@ -10,9 +8,12 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1024,
     height: 800,
-    title: 'Dynamo'
+    title: 'Dynamo',
+    webPreferences: {
+      nodeIntegration: false,
+      preload: __dirname + '/preload.js'
+    }
   })
-
   mainWindow.loadURL(process.env.ELECTRON_URL || url.format({
     pathname: path.join(__dirname, '..', 'dynamo-fe', 'dist', 'index.html'),
     protocol: 'file:',
@@ -34,3 +35,8 @@ app.on('activate', function () {
     createWindow()
   }
 })
+
+ipcMain.on('channel', ({sender}, args) => {
+  sender.send('channel', 'pong')
+})
+
