@@ -17,9 +17,19 @@ export class RowComponent extends React.Component<Props, State> {
                 } else if (column === null) {
                   content = 'null'
                 } else if (Array.isArray(column)) {
-                  content = <button onClick={() => onEnter(headers[i])}>Array</button>
+                  content = (
+                    <p>
+                      <button onClick={() => onEnter(headers[i], column)}>Array</button>
+                      {JSON.stringify(column)}
+                    </p>
+                  )
                 } else if (typeof column === 'object') {
-                  content = <button onClick={() => onEnter(headers[i])}>JSON</button>
+                  content = (
+                    <p>
+                      <button onClick={() => onEnter(headers[i])}>JSON</button>
+                      {JSON.stringify(column)}
+                    </p>
+                  )
                 } else {
                   content = column.toString()
                 }
@@ -34,7 +44,7 @@ export class RowComponent extends React.Component<Props, State> {
 interface Props {
   headers: string[]
   data: any[]
-  onEnter: (key: string) => void
+  onEnter: (key: string, array?: any[]) => void
   onRowClick: (key: object) => void
 }
 interface State {
