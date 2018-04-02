@@ -1,6 +1,7 @@
 import {app, BrowserWindow, ipcMain} from 'electron'
 import * as path from 'path'
 import * as url from 'url'
+import {engine} from './engine'
 
 let mainWindow
 
@@ -36,7 +37,11 @@ app.on('activate', function () {
   }
 })
 
-ipcMain.on('channel', ({sender}, args) => {
-  sender.send('channel', 'pong')
+
+ipcMain.on('channel', async ({sender}, args) => {
+  const [table] = await engine.tables()
+  const {Items} = await table.scan()
+  const keys = table.keySchema()
+  sender.send('channel', Items, keys)
 })
 

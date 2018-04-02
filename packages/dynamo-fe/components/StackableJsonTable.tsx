@@ -9,8 +9,8 @@ export class StackableJsonTableComponent extends React.Component<Props, State> {
   static getDerivedStateFromProps(nextProps, prevState) {
     return {
       stack: [{
-        keepHeader: ['key', 'key2', 'b'],
-        collection: getData()
+        keepHeader: nextProps.keys || [],
+        collection: nextProps.collection
       }]
     }
   }
@@ -49,6 +49,8 @@ export class StackableJsonTableComponent extends React.Component<Props, State> {
 }
 
 interface Props {
+  keys?: string[]
+  collection: any[]
 }
 interface State {
   stack: Stack[]

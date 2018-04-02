@@ -7,10 +7,9 @@ export class DeepJsonTableComponent extends React.Component<Props, State> {
   }
 
   static getDerivedStateFromProps(nextProps, _) {
-    console.log(nextProps.data)
     return {
       step      : [],
-      headers   : Object.keys(nextProps.data[0]),
+      headers   : Object.keys(nextProps.data[0] || {}),
       collection: nextProps.data
     }
   }

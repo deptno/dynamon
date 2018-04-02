@@ -15,5 +15,6 @@
   "scripts": {
     "dev": "ELECTRON_URL=http://localhost:1234 electron .",
     "start": "electron ."
-  }
+  },
+  "dependencies": {}
 }
