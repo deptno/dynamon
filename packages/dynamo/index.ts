@@ -7,12 +7,12 @@ let mainWindow
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 800,
-    title: 'Dynamo',
+    width         : 1024,
+    height        : 800,
+    title         : 'Dynamo',
     webPreferences: {
       nodeIntegration: false,
-      preload: __dirname + '/preload.js'
+      preload        : __dirname + '/preload.js'
     }
   })
   mainWindow.loadURL(process.env.ELECTRON_URL || url.format({
@@ -39,9 +39,17 @@ app.on('activate', function () {
 
 
 ipcMain.on('channel', async ({sender}, args) => {
-  const [table] = await engine.tables()
+  const tables = await engine.tables()
+  sender.send('channel', {type: 'tables', payload: tables.map(table => table.table)})
+  const [table] = tables
   const {Items} = await table.scan()
   const keys = table.keySchema()
-  sender.send('channel', Items, keys)
+  sender.send('channel', {
+    type   : 'table',
+    payload: {
+      items: Items,
+      keys : keys
+    }
+  })
 })
 

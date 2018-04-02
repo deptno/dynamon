@@ -1,36 +1,45 @@
 import * as React from 'react'
+import {connect} from 'react-redux'
 import {StackableJsonTableComponent} from './StackableJsonTable'
-
-declare const ipc
+import {RootState} from '../redux'
+import {DocumentClient} from 'aws-sdk/lib/dynamodb/document_client'
+import KeySchemaAttributeName = DocumentClient.KeySchemaAttributeName
+import {SelectComponent} from './Select'
 
 export class HomeComponent extends React.Component<Props, State> {
-  state = {
-    tables: [],
-    keys: [],
-    items: []
-  }
   render() {
-    const {keys, items} = this.state
+    const {tables, table: {keys = [], items = []}} = this.props
     return (
       <div>
-        <StackableJsonTableComponent keys={keys} collection={items} />
+        <SelectComponent description="Select table..." onChange={this.handleOnTableChange}>
+          {tables.map(table =>
+            <option key={table.TableName} value={table.TableName}>{table.TableName}</option>
+          )}
+        </SelectComponent>
+        <StackableJsonTableComponent
+          keys={keys.map(key => key.AttributeName as KeySchemaAttributeName)}
+          collection={items}
+        />
       </div>
     )
   }
 
-  componentDidMount() {
-    ipc.on('channel', (_, items, keys) => {
-      console.log('received')
-      this.setState({
-        keys,
-        items
-      })
-    })
-    ipc.send('channel', 'ping')
+  handleOnTableChange(ev) {
+    console.log('handleOnTableChange', ev)
   }
 }
 
-interface Props {
+const mapStateToProps = (state: RootState) => state
+const mapDispatchToProps = {}
+export const Home = connect<StateProps, DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps)(HomeComponent)
+
+interface StateProps extends RootState {
+}
+interface DispatchProps {
+}
+interface OwnProps {
+}
+interface Props extends StateProps, DispatchProps, OwnProps {
 }
 interface State {
 }

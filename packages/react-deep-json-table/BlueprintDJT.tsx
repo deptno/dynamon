@@ -6,6 +6,12 @@ import '@blueprintjs/core/lib/css/blueprint.css'
 import '@blueprintjs/table/lib/css/table.css'
 
 export class BlueprintDJTComponent extends DeepJsonTableComponent {
+  state = {
+    step: [],
+    headers: [],
+    collection: [],
+  }
+
   render() {
     const {step, headers, collection} = this.state
     return (

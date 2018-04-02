@@ -1,6 +1,22 @@
 import * as React from 'react'
 import {render} from 'react-dom'
-import {HomeComponent} from './components/Home'
+import {Home} from './components/Home'
+import {Provider} from 'react-redux'
+import {store} from './store'
 
-render(<HomeComponent/>, document.querySelector('#app'))
+render(
+  (
+    <Provider store={store}>
+      <Home/>
+    </Provider>
+  ),
+  document.querySelector('#app')
+)
 
+declare const ipc
+
+ipc.on('channel', (_, action) => {
+  store.dispatch(action)
+  console.log('store', store.getState())
+})
+ipc.send('channel', 'ping')

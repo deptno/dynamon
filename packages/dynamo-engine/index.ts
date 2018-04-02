@@ -38,7 +38,7 @@ export class DynamoEngine {
 }
 
 export class DynamoDbTable {
-  constructor(private table: DynamoDB.TableDescription) {
+  constructor(public readonly table: DynamoDB.TableDescription) {
   }
 
   async scan() {
