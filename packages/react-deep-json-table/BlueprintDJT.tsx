@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {DeepJsonTableComponent} from './DeepJsonTable'
 import {RowModel} from './Row'
-import {Cell, Column, ColumnHeaderCell, Table} from '@blueprintjs/table'
-import {Button, ButtonGroup, Menu, MenuItem} from '@blueprintjs/core'
+import {Cell, Column, ColumnHeaderCell, RegionCardinality, Table} from '@blueprintjs/table'
+import {Button, ButtonGroup, Classes, Menu, MenuItem} from '@blueprintjs/core'
 import '@blueprintjs/core/lib/css/blueprint.css'
 import '@blueprintjs/table/lib/css/table.css'
 
@@ -12,10 +12,12 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
     headers   : [],
     collection: [],
     disabled  : {
-      cell      : false,
-      collection: false,
+      cell      : true,
+      collection: true,
+      enter     : true,
     },
   }
+  private position: [number, number] = [0, 0]
 
   render() {
     const {step, headers, collection, disabled} = this.state
@@ -25,23 +27,36 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
       <div>
         <div>
           <ul className="pt-breadcrumbs">
-            {step.length > 0 && (
-              <li onClick={this.handleLeave}>
-                <a className="pt-breadcrumb-current">Back</a>
-              </li>
-            )}
             {step.map((step, index, array) => (
               <li key={index}>
                 <a className="pt-breadcrumb">{step}</a>
               </li>
             ))}
           </ul>
-          <ButtonGroup style={{float: 'right'}}>
-            <Button icon="code" disabled={rows === 0 || disabled.cell}>Show cell as JSON</Button>
-            <Button icon="code" disabled={rows === 0}>Show row as JSON</Button>
-            <Button icon="zoom-in" disabled={rows === 0 || disabled.collection}>
-              Show sub collection table
+          <ButtonGroup>
+            <Button type="button" icon="code" disabled={rows === 0} onClick={this.showRowAsJson}>
+              Show row as JSON
             </Button>
+            <Button type="button" icon="code" disabled={rows === 0 || disabled.cell} onClick={this.showCellAsJson}>
+              Show cell as JSON
+            </Button>
+            <Button
+              type="button"
+              icon="zoom-in"
+              disabled={rows === 0 || disabled.collection}
+              onClick={this.showColumnsAsCollection}
+            >
+              Show columns as collection
+            </Button>
+            <Button
+              type="button"
+              icon="maximize"
+              disabled={rows === 0 || disabled.enter}
+              onClick={this.enterJson}
+            >
+              Enter JSON
+            </Button>
+            <Button icon="minimize" disabled={step.length === 0} onClick={this.handleLeave}>Leave</Button>
           </ButtonGroup>
           <div style={{clear: 'both', marginBottom: '15px'}}/>
         </div>
@@ -49,7 +64,7 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
           numRows={rows}
           onFocusedCell={this.handleFocusedCell}
           onSelection={console.log}
-          selectionModes={[]}
+          selectionModes={[RegionCardinality.CELLS]}
           enableFocusedCell>
           {headers.map((header, i) =>
             <Column
@@ -63,6 +78,29 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
 
       </div>
     )
+  }
+
+  showCellAsJson = () => {
+    //todo: RJV
+    console.log('showCellAsJson')
+  }
+
+  showRowAsJson = () => {
+    //todo: RJV
+    console.log('showRowAsJson')
+  }
+
+  showColumnsAsCollection = () => {
+    console.log('showColumnsAsCollection')
+    const [row, col] = this.position
+    const header = this.state.headers[col]
+    this.handleEnter(header, this.state.collection[row][header])
+  }
+
+  enterJson = () => {
+    console.log('enterJson')
+    const [_, col] = this.position
+    this.handleEnter(this.state.headers[col])
   }
 
   renderHeader(header) {
@@ -82,7 +120,7 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
   renderMenu(col) {
     return (
       <Menu>
-        <MenuItem icon="fork" onClick={() => this.showSubTable(col)} text="Enter JSON"/>
+        <MenuItem icon="maximize" onClick={this.enterJson} text="Enter JSON"/>
       </Menu>
     )
   }
@@ -114,14 +152,16 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
         disabled: {
           cell      : false,
           collection: false,
+          enter     : true,
         },
       })
-      return this.handleEnter(header, cell)
+      // return this.handleEnter(header, cell)
     } else if (cell !== null && typeof cell === 'object') {
       this.setState({
         disabled: {
           cell      : false,
           collection: true,
+          enter     : false,
         },
       })
     } else {
@@ -129,12 +169,12 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
         disabled: {
           cell      : true,
           collection: true,
+          enter     : true,
         },
       })
     }
-  }
-  showSubTable = (col: number) => {
-    return this.handleEnter(this.state.headers[col])
+    this.position = [row, col]
+    console.log(row, col)
   }
 }
 interface State {
@@ -144,5 +184,6 @@ interface State {
   disabled: {
     cell: boolean
     collection: boolean
+    enter: boolean
   }
 }
