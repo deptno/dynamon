@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {RowComponent} from './Row'
 
-export class DeepJsonTableComponent extends React.Component<Props, State> {
+export class DeepJsonTableComponent<S extends State> extends React.Component<Props, S> {
   static defaultProps = {
     keepHeader: [],
   }

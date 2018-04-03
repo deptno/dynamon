@@ -4,4 +4,6 @@ import {createUniversalElectronMw} from './lib/redux-universal-electron'
 
 declare const ipc
 
-export const store = createStore(reducer, applyMiddleware(createUniversalElectronMw(ipc, 'action')))
+export const store = (window as any).ipc
+  ? createStore(reducer, applyMiddleware(createUniversalElectronMw(ipc, 'action')))
+  : createStore(reducer)
