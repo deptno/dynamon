@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {DeepJsonTableComponent} from './DeepJsonTable'
 import {RowModel} from './Row'
-import {Cell, Column, Table} from '@blueprintjs/table'
+import {Cell, Column, RegionCardinality, Table} from '@blueprintjs/table'
 import '@blueprintjs/core/lib/css/blueprint.css'
 import '@blueprintjs/table/lib/css/table.css'
 
@@ -17,16 +17,24 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent {
     return (
       <div>
         <ul className="pt-breadcrumbs">
-          {step.length > 0 && <li onClick={this.handleLeave}><a className="pt-breadcrumb-current">Back</a></li>}
-          {step.map((step, index, array) => <li key={index}><a className="pt-breadcrumb">{step}</a></li>)}
+          {step.length > 0 && (
+            <li onClick={this.handleLeave}>
+              <a className="pt-breadcrumb-current">Back</a>
+            </li>
+          )}
+          {step.map((step, index, array) => (
+            <li key={index}>
+              <a className="pt-breadcrumb">{step}</a>
+            </li>
+          ))}
         </ul>
         <Table
           numRows={collection.length}
           onFocusedCell={this.handleFocusedCell}
           onSelection={console.log}
-          enableFocusedCell
-        >
-          {headers.map((header, i) => <Column key={i} name={headers[i]} cellRenderer={this.renderCell}/>)}
+          selectionModes={[RegionCardinality.CELLS]}
+          enableFocusedCell>
+          {headers.map((header, i) => <Column key={i} name={headers[i]} cellRenderer={this.renderCell} />)}
         </Table>
       </div>
     )

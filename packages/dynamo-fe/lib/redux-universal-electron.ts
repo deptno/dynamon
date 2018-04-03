@@ -31,17 +31,18 @@ export function createUniversalElectronMw(ipc: any, channel: string): Middleware
         const [{resolve}] = queue.splice(index, 1)
         resolve({
           ...action,
-          response: true
+          response: true,
         })
       }
     })
 
-    return (action) => new Promise(resolve => {
-      ipc.send(channel, action)
-      queue.push({
-        type   : action.type,
-        resolve
+    return action =>
+      new Promise(resolve => {
+        ipc.send(channel, action)
+        queue.push({
+          type: action.type,
+          resolve,
+        })
       })
-    })
   }
 }

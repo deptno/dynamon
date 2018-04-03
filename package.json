@@ -7,10 +7,17 @@
   "author": "Bonggyun Lee <deptno@gmail.com>",
   "license": "MIT",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "scripts": {
-    "dev": "yarn workspace dynamo-fe dev & yarn workspace dynamo dev"
+    "dev": "yarn workspace dynamo-fe dev & yarn workspace dynamo dev",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": ["prettier --write", "git add"]
+  },
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^7.0.2",
+    "prettier": "^1.11.1"
   }
 }

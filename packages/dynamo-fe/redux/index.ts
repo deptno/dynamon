@@ -5,10 +5,10 @@ import KeySchema = DocumentClient.KeySchema
 
 const defaultState: RootState = {
   tables: [],
-  table : {
+  table: {
     items: [],
-    keys : [],
-  }
+    keys: [],
+  },
 }
 export const reducer = (state = defaultState, action: ReturnType<Actions[keyof Actions]>) => {
   if (action.type.startsWith('@')) {
@@ -30,14 +30,14 @@ export const reducer = (state = defaultState, action: ReturnType<Actions[keyof A
  */
 enum ActionTypes {
   SELECT_SERVER = 'get tables',
-  SELECT_TABLE  = 'select table',
+  SELECT_TABLE = 'select table',
 }
 
 /*
  actions
  */
 export const actions = {
-  getTables  : (server = 'http://localhost:8000') => createUniversalAction(ActionTypes.SELECT_SERVER, server),
+  getTables: (server = 'http://localhost:8000') => createUniversalAction(ActionTypes.SELECT_SERVER, server),
   selectTable: (tableName: string) => createUniversalAction(ActionTypes.SELECT_TABLE, tableName),
 }
 
@@ -55,7 +55,7 @@ function createAction<P>(type: ActionTypes, payload?: P): TypedAction | TypedAct
 function createUniversalAction<P>(type: ActionTypes, payload: P): TypedUniversalActinoWithPayload<P> {
   return {
     ...createAction(type, payload),
-    universal: true
+    universal: true,
   }
 }
 

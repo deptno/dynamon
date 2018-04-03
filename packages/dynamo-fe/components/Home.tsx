@@ -12,14 +12,18 @@ export class HomeComponent extends React.Component<Props, State> {
     return (
       <div>
         <SelectComponent title="Endpoint" description="Select endpoint..." onChange={this.handleOnTableChange} disabled>
-          {tables.map(table =>
-            <option key={table.TableName} value={table.TableName}>{table.TableName}</option>
-          )}
+          {tables.map(table => (
+            <option key={table.TableName} value={table.TableName}>
+              {table.TableName}
+            </option>
+          ))}
         </SelectComponent>
         <SelectComponent title="Tables" description="Select table..." onChange={this.handleOnTableChange}>
-          {tables.map(table =>
-            <option key={table.TableName} value={table.TableName}>{table.TableName}</option>
-          )}
+          {tables.map(table => (
+            <option key={table.TableName} value={table.TableName}>
+              {table.TableName}
+            </option>
+          ))}
         </SelectComponent>
         <StackableJsonTableComponent
           keys={keys.map(key => key.AttributeName as KeySchemaAttributeName)}
@@ -33,7 +37,7 @@ export class HomeComponent extends React.Component<Props, State> {
     this.props.getTables()
   }
 
-  handleOnTableChange = (ev) => {
+  handleOnTableChange = ev => {
     this.props.selectTable(ev.target.value)
   }
 }
@@ -42,13 +46,8 @@ const mapStateToProps = (state: RootState) => state
 const mapDispatchToProps = actions
 export const Home = connect<StateProps, DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps)(HomeComponent)
 
-interface StateProps extends RootState {
-}
-interface DispatchProps extends Actions {
-}
-interface OwnProps {
-}
-interface Props extends StateProps, DispatchProps, OwnProps {
-}
-interface State {
-}
+interface StateProps extends RootState {}
+interface DispatchProps extends Actions {}
+interface OwnProps {}
+interface Props extends StateProps, DispatchProps, OwnProps {}
+interface State {}

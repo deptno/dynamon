@@ -1,11 +1,11 @@
 import {DynamoDbTable, DynamoEngine} from '../index'
 
-describe('dynamo engine', ()  => {
+describe('dynamo engine', () => {
   const engine = new DynamoEngine()
   let tables: DynamoDbTable[]
   it('tables()', async done => {
     tables = await engine.tables()
-    console.log(JSON.stringify(tables, null , 2))
+    console.log(JSON.stringify(tables, null, 2))
     expect(tables).toBeTruthy()
     done()
   })
@@ -19,4 +19,3 @@ describe('dynamo engine', ()  => {
     })
   })
 })
-

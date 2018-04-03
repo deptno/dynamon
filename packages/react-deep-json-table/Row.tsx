@@ -4,13 +4,11 @@ import {JSONFormat} from '@blueprintjs/table'
 export class RowComponent extends React.Component<Props, State> {
   render() {
     const {headers, data, onEnter, onRowClick} = this.props
-    return data
-      ? (
-        <tr onClick={() => onRowClick(data)}>
-          {headers.map((key, i) => <td key={i}>{RowModel.content(data[key])}</td>)}
-        </tr>
-      )
-      : null
+    return data ? (
+      <tr onClick={() => onRowClick(data)}>
+        {headers.map((key, i) => <td key={i}>{RowModel.content(data[key])}</td>)}
+      </tr>
+    ) : null
   }
 }
 
@@ -36,5 +34,4 @@ interface Props {
   onEnter: (key: string, array?: any[]) => void
   onRowClick: (key: object) => void
 }
-interface State {
-}
+interface State {}

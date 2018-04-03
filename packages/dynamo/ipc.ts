@@ -17,7 +17,7 @@ export async function ipcHandler({sender}, action) {
 
       send({
         items: Items,
-        keys : keys
+        keys: keys,
       })
       break
     }

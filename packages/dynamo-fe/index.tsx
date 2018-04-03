@@ -6,10 +6,8 @@ import {store} from './store'
 import 'regenerator-runtime/runtime'
 
 render(
-  (
-    <Provider store={store}>
-      <Home/>
-    </Provider>
-  ),
-  document.querySelector('#app')
+  <Provider store={store}>
+    <Home />
+  </Provider>,
+  document.querySelector('#app'),
 )

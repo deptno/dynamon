@@ -8,7 +8,9 @@ export class SelectComponent extends React.Component<Props, State> {
         {title}
         <div className="pt-select pt-fill">
           <select onChange={onChange} defaultValue="" disabled={disabled}>
-            <option key="__unselected" value="">{description}</option>
+            <option key="__unselected" value="">
+              {description}
+            </option>
             {children}
           </select>
         </div>
@@ -23,5 +25,4 @@ interface Props {
   disabled?: boolean
   onChange(ev): void
 }
-interface State {
-}
+interface State {}

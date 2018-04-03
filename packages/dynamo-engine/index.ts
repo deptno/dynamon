@@ -3,10 +3,10 @@ import * as url from 'url'
 
 const {AWS_REGION, AWS_DEFAULT_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, LOCAL_DYANMODB_ENDPOINT} = process.env
 const awsConfig = {
-  region         : AWS_REGION || AWS_DEFAULT_REGION || 'ap-northeast-2',
-  accessKeyId    : AWS_ACCESS_KEY_ID,
+  region: AWS_REGION || AWS_DEFAULT_REGION || 'ap-northeast-2',
+  accessKeyId: AWS_ACCESS_KEY_ID,
   secretAccessKey: AWS_SECRET_ACCESS_KEY,
-  endpoint       : LOCAL_DYANMODB_ENDPOINT || 'http://localhost:8000'
+  endpoint: LOCAL_DYANMODB_ENDPOINT || 'http://localhost:8000',
 }
 
 const endpoint = url.parse(awsConfig.endpoint)
@@ -27,7 +27,7 @@ export class DynamoEngine {
         TableNames.map(async TableName => {
           const {Table} = await dynamodb.describeTable({TableName}).promise()
           return Table
-        })
+        }),
       )
       return tables.map(table => new DynamoDbTable(table))
     } catch (error) {
@@ -38,13 +38,14 @@ export class DynamoEngine {
 }
 
 export class DynamoDbTable {
-  constructor(public readonly table: DynamoDB.TableDescription) {
-  }
+  constructor(public readonly table: DynamoDB.TableDescription) {}
 
   async scan() {
-    return docClient.scan({
-      TableName: this.table.TableName
-    }).promise()
+    return docClient
+      .scan({
+        TableName: this.table.TableName,
+      })
+      .promise()
   }
 
   keySchema() {
