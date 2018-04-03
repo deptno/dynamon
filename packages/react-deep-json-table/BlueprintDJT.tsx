@@ -147,7 +147,8 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
 
   handleFocusedCell = ({col, row, focusSelectionIndex}) => {
     const header = this.state.headers[col]
-    const cell = this.state.collection[row][header]
+    const rowData = this.state.collection[row]
+    const cell = rowData[header]
 
     if (Array.isArray(cell)) {
       this.setState({
@@ -157,7 +158,7 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
           enter     : true,
         },
       })
-      // return this.handleEnter(header, cell)
+      this.props.onItemSelected(cell)
     } else if (cell !== null && typeof cell === 'object') {
       this.setState({
         disabled: {
@@ -166,6 +167,7 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
           enter     : false,
         },
       })
+      this.props.onItemSelected(cell)
     } else {
       this.setState({
         disabled: {
@@ -174,9 +176,9 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
           enter     : true,
         },
       })
+      this.props.onItemSelected(rowData)
     }
     this.position = [row, col]
-    this.props.onItemSelected(cell)
   }
 }
 interface State {

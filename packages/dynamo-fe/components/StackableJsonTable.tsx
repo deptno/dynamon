@@ -34,8 +34,8 @@ export class StackableJsonTableComponent extends React.Component<Props, State> {
       </label>
     )
   }
-  handleOnItemSelected(item) {
-    return this.props.onItemSelected(item||this.props.collection)
+  handleOnItemSelected = (item = this.props.collection) => {
+    return this.props.onItemSelected(item)
   }
   handleRowClick(json) {
     console.dir(json)
