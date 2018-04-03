@@ -20,7 +20,7 @@ export class DeepJsonTableComponent extends React.Component<Props, State> {
       <table>
         <caption id="caption">
           <button onClick={this.handleLeave} disabled={step.length === 0}>
-            back
+            Leave
           </button>
           {this.caption()}
         </caption>
