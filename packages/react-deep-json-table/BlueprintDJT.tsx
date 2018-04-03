@@ -2,9 +2,11 @@ import * as React from 'react'
 import {DeepJsonTableComponent} from './DeepJsonTable'
 import {RowModel} from './Row'
 import {Cell, Column, ColumnHeaderCell, RegionCardinality, Table} from '@blueprintjs/table'
-import {Button, ButtonGroup, Classes, Menu, MenuItem} from '@blueprintjs/core'
+import {Button, ButtonGroup, Menu, MenuItem} from '@blueprintjs/core'
 import '@blueprintjs/core/lib/css/blueprint.css'
+import '@blueprintjs/icons/lib/css/blueprint-icons.css'
 import '@blueprintjs/table/lib/css/table.css'
+import {JsonComponent} from './Json'
 
 export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
   state = {
@@ -16,15 +18,17 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
       collection: true,
       enter     : true,
     },
+    json      : null,
   }
   private position: [number, number] = [0, 0]
 
   render() {
-    const {step, headers, collection, disabled} = this.state
-
+    const {step, headers, collection, json, disabled} = this.state
     const rows = collection.length
+
     return (
       <div>
+        <JsonComponent src={json || collection}/>
         <div>
           <ul className="pt-breadcrumbs">
             {step.map((step, index, array) => (
@@ -44,9 +48,9 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
               type="button"
               icon="zoom-in"
               disabled={rows === 0 || disabled.collection}
-              onClick={this.showColumnsAsCollection}
+              onClick={this.showColumnsAsTable}
             >
-              Show columns as collection
+              Show columns as table
             </Button>
             <Button
               type="button"
@@ -75,23 +79,25 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
             />,
           )}
         </Table>
-
       </div>
     )
   }
 
   showCellAsJson = () => {
-    //todo: RJV
     console.log('showCellAsJson')
+    const [row, col] = this.position
+    this.setState({json: this.state.collection[row][this.state.headers[col]]})
   }
 
   showRowAsJson = () => {
     //todo: RJV
     console.log('showRowAsJson')
+    const [row] = this.position
+    this.setState({json: this.state.collection[row]})
   }
 
-  showColumnsAsCollection = () => {
-    console.log('showColumnsAsCollection')
+  showColumnsAsTable = () => {
+    console.log('showColumnsAsTable')
     const [row, col] = this.position
     const header = this.state.headers[col]
     this.handleEnter(header, this.state.collection[row][header])
@@ -174,7 +180,6 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
       })
     }
     this.position = [row, col]
-    console.log(row, col)
   }
 }
 interface State {
@@ -186,4 +191,5 @@ interface State {
     collection: boolean
     enter: boolean
   }
+  json: JSX.Element
 }
