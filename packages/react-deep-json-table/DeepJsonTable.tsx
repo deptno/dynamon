@@ -103,6 +103,7 @@ export class DeepJsonTableComponent<S extends State> extends React.Component<Pro
 }
 
 interface Props {
+  onItemSelected?(item): void
   onEnterArray?(array): void
   onRowClick?(key: object): void
   caption?(step: string[]): string

@@ -19,7 +19,8 @@ export class StackableJsonTableComponent extends React.Component<Props, State> {
 
   render() {
     return (
-      <div>
+      <label className="pt-label pt-inline">
+        Records
         {this.state.stack.map(({collection, keepHeader}, i) => (
           <BlueprintDJTComponent
             key={i}
@@ -27,12 +28,15 @@ export class StackableJsonTableComponent extends React.Component<Props, State> {
             data={collection}
             onRowClick={this.handleRowClick}
             onEnterArray={this.handleOnEnterArray}
+            onItemSelected={this.handleOnItemSelected}
           />
         ))}
-      </div>
+      </label>
     )
   }
-
+  handleOnItemSelected(item) {
+    return this.props.onItemSelected(item||this.props.collection)
+  }
   handleRowClick(json) {
     console.dir(json)
     console.dirxml(json)
@@ -53,6 +57,7 @@ export class StackableJsonTableComponent extends React.Component<Props, State> {
 interface Props {
   keys?: string[]
   collection: any[]
+  onItemSelected?(item): void
 }
 interface State {
   stack: Stack[]
@@ -65,11 +70,11 @@ interface Stack {
 function getData() {
   return [
     {
-      key: 1,
-      key2: 2,
-      b: 'string',
-      c: true,
-      d: false,
+      key  : 1,
+      key2 : 2,
+      b    : 'string',
+      c    : true,
+      d    : false,
       array: [
         {
           a: 3,
@@ -88,7 +93,7 @@ function getData() {
           D: {},
         },
       ],
-      A: {
+      A    : {
         a: 2,
         b: 'string2',
         c: false,
@@ -105,17 +110,17 @@ function getData() {
           },
         },
       },
-      f: null,
-      g: undefined,
+      f    : null,
+      g    : undefined,
     },
     {
       array: null,
-      key: 2,
-      key2: 4,
-      b: 'string',
-      c: true,
-      d: false,
-      A: {
+      key  : 2,
+      key2 : 4,
+      b    : 'string',
+      c    : true,
+      d    : false,
+      A    : {
         a: 5,
         b: 'string',
         c: false,
@@ -132,23 +137,23 @@ function getData() {
           },
         },
       },
-      f: null,
-      g: undefined,
+      f    : null,
+      g    : undefined,
     },
     {
       array: null,
-      key: 4,
-      key2: 3,
-      b: 'string',
-      c: true,
-      d: false,
-      A: {
+      key  : 4,
+      key2 : 3,
+      b    : 'string',
+      c    : true,
+      d    : false,
+      A    : {
         a: 5,
         b: 'string',
         c: false,
       },
-      f: null,
-      g: undefined,
+      f    : null,
+      g    : undefined,
     },
   ]
 }

@@ -6,7 +6,6 @@ import {Button, ButtonGroup, Menu, MenuItem} from '@blueprintjs/core'
 import '@blueprintjs/core/lib/css/blueprint.css'
 import '@blueprintjs/icons/lib/css/blueprint-icons.css'
 import '@blueprintjs/table/lib/css/table.css'
-import {JsonComponent} from './Json'
 
 export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
   state = {
@@ -28,15 +27,13 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
 
     return (
       <div>
-        <JsonComponent src={json || collection}/>
-        <div>
-          <ul className="pt-breadcrumbs">
-            {step.map((step, index, array) => (
-              <li key={index}>
-                <a className="pt-breadcrumb">{step}</a>
-              </li>
-            ))}
-          </ul>
+          {/*<ul className="pt-breadcrumbs">*/}
+            {/*{step.map((step, index, array) => (*/}
+              {/*<li key={index}>*/}
+                {/*<a className="pt-breadcrumb">{step}</a>*/}
+              {/*</li>*/}
+            {/*))}*/}
+          {/*</ul>*/}
           <ButtonGroup>
             <Button type="button" icon="code" disabled={rows === 0} onClick={this.showRowAsJson}>
               Show row as JSON
@@ -63,7 +60,6 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
             <Button icon="minimize" disabled={step.length === 0} onClick={this.handleLeave}>Leave</Button>
           </ButtonGroup>
           <div style={{clear: 'both', marginBottom: '15px'}}/>
-        </div>
         <Table
           numRows={rows}
           onFocusedCell={this.handleFocusedCell}
@@ -180,6 +176,7 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
       })
     }
     this.position = [row, col]
+    this.props.onItemSelected(cell)
   }
 }
 interface State {

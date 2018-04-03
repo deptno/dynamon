@@ -6,13 +6,17 @@ export class SelectComponent extends React.Component<Props, State> {
     return (
       <label className="pt-label pt-inline">
         {title}
-        <div className="pt-select pt-fill">
-          <select onChange={onChange} defaultValue="" disabled={disabled}>
+        <div className="pt-select">
+          <select onChange={onChange} defaultValue="" disabled={disabled} style={{paddingRight: '200px'}}>
             <option key="__unselected" value="">
               {description}
             </option>
             {children}
           </select>
+        </div>
+        <div className="pt-button-group pt-align-right pt-minimal">
+          <button type="button" className="pt-button pt-icon-add pt-intent-success"/>
+          <button type="button" className="pt-button pt-icon-refresh pt-intent-danger pt-inline"/>
         </div>
       </label>
     )
@@ -25,4 +29,5 @@ interface Props {
   disabled?: boolean
   onChange(ev): void
 }
-interface State {}
+interface State {
+}
