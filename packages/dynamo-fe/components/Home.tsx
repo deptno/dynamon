@@ -6,14 +6,17 @@ import {DocumentClient} from 'aws-sdk/lib/dynamodb/document_client'
 import KeySchemaAttributeName = DocumentClient.KeySchemaAttributeName
 import {SelectComponent} from './Select'
 import {JsonComponent} from './Json'
+import classnames from 'classnames'
 
 export class HomeComponent extends React.Component<Props, State> {
   state = {
     json: null,
+    expend: false
   }
 
   render() {
     const {tables, table: {keys = [], items = []}} = this.props
+    const {expend} = this.state
     return (
       <div>
         <div className="pt-control-group pt-fill">
@@ -24,10 +27,18 @@ export class HomeComponent extends React.Component<Props, State> {
             {tables.map(({TableName}) => <option key={TableName} value={TableName}>{TableName}</option>)}
           </SelectComponent>
         </div>
-        <label className="pt-label pt-inline">
-          JSON
+        <div style={expend ? {} : {maxHeight: '300px', overflow: 'scroll'} }>
+          <label className="pt-label pt-inline" style={{marginBottom: 0}}>
+            JSON
+            <button type="button" className={classnames('pt-button pt-minimal', {
+              'pt-intent-success': !expend,
+              'pt-intent-danger': expend,
+              'pt-icon-maximize': !expend,
+              'pt-icon-minimize': expend
+            })} onClick={() => this.setState({expend: !expend})}/>
+          </label>
           <JsonComponent src={this.state.json || items}/>
-        </label>
+        </div>
         <StackableJsonTableComponent
           keys={keys.map(key => key.AttributeName as KeySchemaAttributeName)}
           collection={items}
@@ -79,4 +90,5 @@ interface Props extends StateProps, DispatchProps, OwnProps {
 }
 interface State {
   json: Object | Array<any>
+  expend: boolean
 }
