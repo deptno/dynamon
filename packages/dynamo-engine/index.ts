@@ -50,6 +50,10 @@ export class DynamoDbTable {
   keySchema() {
     return this.table.KeySchema
   }
+
+  name() {
+    return this.table.TableName
+  }
 }
 
 function handleError(error: AWSError): void {
