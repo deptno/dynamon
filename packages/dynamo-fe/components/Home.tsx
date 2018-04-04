@@ -10,22 +10,28 @@ import {JsonComponent} from './Json'
 export class HomeComponent extends React.Component<Props, State> {
   private selectedTable = '__'
   state = {
-    json  : null,
+    json: null,
   }
 
   render() {
-    const {endpoints, tables, table: {keys = [], items = []}} = this.props
+    const {loadingEndpoints, endpoints, tables, table: {keys = [], items = []}} = this.props
+    const countTables = tables.length
     return (
       <div>
         <div className="pt-control-group pt-fill">
           <SelectComponent
             title="Endpoint"
-            description="Select endpoint..."
+            description={loadingEndpoints ? 'Built-in DynamoDB initializing...' : `Select endpoint from ${endpoints.length} endpoints`}
             onChange={this.handleOnEndpointChange}
           >
             {endpoints.map(({name, endpoint}) => <option key={endpoint} value={endpoint}>{name}</option>)}
           </SelectComponent>
-          <SelectComponent title="Tables" description="Select table..." onChange={this.handleOnTableChange}>
+          <SelectComponent
+            title="Table"
+            description={countTables > 0 ? `Select table from ${countTables} tables` : 'none'}
+            onChange={this.handleOnTableChange}
+            disabled={countTables === 0}
+          >
             {tables.map(({TableName}) => <option key={TableName} value={TableName}>{TableName}</option>)}
           </SelectComponent>
         </div>

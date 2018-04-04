@@ -2,7 +2,6 @@
   "name": "dynamo",
   "version": "0.1.0",
   "description": "dynamodb client ui gui local",
-  "main": "index.js",
   "repository": "https://github.com/deptno/dynamo.git",
   "author": "Bonggyun Lee <deptno@gmail.com>",
   "license": "MIT",

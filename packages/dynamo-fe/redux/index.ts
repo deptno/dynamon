@@ -10,6 +10,7 @@ const defaultState: RootState = Object.freeze({
     items: [],
     keys : [],
   },
+  loadingEndpoints: false
 })
 export const reducer = (state = defaultState, action: ReturnType<Actions[keyof Actions]>) => {
   if (action.type.startsWith('@')) {
@@ -18,7 +19,7 @@ export const reducer = (state = defaultState, action: ReturnType<Actions[keyof A
   if (action.response) {
     switch (action.type) {
       case ActionTypes.READ_ENDPOINTS:
-        return {...state, endpoints: action.payload}
+        return {...state, endpoints: action.payload, loadingEndpoints: false}
       case ActionTypes.READ_TABLES:
         return {...state, tables: action.payload}
       case ActionTypes.READ_RECORDS:
@@ -26,6 +27,8 @@ export const reducer = (state = defaultState, action: ReturnType<Actions[keyof A
     }
   }
   switch (action.type) {
+    case ActionTypes.READ_ENDPOINTS:
+      return {...state, loadingEndpoints: true}
     case ActionTypes.READ_RECORDS:
       return {...state, table: defaultState.table}
     case ActionTypes.READ_TABLES:
@@ -104,6 +107,7 @@ export interface RootState {
   endpoints: Endpoint[]
   tables: TableDescription[]
   table: DynamoTable
+  loadingEndpoints: boolean
 }
 
 interface DynamoTable<T = any> {

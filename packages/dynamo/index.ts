@@ -3,6 +3,9 @@ import * as path from 'path'
 import * as url from 'url'
 import {ipcHandler} from './ipc'
 import {builtInDb} from './built-in-db'
+
+const db = builtInDb()
+
 let mainWindow
 
 app
@@ -17,13 +20,18 @@ app
       createWindow()
     }
   })
+  .on('before-quit', async function() {
+    const controller = await db
+    controller.stop()
+    console.log('Bye.')
+  })
 
-ipcMain.on('action', ipcHandler.bind(null, builtInDb()))
+ipcMain.on('action', ipcHandler.bind(null, db))
 
 //
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width         : 1024,
+    width         : 1280,
     height        : 800,
     title         : 'Dynamo',
     webPreferences: {

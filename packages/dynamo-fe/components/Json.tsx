@@ -10,6 +10,7 @@ export class JsonComponent extends React.Component<Props, State> {
         dirty: false,
       }
     }
+    return null
   }
 
   readonly state = {

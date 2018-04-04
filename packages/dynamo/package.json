@@ -8,16 +8,20 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
+    "@types/mkdirp": "^0.5.2",
     "@types/node": "^9.6.1",
+    "typescript": "^2.8.1",
     "electron": "^1.8.4",
-    "typescript": "^2.8.1"
+    "electron-builder": "^20.8.1"
   },
   "scripts": {
     "dev": "ELECTRON_URL=http://localhost:1234 electron .",
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=1 electron-builder"
   },
   "dependencies": {
-    "@types/mkdirp": "^0.5.2",
+    "dynamo-engine": "*",
     "detect-port": "^1.2.2",
     "dynamodb-localhost": "^0.0.5",
     "mkdirp": "^0.5.1"

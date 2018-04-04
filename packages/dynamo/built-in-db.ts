@@ -2,11 +2,12 @@ import * as database from 'dynamodb-localhost'
 import * as getPort from 'detect-port'
 import * as mkdirp from 'mkdirp'
 import * as path from 'path'
+import * as os from 'os'
 import {promisify} from 'util'
 
 const mkdir = promisify(mkdirp)
 const installed = new Promise(resolve => database.install(resolve))
-const dirConfig = path.resolve(process.env.HOME, '.config', 'aws')
+const dirConfig = path.resolve(os.homedir(), '.config', 'aws')
 
 export async function builtInDb() {
   return customDb(await getPort(8000))
