@@ -20,7 +20,7 @@ export class StackableJsonTableComponent extends React.Component<Props, State> {
   render() {
     return (
       <label className="pt-label pt-inline">
-        Records <button onClick={this.props.onRefresh} type="button" className="pt-button pt-icon-refresh pt-intent-danger pt-inline"/>
+        Records <button onClick={this.props.onRefresh} type="button" className="pt-button pt-icon-refresh pt-intent-danger pt-inline pt-minimal"/>
         {this.state.stack.map(({collection, keepHeader}, i) => (
           <BlueprintDJTComponent
             key={i}

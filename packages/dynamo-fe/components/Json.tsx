@@ -10,8 +10,7 @@ export class JsonComponent extends React.Component<Props, State> {
         theme="ocean"
         iconStyle="circle"
         indentWidth={2}
-        collapsed={1}
-        groupArraysAfterLength={6}
+        collapsed={2}
         displayDataTypes={false}
         onEdit={this.handleEdit}
         onAdd={this.handleAdd}

@@ -1,35 +1,43 @@
-import {DynamoDB, config, AWSError} from 'aws-sdk'
-import * as url from 'url'
+import {DynamoDB, AWSError} from 'aws-sdk'
 
 const {AWS_REGION, AWS_DEFAULT_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, LOCAL_DYANMODB_ENDPOINT} = process.env
 const awsConfig = {
-  region: AWS_REGION || AWS_DEFAULT_REGION || 'ap-northeast-2',
-  accessKeyId: AWS_ACCESS_KEY_ID,
+  region         : AWS_REGION || AWS_DEFAULT_REGION || 'ap-northeast-2',
+  accessKeyId    : AWS_ACCESS_KEY_ID,
   secretAccessKey: AWS_SECRET_ACCESS_KEY,
-  endpoint: LOCAL_DYANMODB_ENDPOINT || 'http://localhost:8000',
+  endpoint       : LOCAL_DYANMODB_ENDPOINT || 'http://localhost:8000',
 }
 
-const endpoint = url.parse(awsConfig.endpoint)
-
-config.update(awsConfig)
-
-const dynamodb = new DynamoDB()
-const docClient = new DynamoDB.DocumentClient()
-
 export class DynamoEngine {
-  private servers: Set<DynamoDbServer> = new Set<DynamoDbServer>()
+  private readonly dynamoDb: DynamoDB
+  private readonly docClient: DynamoDB.DocumentClient
+
+  constructor({region, endpoint}: Endpoint) {
+    const config = {...awsConfig, endpoint, region}
+    try {
+      this.dynamoDb = new DynamoDB(config)
+      this.docClient = new DynamoDB.DocumentClient(config)
+    } catch (e) {
+      console.log('failover')
+      this.failover()
+    }
+  }
+
+  failover() {
+    this.tables = async () => []
+  }
 
   async tables(): Promise<DynamoDbTable[]> {
     try {
-      const {TableNames} = await dynamodb.listTables({}).promise()
+      const {TableNames} = await this.dynamoDb.listTables({}).promise()
 
       const tables = await Promise.all(
         TableNames.map(async TableName => {
-          const {Table} = await dynamodb.describeTable({TableName}).promise()
+          const {Table} = await this.dynamoDb.describeTable({TableName}).promise()
           return Table
         }),
       )
-      return tables.map(table => new DynamoDbTable(table))
+      return tables.map(table => new DynamoDbTable(this.docClient, table))
     } catch (error) {
       handleError(error)
       return []
@@ -38,13 +46,12 @@ export class DynamoEngine {
 }
 
 export class DynamoDbTable {
-  constructor(public readonly table: DynamoDB.TableDescription) {}
+  constructor(private docClient: DynamoDB.DocumentClient, public readonly table: DynamoDB.TableDescription) {
+  }
 
   async scan() {
-    return docClient
-      .scan({
-        TableName: this.table.TableName,
-      })
+    return this.docClient
+      .scan({TableName: this.table.TableName})
       .promise()
   }
 
@@ -64,4 +71,9 @@ function handleError(error: AWSError): void {
   }
 }
 
-type DynamoDbServer = string
+//
+export interface Endpoint {
+  name: string
+  region: string
+  endpoint: string
+}

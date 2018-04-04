@@ -8,7 +8,6 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
-    "@types/classnames": "^2.2.3",
     "@types/node": "^9.6.1",
     "@types/react": "^16.1.0",
     "@types/react-redux": "^5.0.15",

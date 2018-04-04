@@ -4,6 +4,7 @@ import ItemList = DocumentClient.ItemList
 import KeySchema = DocumentClient.KeySchema
 
 const defaultState: RootState = {
+  endpoints: [],
   tables: [],
   table : {
     items: [],
@@ -16,11 +17,17 @@ export const reducer = (state = defaultState, action: ReturnType<Actions[keyof A
   }
   if (action.response) {
     switch (action.type) {
+      case ActionTypes.READ_ENDPOINTS:
+        return {...state, endpoints: action.payload}
       case ActionTypes.READ_TABLES:
         return {...state, tables: action.payload}
       case ActionTypes.READ_RECORDS:
         return {...state, table: action.payload}
     }
+  }
+  switch (action.type) {
+    case ActionTypes.READ_TABLES:
+      return {...state, tables: []}
   }
   return state
 }
@@ -29,6 +36,8 @@ export const reducer = (state = defaultState, action: ReturnType<Actions[keyof A
  action types
  */
 enum ActionTypes {
+  READ_ENDPOINTS   = 'read endpoints',
+
   READ_TABLES   = 'read tables',
 
   CREATE_TABLE  = 'create table',
@@ -50,7 +59,8 @@ enum ActionTypes {
  actions
  */
 export const actions = {
-  readTables : (server = 'http://localhost:8000') => createUniversalAction(ActionTypes.READ_TABLES, server),
+  readEndpoints : () => createUniversalAction(ActionTypes.READ_ENDPOINTS),
+  readTables : (server: Endpoint) => createUniversalAction(ActionTypes.READ_TABLES, server),
   readRecords: (tableName: string) => createUniversalAction(ActionTypes.READ_RECORDS, tableName),
 }
 
@@ -65,7 +75,7 @@ function createAction<P>(type: ActionTypes, payload?: P): TypedAction | TypedAct
   }
   return {type}
 }
-function createUniversalAction<P>(type: ActionTypes, payload: P): TypedUniversalActinoWithPayload<P> {
+function createUniversalAction<P>(type: ActionTypes, payload?: P): TypedUniversalActinoWithPayload<P> {
   return {
     ...createAction(type, payload),
     universal: true,
@@ -88,6 +98,7 @@ export interface TypedUniversalActinoWithPayload<P> extends TypedActionWithPaylo
 }
 
 export interface RootState {
+  endpoints: Endpoint[]
   tables: TableDescription[]
   table: DynamoTable
 }
@@ -95,4 +106,10 @@ export interface RootState {
 interface DynamoTable<T = any> {
   items: ItemList
   keys: KeySchema
+}
+
+interface Endpoint {
+  name: string
+  region: string
+  endpoint: string
 }

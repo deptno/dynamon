@@ -16,7 +16,7 @@ export class HomeComponent extends React.Component<Props, State> {
   }
 
   render() {
-    const {tables, table: {keys = [], items = []}} = this.props
+    const {endpoints, tables, table: {keys = [], items = []}} = this.props
     const {expend} = this.state
     return (
       <div>
@@ -25,17 +25,15 @@ export class HomeComponent extends React.Component<Props, State> {
             title="Endpoint"
             description="Select endpoint..."
             onChange={this.handleOnEndpointChange}
-            default={'http://localhost:8000'}
-            disabled
           >
-            <option key={'__'} value={'http://localhost:8000'}>build-in local dynamo db</option>
+            {endpoints.map(({name, endpoint}) => <option key={endpoint} value={endpoint}>{name}</option>)}
           </SelectComponent>
           <SelectComponent title="Tables" description="Select table..." onChange={this.handleOnTableChange}>
             {tables.map(({TableName}) => <option key={TableName} value={TableName}>{TableName}</option>)}
           </SelectComponent>
         </div>
         <div style={expend ? {} : {maxHeight: '300px', overflow: 'scroll'}}>
-          <label className="pt-label pt-inline" style={{marginBottom: 0}}>
+          <label className="pt-label pt-inline" style={{marginTop: '10px', marginBottom: 0}}>
             JSON
             <button type="button" className={classnames('pt-button pt-minimal', {
               'pt-intent-success': !expend,
@@ -56,19 +54,24 @@ export class HomeComponent extends React.Component<Props, State> {
     )
   }
 
-  componentDidMount() {
-    this.props.readTables()
+  async componentDidMount() {
+    this.props.readEndpoints()
   }
 
   handleOnEndpointChange = ev => {
     const value = ev.target.value
 
     if (!value.startsWith('__')) {
-      // this.props.selectServer(value)
+      const endpoint = this.props.endpoints.find(({endpoint}) => endpoint === value)
+
+      if (endpoint) {
+        console.table(this.props.endpoints)
+        console.log(endpoint, value)
+        this.props.readTables(endpoint)
+      }
     }
     //todo: add
     console.log(value)
-    alert('move to add new endpoint page')
   }
 
   handleOnTableChange = ev => {

@@ -16,5 +16,10 @@
     "dev": "ELECTRON_URL=http://localhost:1234 electron .",
     "start": "electron ."
   },
-  "dependencies": {}
+  "dependencies": {
+    "@types/mkdirp": "^0.5.2",
+    "detect-port": "^1.2.2",
+    "dynamodb-localhost": "^0.0.5",
+    "mkdirp": "^0.5.1"
+  }
 }
