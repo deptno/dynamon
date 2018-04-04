@@ -8,7 +8,7 @@ import {SelectComponent} from './Select'
 import {JsonComponent} from './Json'
 
 export class HomeComponent extends React.Component<Props, State> {
-  private selectedTable = ''
+  private selectedTable = '__'
   state = {
     json  : null,
   }
@@ -46,6 +46,7 @@ export class HomeComponent extends React.Component<Props, State> {
 
   handleJsonEdit = (prev, next) => {
     console.log('before edit', prev, 'after edit', next)
+    this.props.updateRecord(this.selectedTable, next)
   }
 
   handleOnEndpointChange = ev => {
@@ -69,8 +70,10 @@ export class HomeComponent extends React.Component<Props, State> {
 
     if (!value.startsWith('__')) {
       this.props.readRecords(value)
+      this.selectedTable = value
+      return
     }
-    this.selectedTable = value
+    this.selectedTable = '__'
     //todo: add
     console.log(value)
   }

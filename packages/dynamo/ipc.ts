@@ -37,19 +37,19 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action) {
     }
 
     case 'create table': {
-      console.log('create table')
+      console.log('create table', payload)
       break
     }
     case 'read table': {
-      console.log('read table')
+      console.log('read table', payload)
       break
     }
     case 'update table': {
-      console.log('update table')
+      console.log('update table', payload)
       break
     }
     case 'delete table': {
-      console.log('delete table')
+      console.log('delete table', payload)
       break
     }
 
@@ -63,15 +63,15 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action) {
       break
     }
     case 'create record': {
-      console.log('create record')
+      console.log('create record', payload)
       break
     }
     case 'update record': {
-      console.log('update record')
+      console.log('update record', payload)
       break
     }
     case 'delete record': {
-      console.log('delete record')
+      console.log('delete record', payload)
       break
     }
   }

@@ -3,14 +3,14 @@ import TableDescription = DocumentClient.TableDescription
 import ItemList = DocumentClient.ItemList
 import KeySchema = DocumentClient.KeySchema
 
-const defaultState: RootState = {
+const defaultState: RootState = Object.freeze({
   endpoints: [],
   tables: [],
   table : {
     items: [],
     keys : [],
   },
-}
+})
 export const reducer = (state = defaultState, action: ReturnType<Actions[keyof Actions]>) => {
   if (action.type.startsWith('@')) {
     return state
@@ -26,8 +26,10 @@ export const reducer = (state = defaultState, action: ReturnType<Actions[keyof A
     }
   }
   switch (action.type) {
+    case ActionTypes.READ_RECORDS:
+      return {...state, table: defaultState.table}
     case ActionTypes.READ_TABLES:
-      return {...state, tables: []}
+      return {...state, tables: defaultState.tables}
   }
   return state
 }
@@ -59,25 +61,26 @@ enum ActionTypes {
  actions
  */
 export const actions = {
-  readEndpoints : () => createUniversalAction(ActionTypes.READ_ENDPOINTS),
-  readTables : (server: Endpoint) => createUniversalAction(ActionTypes.READ_TABLES, server),
-  readRecords: (tableName: string) => createUniversalAction(ActionTypes.READ_RECORDS, tableName),
+  readEndpoints : () => universalAction(ActionTypes.READ_ENDPOINTS),
+  readTables : (server: Endpoint) => universalAction(ActionTypes.READ_TABLES, server),
+  readRecords: (tableName: string) => universalAction(ActionTypes.READ_RECORDS, tableName),
+  updateRecord: (tableName: string, record: any) => universalAction(ActionTypes.UPDATE_RECORD, {tableName, record})
 }
 
 /*
  internal helper functions
  */
-function createAction(type: ActionTypes): TypedAction
-function createAction<P>(type: ActionTypes, payload?: P): TypedActionWithPayload<P>
-function createAction<P>(type: ActionTypes, payload?: P): TypedAction | TypedActionWithPayload<P> {
+function action(type: ActionTypes): TypedAction
+function action<P>(type: ActionTypes, payload: P): TypedActionWithPayload<P>
+function action<P>(type: ActionTypes, payload?: P): TypedAction | TypedActionWithPayload<P> {
   if (payload) {
     return {type, payload}
   }
   return {type}
 }
-function createUniversalAction<P>(type: ActionTypes, payload?: P): TypedUniversalActinoWithPayload<P> {
+function universalAction<P>(type: ActionTypes, payload?: P): TypedUniversalActinoWithPayload<P> {
   return {
-    ...createAction(type, payload),
+    ...action(type, payload),
     universal: true,
   }
 }
