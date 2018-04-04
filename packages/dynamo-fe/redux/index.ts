@@ -5,9 +5,9 @@ import KeySchema = DocumentClient.KeySchema
 
 const defaultState: RootState = {
   tables: [],
-  table: {
+  table : {
     items: [],
-    keys: [],
+    keys : [],
   },
 }
 export const reducer = (state = defaultState, action: ReturnType<Actions[keyof Actions]>) => {
@@ -16,9 +16,9 @@ export const reducer = (state = defaultState, action: ReturnType<Actions[keyof A
   }
   if (action.response) {
     switch (action.type) {
-      case ActionTypes.SELECT_SERVER:
+      case ActionTypes.READ_TABLES:
         return {...state, tables: action.payload}
-      case ActionTypes.SELECT_TABLE:
+      case ActionTypes.READ_RECORDS:
         return {...state, table: action.payload}
     }
   }
@@ -29,16 +29,29 @@ export const reducer = (state = defaultState, action: ReturnType<Actions[keyof A
  action types
  */
 enum ActionTypes {
-  SELECT_SERVER = 'get tables',
-  SELECT_TABLE = 'select table',
+  READ_TABLES   = 'read tables',
+
+  CREATE_TABLE  = 'create table',
+  READ_TABLE    = 'read table',
+  UPDATE_TABLE  = 'update table',
+  DELETE_TABLE  = 'delete table',
+
+  CREATE_RECORDS = 'create records',
+  READ_RECORDS = 'read records',
+  UPDATE_RECORDS = 'update records',
+  DELETE_RECORDS = 'delete records',
+
+  CREATE_RECORD = 'create record',
+  UPDATE_RECORD = 'update record',
+  DELETE_RECORD = 'delete record',
 }
 
 /*
  actions
  */
 export const actions = {
-  getTables: (server = 'http://localhost:8000') => createUniversalAction(ActionTypes.SELECT_SERVER, server),
-  selectTable: (tableName: string) => createUniversalAction(ActionTypes.SELECT_TABLE, tableName),
+  readTables : (server = 'http://localhost:8000') => createUniversalAction(ActionTypes.READ_TABLES, server),
+  readRecords: (tableName: string) => createUniversalAction(ActionTypes.READ_RECORDS, tableName),
 }
 
 /*

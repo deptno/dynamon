@@ -9,9 +9,10 @@ import {JsonComponent} from './Json'
 import classnames from 'classnames'
 
 export class HomeComponent extends React.Component<Props, State> {
+  private selectedTable = ''
   state = {
-    json: null,
-    expend: false
+    json  : null,
+    expend: false,
   }
 
   render() {
@@ -20,21 +21,27 @@ export class HomeComponent extends React.Component<Props, State> {
     return (
       <div>
         <div className="pt-control-group pt-fill">
-          <SelectComponent title="Endpoint" description="Select endpoint..." onChange={this.handleOnEndpointChange}>
-            {tables.map(({TableName}) => <option key={TableName} value={TableName}>{TableName}</option>)}
+          <SelectComponent
+            title="Endpoint"
+            description="Select endpoint..."
+            onChange={this.handleOnEndpointChange}
+            default={'http://localhost:8000'}
+            disabled
+          >
+            <option key={'__'} value={'http://localhost:8000'}>build-in local dynamo db</option>
           </SelectComponent>
           <SelectComponent title="Tables" description="Select table..." onChange={this.handleOnTableChange}>
             {tables.map(({TableName}) => <option key={TableName} value={TableName}>{TableName}</option>)}
           </SelectComponent>
         </div>
-        <div style={expend ? {} : {maxHeight: '300px', overflow: 'scroll'} }>
+        <div style={expend ? {} : {maxHeight: '300px', overflow: 'scroll'}}>
           <label className="pt-label pt-inline" style={{marginBottom: 0}}>
             JSON
             <button type="button" className={classnames('pt-button pt-minimal', {
               'pt-intent-success': !expend,
-              'pt-intent-danger': expend,
-              'pt-icon-maximize': !expend,
-              'pt-icon-minimize': expend
+              'pt-intent-danger' : expend,
+              'pt-icon-maximize' : !expend,
+              'pt-icon-minimize' : expend,
             })} onClick={() => this.setState({expend: !expend})}/>
           </label>
           <JsonComponent src={this.state.json || items}/>
@@ -43,13 +50,14 @@ export class HomeComponent extends React.Component<Props, State> {
           keys={keys.map(key => key.AttributeName as KeySchemaAttributeName)}
           collection={items}
           onItemSelected={this.handleOnItemSelected}
+          onRefresh={this.handleOnRefreshRecords}
         />
       </div>
     )
   }
 
   componentDidMount() {
-    this.props.getTables()
+    this.props.readTables()
   }
 
   handleOnEndpointChange = ev => {
@@ -62,17 +70,28 @@ export class HomeComponent extends React.Component<Props, State> {
     console.log(value)
     alert('move to add new endpoint page')
   }
+
   handleOnTableChange = ev => {
     const value = ev.target.value
 
     if (!value.startsWith('__')) {
-      this.props.selectTable(value)
+      this.props.readRecords(value)
     }
+    this.selectedTable = value
     //todo: add
     console.log(value)
   }
+
   handleOnItemSelected = json => {
     this.setState({json})
+  }
+
+  handleOnRefreshRecords = () => {
+    if (!this.selectedTable.startsWith('__')) {
+      this.props.readRecords(this.selectedTable)
+    } else {
+      alert('before do this select correct table')
+    }
   }
 }
 
