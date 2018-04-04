@@ -5,18 +5,16 @@ import * as path from 'path'
 import {promisify} from 'util'
 
 const mkdir = promisify(mkdirp)
-
 const installed = new Promise(resolve => database.install(resolve))
 const dirConfig = path.resolve(process.env.HOME, '.config', 'aws')
 
-export async function builtInDb(dir = dirConfig) {
+export async function builtInDb() {
   return customDb(await getPort(8000))
 }
 
 export async function customDb(port: number, dir = dirConfig): Promise<DbControl> {
   await installed
-  const result = await mkdir(dir)
-  console.log('mkdir ', result)
+  await mkdir(dir)
 
   database.start({
     port,

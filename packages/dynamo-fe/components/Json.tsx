@@ -1,40 +1,85 @@
 import * as React from 'react'
-import RJV from 'react-json-view'
+import RJV, {RJVModified} from 'react-json-view'
+import classnames from 'classnames'
 
 export class JsonComponent extends React.Component<Props, State> {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.src !== prevState.src) {
+      return {
+        src  : nextProps.src,
+        dirty: false,
+      }
+    }
+  }
+
+  readonly state = {
+    expend: false,
+    dirty : false,
+    src   : {},
+  }
+
   render() {
+    const {expend, dirty, src} = this.state
+
     return (
-      <RJV
-        src={this.props.src}
-        name={null}
-        theme="ocean"
-        iconStyle="circle"
-        indentWidth={2}
-        collapsed={2}
-        displayDataTypes={false}
-        onEdit={this.handleEdit}
-        onAdd={this.handleAdd}
-        onDelete={this.handleDelete}
-        onSelect={this.handleSelect}
-      />
+      <div style={expend ? {} : {maxHeight: '300px', overflow: 'scroll'}}>
+        <label className="pt-label pt-inline" style={{marginTop: '10px', marginBottom: 0}}>
+          JSON
+          <button
+            type="button"
+            className={classnames('pt-button pt-icon-confirm pt-minimal', {'pt-intent-success': dirty})}
+            onClick={this.handleApplyChanges}
+            disabled={!dirty}
+          />
+          <button
+            type="button"
+            className={classnames('pt-button pt-minimal', {
+              'pt-intent-success': !expend,
+              'pt-icon-maximize' : !expend,
+              'pt-intent-danger' : expend,
+              'pt-icon-minimize' : expend,
+            })}
+            onClick={this.handleSize}
+          />
+        </label>
+        <RJV
+          src={src}
+          name={null}
+          theme="ocean"
+          iconStyle="circle"
+          indentWidth={2}
+          displayDataTypes={false}
+          onEdit={this.handleEdit}
+          onAdd={this.handleEdit}
+          onDelete={this.handleEdit}
+        />
+      </div>
     )
   }
-  handleEdit(data) {
-    console.log('handleEdit')
+
+  handleApplyChanges = () => {
+    this.props.onEdit(this.props.src, this.state.src)
+    this.setState({dirty: false})
   }
-  handleAdd(data) {
-    console.log('handleAdd')
+
+  handleEdit = (data: RJVModified) => {
+    console.log('handleEdit', data)
+    if (data.existing_value !== data.new_value) {
+      this.setState({dirty: true, src: data.updated_src})
+    }
   }
-  handleDelete(data) {
-    console.log('handleDelete')
-  }
-  handleSelect(data) {
-    console.log('handleSelect')
+
+  handleSize = () => {
+    this.setState({expend: !this.state.expend})
   }
 }
 
 interface Props {
-  src: Object|Array<any>
+  src: Object | Array<any>
+  onEdit(prev, next): void
 }
 interface State {
+  expend: boolean
+  dirty: boolean
+  src: any
 }

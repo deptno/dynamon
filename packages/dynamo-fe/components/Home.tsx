@@ -6,18 +6,15 @@ import {DocumentClient} from 'aws-sdk/lib/dynamodb/document_client'
 import KeySchemaAttributeName = DocumentClient.KeySchemaAttributeName
 import {SelectComponent} from './Select'
 import {JsonComponent} from './Json'
-import classnames from 'classnames'
 
 export class HomeComponent extends React.Component<Props, State> {
   private selectedTable = ''
   state = {
     json  : null,
-    expend: false,
   }
 
   render() {
     const {endpoints, tables, table: {keys = [], items = []}} = this.props
-    const {expend} = this.state
     return (
       <div>
         <div className="pt-control-group pt-fill">
@@ -32,18 +29,7 @@ export class HomeComponent extends React.Component<Props, State> {
             {tables.map(({TableName}) => <option key={TableName} value={TableName}>{TableName}</option>)}
           </SelectComponent>
         </div>
-        <div style={expend ? {} : {maxHeight: '300px', overflow: 'scroll'}}>
-          <label className="pt-label pt-inline" style={{marginTop: '10px', marginBottom: 0}}>
-            JSON
-            <button type="button" className={classnames('pt-button pt-minimal', {
-              'pt-intent-success': !expend,
-              'pt-intent-danger' : expend,
-              'pt-icon-maximize' : !expend,
-              'pt-icon-minimize' : expend,
-            })} onClick={() => this.setState({expend: !expend})}/>
-          </label>
-          <JsonComponent src={this.state.json || items}/>
-        </div>
+        <JsonComponent src={this.state.json || items} onEdit={this.handleJsonEdit}/>
         <StackableJsonTableComponent
           keys={keys.map(key => key.AttributeName as KeySchemaAttributeName)}
           collection={items}
@@ -56,6 +42,10 @@ export class HomeComponent extends React.Component<Props, State> {
 
   async componentDidMount() {
     this.props.readEndpoints()
+  }
+
+  handleJsonEdit = (prev, next) => {
+    console.log('before edit', prev, 'after edit', next)
   }
 
   handleOnEndpointChange = ev => {
@@ -112,5 +102,4 @@ interface Props extends StateProps, DispatchProps, OwnProps {
 }
 interface State {
   json: Object | Array<any>
-  expend: boolean
 }
