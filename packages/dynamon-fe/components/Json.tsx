@@ -27,7 +27,6 @@ export class JsonComponent extends React.Component<Props, State> {
         <label className="pt-label pt-inline" style={{marginTop: '10px', marginBottom: 0}}>
           JSON
           <button
-            type="button"
             className={classnames('pt-button pt-icon-confirm pt-minimal', {'pt-intent-success': dirty})}
             onClick={this.handleApplyChanges}
             disabled={!dirty}

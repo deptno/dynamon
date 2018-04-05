@@ -53,6 +53,11 @@ export class HomeComponent extends React.Component<Props, State> {
   handleJsonEdit = (prev, next) => {
     console.log('before edit', prev, 'after edit', next)
     this.props.updateRecord(this.selectedTable, next)
+    if (!next) {
+      if (confirm('delete row?')) {
+
+      }
+    }
   }
 
   handleOnEndpointChange = ev => {
@@ -74,6 +79,7 @@ export class HomeComponent extends React.Component<Props, State> {
   handleOnTableChange = ev => {
     const value = ev.target.value
 
+    console.log('what')
     if (!value.startsWith('__')) {
       this.props.readRecords(value)
       this.selectedTable = value
@@ -91,9 +97,8 @@ export class HomeComponent extends React.Component<Props, State> {
   handleOnRefreshRecords = () => {
     if (!this.selectedTable.startsWith('__')) {
       this.props.readRecords(this.selectedTable)
-    } else {
-      alert('before do this select correct table')
     }
+    console.log(this.selectedTable)
   }
 }
 
