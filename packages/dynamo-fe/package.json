@@ -16,7 +16,7 @@
   },
   "scripts": {
     "dev": "parcel index.html --no-autoinstall",
-    "build": "parcel build index.html --public-url ./"
+    "build": "parcel build index.html --public-url ./ --out-dir ../dynamo/client"
   },
   "dependencies": {
     "@blueprintjs/core": "^2.0.1",

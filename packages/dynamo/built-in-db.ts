@@ -14,22 +14,31 @@ export async function builtInDb() {
 }
 
 export async function customDb(port: number, dir = dirConfig): Promise<DbControl> {
-  await installed
-  await mkdir(dir)
+  try {
+    await Promise.race([installed, new Promise(resolve => setTimeout(resolve, 5000))])
+    await mkdir(dir)
 
-  database.start({
-    port,
-    cors                   : '*',
-    dbPath                 : dir,
-    sharedDb               : true,
-    delayTransientStatuses : true,
-    optimizeDbBeforeStartup: true,
-  })
+    database.start({
+      port,
+      cors                   : '*',
+      dbPath                 : dir,
+      sharedDb               : true,
+      delayTransientStatuses : true,
+      optimizeDbBeforeStartup: true,
+    })
 
-  return {
-    stop: database.stop.bind(null, port),
-    restart: database.restart,
-    port
+    return {
+      stop   : database.stop.bind(null, port),
+      restart: database.restart,
+      port,
+    }
+  } catch (ex) {
+    function noop() {}
+    return {
+      stop   : noop,
+      restart: noop,
+      port: 0,
+    }
   }
 }
 

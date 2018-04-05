@@ -1,7 +1,6 @@
 import {DbControl} from './built-in-db'
 import {DynamoEngine, Endpoint} from 'dynamo-engine'
 
-
 let dynamo: DynamoEngine
 
 export async function ipcHandler(db: Promise<DbControl>, {sender}, action) {
@@ -9,29 +8,34 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action) {
 
   switch (type) {
     case 'read endpoints': {
+      const list = endpoints.slice(0)
+
       try {
-        const builtInDb = await db
-        const ports = Array.from(new Set([8000, builtInDb.port]))
-        send(ports
-          .map(port => {
-            return {
-              name    : `빌트인 서버(${port})`,
-              region  : `localhost:${port}`,
-              endpoint: `http://localhost:${port}`,
-            }
+        const {port} = await db
+
+        if (port !== 8000) {
+          list.unshift({
+            name    : `Local DynamoDB Server (0.0.0.0::8000)`,
+            region  : `localhost:8000`,
+            endpoint: `http://localhost:8000`,
           })
-          .concat(endpoints),
-        )
+        }
+        if (port !== 0) {
+          list.unshift({
+            name    : `Built-in Local DynamoDB Server (0.0.0.0::${port})`,
+            region  : `localhost:${port}`,
+            endpoint: `http://localhost:${port}`,
+          })
+        }
       } catch (ex) {
-        send(endpoints)
+      } finally {
+        send(list)
       }
       break
     }
     case 'read tables': {
-      console.log('p', payload)
       dynamo = engine(payload)
       const tables = await dynamo.tables()
-      console.log('tables', tables)
       send(tables.map(table => table.table))
       break
     }
@@ -77,8 +81,8 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action) {
   }
 
   //
-  function send(payload) {
-    sender.send('action', {type, payload})
+  function send(payload, anotherType?: string) {
+    sender.send('action', {type: anotherType || type, payload})
   }
 }
 const endpoints = [

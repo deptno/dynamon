@@ -1,3 +1,3 @@
 import {ipcRenderer} from 'electron'
 
-;(window as any).ipc = ipcRenderer
+(window as any).ipc = ipcRenderer

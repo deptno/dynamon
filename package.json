@@ -9,6 +9,8 @@
   "workspaces": ["packages/*"],
   "scripts": {
     "dev": "yarn workspace dynamo-fe dev & yarn workspace dynamo dev",
+    "pack": "yarn workspace dynamo-fe build && yarn workspace dynamo pack",
+    "release": "yarn workspace dynamo-fe build && yarn workspace dynamo dist",
     "precommit": "lint-staged"
   },
   "lint-staged": {
