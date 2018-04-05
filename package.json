@@ -1,16 +1,16 @@
 {
-  "name": "dynamo",
+  "name": "dynamon",
   "version": "0.1.0",
-  "description": "dynamodb client ui gui local",
-  "repository": "https://github.com/deptno/dynamo.git",
+  "description": "dynamodb GUI client",
+  "repository": "https://github.com/deptno/dynamon.git",
   "author": "Bonggyun Lee <deptno@gmail.com>",
-  "license": "MIT",
+  "license": "Apache 2.0",
   "private": true,
   "workspaces": ["packages/*"],
   "scripts": {
-    "dev": "yarn workspace dynamo-fe dev & yarn workspace dynamo dev",
-    "pack": "yarn workspace dynamo-fe build && yarn workspace dynamo pack",
-    "release": "yarn workspace dynamo-fe build && yarn workspace dynamo dist",
+    "dev": "yarn workspace dynamon-fe dev & yarn workspace dynamon dev",
+    "pack": "yarn workspace dynamon-fe build && yarn workspace dynamon pack",
+    "release": "yarn workspace dynamon-fe build && yarn workspace dynamon dist",
     "precommit": "lint-staged"
   },
   "lint-staged": {

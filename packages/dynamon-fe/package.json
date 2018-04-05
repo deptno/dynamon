@@ -1,9 +1,9 @@
 {
-  "name": "dynamo-fe",
+  "name": "dynamon-fe",
   "version": "0.1.0",
-  "description": "dynamodb client ui gui local",
+  "description": "dynamon frontend",
   "main": "index.js",
-  "repository": "https://github.com/deptno/dynamo.git",
+  "repository": "https://github.com/deptno/dynamon.git",
   "author": "Bonggyun Lee <deptno@gmail.com>",
   "license": "MIT",
   "private": false,
@@ -16,7 +16,7 @@
   },
   "scripts": {
     "dev": "parcel index.html --no-autoinstall",
-    "build": "parcel build index.html --public-url ./ --out-dir ../dynamo/client"
+    "build": "parcel build index.html --public-url ./ --out-dir ../dynamon/client"
   },
   "dependencies": {
     "@blueprintjs/core": "^2.0.1",

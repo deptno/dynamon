@@ -1,7 +1,7 @@
 import {DbControl} from './built-in-db'
-import {DynamoEngine, Endpoint} from 'dynamo-engine'
+import {DynamonEngine, Endpoint} from 'dynamon-engine'
 
-let dynamo: DynamoEngine
+let dynamon: DynamonEngine
 
 export async function ipcHandler(db: Promise<DbControl>, {sender}, action) {
   const {type, payload} = action
@@ -34,8 +34,8 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action) {
       break
     }
     case 'read tables': {
-      dynamo = engine(payload)
-      const tables = await dynamo.tables()
+      dynamon = engine(payload)
+      const tables = await dynamon.tables()
       send(tables.map(table => table.table))
       break
     }
@@ -58,7 +58,7 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action) {
     }
 
     case 'read records': {
-      const tables = await dynamo.tables()
+      const tables = await dynamon.tables()
       const table = tables.find(table => table.name() === payload)
       const {Items} = await table.scan()
       const keys = table.keySchema()
@@ -115,11 +115,11 @@ function createEngineGetter() {
   return function getEngine(endpoint: Endpoint, forceNew?: boolean) {
     console.log('cache', engines)
     try {
-      const endgine = new DynamoEngine(endpoint)
+      const engine = new DynamonEngine(endpoint)
       if (forceNew) {
-        return (engines[endpoint.region] = endgine)
+        return (engines[endpoint.region] = engine)
       }
-      return engines[endpoint.region] || (engines[endpoint.region] = endgine)
+      return engines[endpoint.region] || (engines[endpoint.region] = engine)
     } catch (ex) {
       console.error(ex)
       console.error('error')
@@ -129,6 +129,3 @@ function createEngineGetter() {
     }
   }
 }
-
-//
-

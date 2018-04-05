@@ -30,7 +30,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width         : 1280,
     height        : 800,
-    title         : 'Dynamo',
+    title         : 'Dynamon',
     webPreferences: {
       nodeIntegration: false,
       preload        : __dirname + '/preload.js',

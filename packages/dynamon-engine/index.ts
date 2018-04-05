@@ -8,7 +8,7 @@ const awsConfig = {
   endpoint       : LOCAL_DYANMODB_ENDPOINT || 'http://localhost:8000',
 }
 
-export class DynamoEngine {
+export class DynamonEngine {
   private readonly dynamoDb: DynamoDB
   private readonly docClient: DynamoDB.DocumentClient
 
@@ -18,16 +18,16 @@ export class DynamoEngine {
       this.dynamoDb = new DynamoDB(config)
       this.docClient = new DynamoDB.DocumentClient(config)
     } catch (e) {
-      console.log('failover')
-      this.failover()
+      console.log('failOver')
+      this.failOver()
     }
   }
 
-  failover() {
+  failOver() {
     this.tables = async () => []
   }
 
-  async tables(): Promise<DynamoDbTable[]> {
+  async tables(): Promise<DynamonDbTable[]> {
     try {
       const {TableNames} = await this.dynamoDb.listTables({}).promise()
 
@@ -37,7 +37,7 @@ export class DynamoEngine {
           return Table
         }),
       )
-      return tables.map(table => new DynamoDbTable(this.docClient, table))
+      return tables.map(table => new DynamonDbTable(this.docClient, table))
     } catch (error) {
       handleError(error)
       return []
@@ -45,7 +45,7 @@ export class DynamoEngine {
   }
 }
 
-export class DynamoDbTable {
+export class DynamonDbTable {
   constructor(private docClient: DynamoDB.DocumentClient, public readonly table: DynamoDB.TableDescription) {
   }
 

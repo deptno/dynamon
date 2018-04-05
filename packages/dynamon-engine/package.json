@@ -1,9 +1,9 @@
 {
-  "name": "dynamo-engine",
+  "name": "dynamon-engine",
   "version": "0.1.0",
-  "description": "dynamodb client ui gui local",
+  "description": "dynamodb wrapper",
   "main": "index.js",
-  "repository": "https://github.com/deptno/dynamo.git",
+  "repository": "https://github.com/deptno/dynamon.git",
   "author": "Bonggyun Lee <deptno@gmail.com>",
   "license": "MIT",
   "private": false,
@@ -23,28 +23,12 @@
     "aws-sdk": "^2.218.1"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js"],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testMatch": [
-      "**/*.(test|spec).(ts|tsx)"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/out/",
-      "/dist/",
-      "/.*/"
-    ],
-    "coverageReporters": [
-      "json",
-      "lcov",
-      "text",
-      "text-summary"
-    ]
+    "testMatch": ["**/*.(test|spec).(ts|tsx)"],
+    "coveragePathIgnorePatterns": ["/node_modules/", "/out/", "/dist/", "/.*/"],
+    "coverageReporters": ["json", "lcov", "text", "text-summary"]
   }
 }

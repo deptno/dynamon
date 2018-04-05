@@ -1,9 +1,9 @@
 {
-  "name": "dynamo",
+  "name": "dynamon",
   "version": "0.1.0",
-  "description": "dynamodb client ui gui local",
+  "description": "dynamodb GUI client",
   "main": "index.js",
-  "repository": "https://github.com/deptno/dynamo.git",
+  "repository": "https://github.com/deptno/dynamon.git",
   "author": "Bonggyun Lee <deptno@gmail.com>",
   "license": "MIT",
   "private": false,
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "detect-port": "^1.2.2",
-    "dynamo-engine": "*",
+    "dynamon-engine": "*",
     "dynamodb-localhost": "^0.0.5",
     "mkdirp": "^0.5.1"
   }

@@ -1,3 +1,3 @@
-# dynamob-engine
+# dynamon-engine
 
 aws-sdk wrapper
