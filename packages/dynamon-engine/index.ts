@@ -46,20 +46,41 @@ export class DynamonEngine {
 }
 
 export class DynamonDbTable {
+  private static latestAccessed: DynamonDbTable = null
+
+  private static setLatestAccessedTable(table: DynamonDbTable): void {
+    this.latestAccessed = table
+  }
+
+  static getLatestAccessedTable(): DynamonDbTable {
+    return this.latestAccessed
+  }
+
   constructor(private docClient: DynamoDB.DocumentClient, public readonly table: DynamoDB.TableDescription) {
   }
 
   async scan() {
+    DynamonDbTable.setLatestAccessedTable(this)
     return this.docClient
       .scan({TableName: this.table.TableName})
       .promise()
   }
 
+  async put(TableName, Item) {
+    DynamonDbTable.setLatestAccessedTable(this)
+    console.log('put', TableName, Item)
+    return this.docClient
+      .put({TableName, Item})
+      .promise()
+  }
+
   keySchema() {
+    DynamonDbTable.setLatestAccessedTable(this)
     return this.table.KeySchema
   }
 
   name() {
+    DynamonDbTable.setLatestAccessedTable(this)
     return this.table.TableName
   }
 }

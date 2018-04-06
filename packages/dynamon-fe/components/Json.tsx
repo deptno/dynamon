@@ -49,9 +49,9 @@ export class JsonComponent extends React.Component<Props, State> {
           iconStyle="circle"
           indentWidth={2}
           displayDataTypes={false}
-          onEdit={this.handleEdit}
-          onAdd={this.handleEdit}
-          onDelete={this.handleEdit}
+          onEdit={this.props.onEdit && this.handleEdit}
+          onAdd={this.props.onEdit && this.handleEdit}
+          onDelete={this.props.onEdit && this.handleEdit}
         />
       </div>
     )
@@ -76,7 +76,7 @@ export class JsonComponent extends React.Component<Props, State> {
 
 interface Props {
   src: Object | Array<any>
-  onEdit(prev, next): void
+  onEdit?(prev, next): void
 }
 interface State {
   expend: boolean

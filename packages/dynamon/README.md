@@ -4,8 +4,6 @@ Dynamon is GUI client for DynamoDB
 
 ---
 
-under development
-
 ## features
 
 * [x] Local DynamoDB (port 8000)
@@ -13,6 +11,7 @@ under development
 * View
   * Table view
     * [x] Sub collection view
+    * [x] Table schema view
     * [ ] Nested JSON
   * [x] JSON view
 * [ ] Edit record

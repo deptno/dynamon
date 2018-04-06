@@ -1,38 +1,41 @@
 import {DocumentClient} from 'aws-sdk/lib/dynamodb/document_client'
 import TableDescription = DocumentClient.TableDescription
 import ItemList = DocumentClient.ItemList
-import KeySchema = DocumentClient.KeySchema
 
 const defaultState: RootState = Object.freeze({
   endpoints: [],
   tables: [],
-  table : {
-    items: [],
-    keys : [],
-  },
+  records: [],
+  table : null,
   loadingEndpoints: false
 })
 export const reducer = (state = defaultState, action: ReturnType<Actions[keyof Actions]>) => {
   if (action.type.startsWith('@')) {
     return state
   }
-  if (action.response) {
+  if ('response' in action) {
     switch (action.type) {
       case ActionTypes.READ_ENDPOINTS:
         return {...state, endpoints: action.payload, loadingEndpoints: false}
       case ActionTypes.READ_TABLES:
         return {...state, tables: action.payload}
       case ActionTypes.READ_RECORDS:
-        return {...state, table: action.payload}
+        return {...state, records: action.payload}
+      case ActionTypes.UPDATE_RECORD:
+        console.log(action)
+        return state
     }
   }
   switch (action.type) {
     case ActionTypes.READ_ENDPOINTS:
       return {...state, loadingEndpoints: true}
     case ActionTypes.READ_RECORDS:
-      return {...state, table: defaultState.table}
+      return {...state, records: defaultState.records}
     case ActionTypes.READ_TABLES:
       return {...state, tables: defaultState.tables}
+    case ActionTypes.SET_TABLE:
+      debugger
+      return {...state, table: state.tables.find(t => t.TableName === action.payload)}
   }
   return state
 }
@@ -58,14 +61,19 @@ enum ActionTypes {
   CREATE_RECORD = 'create record',
   UPDATE_RECORD = 'update record',
   DELETE_RECORD = 'delete record',
+
+  SET_TABLE = 'set table'
 }
 
 /*
  actions
  */
 export const actions = {
+  setTable: (tableName?: string) => action(ActionTypes.SET_TABLE, tableName),
+
   readEndpoints : () => universalAction(ActionTypes.READ_ENDPOINTS),
   readTables : (server: Endpoint) => universalAction(ActionTypes.READ_TABLES, server),
+  readTable: (tableName?: string) => universalAction(ActionTypes.READ_TABLE, tableName),
   readRecords: (tableName: string) => universalAction(ActionTypes.READ_RECORDS, tableName),
   updateRecord: (tableName: string, record: any) => universalAction(ActionTypes.UPDATE_RECORD, {tableName, record})
 }
@@ -106,13 +114,9 @@ export interface TypedUniversalActinoWithPayload<P> extends TypedActionWithPaylo
 export interface RootState {
   endpoints: Endpoint[]
   tables: TableDescription[]
-  table: DynamoTable
+  table: TableDescription
+  records: ItemList
   loadingEndpoints: boolean
-}
-
-interface DynamoTable<T = any> {
-  items: ItemList
-  keys: KeySchema
 }
 
 interface Endpoint {

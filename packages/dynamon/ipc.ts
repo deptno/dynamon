@@ -1,5 +1,5 @@
 import {DbControl} from './built-in-db'
-import {DynamonEngine, Endpoint} from 'dynamon-engine'
+import {DynamonDbTable, DynamonEngine, Endpoint} from 'dynamon-engine'
 
 let dynamon: DynamonEngine
 
@@ -45,6 +45,8 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action) {
       break
     }
     case 'read table': {
+      const table = DynamonDbTable.getLatestAccessedTable()
+      send(table.table)
       console.log('read table', payload)
       break
     }
@@ -60,10 +62,8 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action) {
     case 'read records': {
       const tables = await dynamon.tables()
       const table = tables.find(table => table.name() === payload)
-      const {Items} = await table.scan()
-      const keys = table.keySchema()
-
-      send({items: Items, keys: keys})
+      const result = await table.scan()
+      send(result.Items)
       break
     }
     case 'create record': {
@@ -71,7 +71,15 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action) {
       break
     }
     case 'update record': {
-      console.log('update record', payload)
+      const table = DynamonDbTable.getLatestAccessedTable()
+      try {
+        const ret = await table.put(table.name(), payload.record)
+        send(payload.record)
+        console.log('update record', payload, 'ret', ret)
+      } catch(ex) {
+        console.log('update record', payload, 'ex', ex)
+        send(null)
+      }
       break
     }
     case 'delete record': {

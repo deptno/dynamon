@@ -2,8 +2,6 @@ import * as React from 'react'
 import {connect} from 'react-redux'
 import {StackableJsonTableComponent} from './StackableJsonTable'
 import {Actions, actions, RootState} from '../redux'
-import {DocumentClient} from 'aws-sdk/lib/dynamodb/document_client'
-import KeySchemaAttributeName = DocumentClient.KeySchemaAttributeName
 import {SelectComponent} from './Select'
 import {JsonComponent} from './Json'
 
@@ -14,7 +12,7 @@ export class HomeComponent extends React.Component<Props, State> {
   }
 
   render() {
-    const {loadingEndpoints, endpoints, tables, table: {keys = [], items = []}} = this.props
+    const {loadingEndpoints, endpoints, tables, records} = this.props
     const countTables = tables.length
     return (
       <div>
@@ -30,15 +28,15 @@ export class HomeComponent extends React.Component<Props, State> {
             title="Table"
             description={countTables > 0 ? `Select table from ${countTables} tables` : 'none'}
             onChange={this.handleOnTableChange}
+            onZoom={() => {console.log(this.props, this.state); debugger}}
             disabled={countTables === 0}
           >
             {tables.map(({TableName}) => <option key={TableName} value={TableName}>{TableName}</option>)}
           </SelectComponent>
         </div>
-        <JsonComponent src={this.state.json || items} onEdit={this.handleJsonEdit}/>
+        <JsonComponent src={this.state.json || records} onEdit={this.handleJsonEdit}/>
         <StackableJsonTableComponent
-          keys={keys.map(key => key.AttributeName as KeySchemaAttributeName)}
-          collection={items}
+          collection={records}
           onItemSelected={this.handleOnItemSelected}
           onRefresh={this.handleOnRefreshRecords}
         />
@@ -67,8 +65,6 @@ export class HomeComponent extends React.Component<Props, State> {
       const endpoint = this.props.endpoints.find(({endpoint}) => endpoint === value)
 
       if (endpoint) {
-        console.table(this.props.endpoints)
-        console.log(endpoint, value)
         this.props.readTables(endpoint)
       }
     }
@@ -76,12 +72,14 @@ export class HomeComponent extends React.Component<Props, State> {
     console.log(value)
   }
 
-  handleOnTableChange = ev => {
+  handleOnTableChange = async ev => {
     const value = ev.target.value
 
     console.log('what')
     if (!value.startsWith('__')) {
-      this.props.readRecords(value)
+      this.props.setTable(value)
+      await this.props.readRecords(value)
+      //todo: remove selectedTable, it moved redux
       this.selectedTable = value
       return
     }
