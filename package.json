@@ -1,6 +1,6 @@
 {
   "name": "dynamon",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "dynamodb GUI client",
   "repository": "https://github.com/deptno/dynamon.git",
   "author": "Bonggyun Lee <deptno@gmail.com>",
