@@ -6,7 +6,7 @@ Dynamon is GUI client for DynamoDB
 
 under development
 
-development version [:eyes:](/release)
+checkout development version [:eyes:](https://github.com/deptno/dynamon/releases)
 
 ## features
 
