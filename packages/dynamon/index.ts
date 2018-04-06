@@ -1,6 +1,7 @@
 import {app, BrowserWindow, ipcMain, Menu} from 'electron'
 import {ipcHandler} from './ipc'
 import {builtInDb} from './built-in-db'
+
 const db = builtInDb()
 
 let mainWindow
@@ -31,12 +32,13 @@ function createWindow() {
     width         : 1280,
     height        : 800,
     title         : 'Dynamon',
+    icon          : __dirname + '/build/icon.png',
     webPreferences: {
       nodeIntegration: false,
       preload        : __dirname + '/preload.js',
     },
   })
 
-  mainWindow.loadURL(process.env.ELECTRON_URL || 'file://' +  __dirname + '/client/index.html')
+  mainWindow.loadURL(process.env.ELECTRON_URL || 'file://' + __dirname + '/client/index.html')
   mainWindow.on('closed', () => (mainWindow = null))
 }
