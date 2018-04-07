@@ -14,14 +14,22 @@ checkout development version <https://github.com/deptno/dynamon/releases>
 ## features
 
 * [x] Local DynamoDB (port 8000)
-* [ ] Built-in Local DynamoDB
+* [ ] Built-in Local DynamoDB (can't spawn after build)
 * View
   * Table view
     * [x] Sub collection view
     * [x] Table schema view
-    * [ ] Nested JSON
+    * [ ] Nested JSON(Enter, Leave)
   * [x] JSON view
-* [x] Edit record
+* Operation
+  * Table
+    * [ ] Add Table
+    * [ ] Edit Table
+    * [ ] Delete Table
+  * Record
+    * [x] Add record
+    * [x] Edit record
+    * [ ] Delete record
 
 ## changelog
 
