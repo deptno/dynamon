@@ -4,6 +4,7 @@ import {StackableJsonTableComponent} from './StackableJsonTable'
 import {Actions, actions, RootState} from '../redux'
 import {SelectComponent} from './Select'
 import {JsonComponent} from './Json'
+import {Icon} from '@blueprintjs/core'
 
 export class HomeComponent extends React.Component<Props, State> {
   private selectedTable = '__'
@@ -16,6 +17,14 @@ export class HomeComponent extends React.Component<Props, State> {
     const countTables = tables.length
     return (
       <div>
+        <div className="pt-ui-text" style={{marginBottom: '10px'}}>
+          <a target="_blank" href="https://github.com/deptno/dynamon">
+            <Icon icon="git-repo"/> Github
+          </a> &nbsp;
+          <a target="_blank" href="https://github.com/deptno/dynamon/issues/new">
+            <Icon icon="issue-new"/> Report issue
+          </a>
+        </div>
         <div className="pt-control-group pt-fill">
           <SelectComponent
             title="Endpoint"
