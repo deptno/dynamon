@@ -3,11 +3,11 @@ import TableDescription = DocumentClient.TableDescription
 import ItemList = DocumentClient.ItemList
 
 const defaultState: RootState = Object.freeze({
-  endpoints: [],
-  tables: [],
-  records: null,
-  table : null,
-  loadingEndpoints: false
+  endpoints       : [],
+  tables          : [],
+  records         : null,
+  table           : null,
+  loadingEndpoints: false,
 })
 export const reducer = (state = defaultState, action: ReturnType<Actions[keyof Actions]>) => {
   if (action.type.startsWith('@')) {
@@ -21,9 +21,6 @@ export const reducer = (state = defaultState, action: ReturnType<Actions[keyof A
         return {...state, tables: action.payload}
       case ActionTypes.READ_RECORDS:
         return {...state, records: action.payload}
-      case ActionTypes.UPDATE_RECORD:
-        console.log(action)
-        return state
     }
   }
   switch (action.type) {
@@ -34,7 +31,6 @@ export const reducer = (state = defaultState, action: ReturnType<Actions[keyof A
     case ActionTypes.READ_TABLES:
       return {...state, tables: defaultState.tables}
     case ActionTypes.SET_TABLE:
-      debugger
       return {...state, table: state.tables.find(t => t.TableName === action.payload)}
   }
   return state
@@ -44,25 +40,25 @@ export const reducer = (state = defaultState, action: ReturnType<Actions[keyof A
  action types
  */
 enum ActionTypes {
-  READ_ENDPOINTS   = 'read endpoints',
+  READ_ENDPOINTS = 'read endpoints',
 
-  READ_TABLES   = 'read tables',
+  READ_TABLES    = 'read tables',
 
-  CREATE_TABLE  = 'create table',
-  READ_TABLE    = 'read table',
-  UPDATE_TABLE  = 'update table',
-  DELETE_TABLE  = 'delete table',
+  CREATE_TABLE   = 'create table',
+  READ_TABLE     = 'read table',
+  UPDATE_TABLE   = 'update table',
+  DELETE_TABLE   = 'delete table',
 
   CREATE_RECORDS = 'create records',
-  READ_RECORDS = 'read records',
+  READ_RECORDS   = 'read records',
   UPDATE_RECORDS = 'update records',
   DELETE_RECORDS = 'delete records',
 
-  CREATE_RECORD = 'create record',
-  UPDATE_RECORD = 'update record',
-  DELETE_RECORD = 'delete record',
+  CREATE_RECORD  = 'create record',
+  UPDATE_RECORD  = 'update record',
+  DELETE_RECORD  = 'delete record',
 
-  SET_TABLE = 'set table'
+  SET_TABLE      = 'set table'
 }
 
 /*
@@ -71,11 +67,12 @@ enum ActionTypes {
 export const actions = {
   setTable: (tableName?: string) => action(ActionTypes.SET_TABLE, tableName),
 
-  readEndpoints : () => universalAction(ActionTypes.READ_ENDPOINTS),
-  readTables : (server: Endpoint) => universalAction(ActionTypes.READ_TABLES, server),
-  readTable: (tableName?: string) => universalAction(ActionTypes.READ_TABLE, tableName),
-  readRecords: (tableName: string) => universalAction(ActionTypes.READ_RECORDS, tableName),
-  updateRecord: (tableName: string, record: any) => universalAction(ActionTypes.UPDATE_RECORD, {tableName, record})
+  readEndpoints: () => universalAction(ActionTypes.READ_ENDPOINTS),
+  readTables   : (server: Endpoint) => universalAction(ActionTypes.READ_TABLES, server),
+  readTable    : (tableName?: string) => universalAction(ActionTypes.READ_TABLE, tableName),
+  readRecords  : (tableName: string) => universalAction(ActionTypes.READ_RECORDS, tableName),
+  createRecord : (tableName: string, record: any) => universalAction(ActionTypes.CREATE_RECORD, {tableName, record}),
+  updateRecord : (tableName: string, record: any) => universalAction(ActionTypes.UPDATE_RECORD, {tableName, record}),
 }
 
 /*

@@ -1,10 +1,10 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
-import {StackableJsonTableComponent} from './StackableJsonTable'
 import {Actions, actions, RootState} from '../redux'
 import {SelectComponent} from './Select'
 import {JsonComponent} from './Json'
-import {Icon} from '@blueprintjs/core'
+import {DynamoTable} from './DynamoTable'
+import {LinksComponent} from './Links'
 
 export class HomeComponent extends React.Component<Props, State> {
   private selectedTable = '__'
@@ -13,18 +13,11 @@ export class HomeComponent extends React.Component<Props, State> {
   }
 
   render() {
-    const {loadingEndpoints, endpoints, tables, records} = this.props
+    const {loadingEndpoints, endpoints, tables, records, table} = this.props
     const countTables = tables.length
     return (
       <div>
-        <div className="pt-ui-text" style={{marginBottom: '10px'}}>
-          <a target="_blank" href="https://github.com/deptno/dynamon">
-            <Icon icon="git-repo"/> Github
-          </a> &nbsp;
-          <a target="_blank" href="https://github.com/deptno/dynamon/issues/new">
-            <Icon icon="issue-new"/> Report issue
-          </a>
-        </div>
+        <LinksComponent/>
         <div className="pt-control-group pt-fill">
           <SelectComponent
             title="Endpoint"
@@ -37,29 +30,17 @@ export class HomeComponent extends React.Component<Props, State> {
             title="Table"
             description={countTables > 0 ? `Select table from ${countTables} tables` : 'none'}
             onChange={this.handleOnTableChange}
-            onZoom={() => {console.log(this.props, this.state); debugger}}
+            onZoom={() => {
+              console.log(this.props, this.state)
+              debugger
+            }}
             disabled={countTables === 0}
           >
             {tables.map(({TableName}) => <option key={TableName} value={TableName}>{TableName}</option>)}
           </SelectComponent>
         </div>
         <JsonComponent src={this.state.json} onEdit={this.handleJsonEdit}/>
-        {records
-          ?
-          <StackableJsonTableComponent
-            collection={records}
-            onItemSelected={this.handleOnItemSelected}
-            onRefresh={this.handleOnRefreshRecords}
-          />
-          : (
-            <div className="pt-non-ideal-state" style={{marginTop: '45px'}}>
-              <div className="pt-non-ideal-state-visual pt-non-ideal-state-icon">
-                <span className="pt-icon pt-icon-th"></span>
-              </div>
-              <h4 className="pt-non-ideal-state-title">Select Table</h4>
-            </div>
-          )
-        }
+        <DynamoTable onItemSelected={this.handleOnItemSelected} onRefresh={this.handleOnRefreshRecords}/>
       </div>
     )
   }
@@ -68,9 +49,10 @@ export class HomeComponent extends React.Component<Props, State> {
     this.props.readEndpoints()
   }
 
-  handleJsonEdit = (prev, next) => {
+  handleJsonEdit = async (prev, next) => {
     console.log('before edit', prev, 'after edit', next)
-    this.props.updateRecord(this.selectedTable, next)
+    await this.props.updateRecord(this.selectedTable, next)
+    this.props.readRecords(this.props.table.TableName)
     if (!next) {
       if (confirm('delete row?')) {
 

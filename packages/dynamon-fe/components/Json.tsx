@@ -3,6 +3,9 @@ import RJV, {RJVModified} from 'react-json-view'
 import classnames from 'classnames'
 
 export class JsonComponent extends React.Component<Props, State> {
+  static defaultProps = {
+    title: 'JSON'
+  }
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.src !== prevState.src) {
       return {
@@ -25,7 +28,7 @@ export class JsonComponent extends React.Component<Props, State> {
     return (
       <div style={expend ? {} : {maxHeight: '300px', overflow: 'scroll'}}>
         <label className="pt-label pt-inline" style={{marginTop: '10px', marginBottom: 0}}>
-          JSON
+          {this.props.title}
           <button
             className={classnames('pt-button pt-icon-confirm pt-minimal', {'pt-intent-success': dirty})}
             onClick={this.handleApplyChanges}
@@ -77,6 +80,7 @@ export class JsonComponent extends React.Component<Props, State> {
 }
 
 interface Props {
+  title?: string
   src: Object | Array<any>
   onEdit?(prev, next): void
 }

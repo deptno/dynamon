@@ -66,11 +66,8 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action) {
       send(result.Items)
       break
     }
+    case 'update record':
     case 'create record': {
-      console.log('create record', payload)
-      break
-    }
-    case 'update record': {
       const table = DynamonDbTable.getLatestAccessedTable()
       try {
         const ret = await table.put(table.name(), payload.record)
