@@ -5,7 +5,7 @@ import ItemList = DocumentClient.ItemList
 const defaultState: RootState = Object.freeze({
   endpoints: [],
   tables: [],
-  records: [],
+  records: null,
   table : null,
   loadingEndpoints: false
 })

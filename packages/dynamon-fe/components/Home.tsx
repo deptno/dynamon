@@ -43,9 +43,9 @@ export class HomeComponent extends React.Component<Props, State> {
             {tables.map(({TableName}) => <option key={TableName} value={TableName}>{TableName}</option>)}
           </SelectComponent>
         </div>
-        <JsonComponent src={this.state.json || records} onEdit={this.handleJsonEdit}/>
-        {records.length > 0
-        ?
+        <JsonComponent src={this.state.json} onEdit={this.handleJsonEdit}/>
+        {records
+          ?
           <StackableJsonTableComponent
             collection={records}
             onItemSelected={this.handleOnItemSelected}
@@ -56,10 +56,7 @@ export class HomeComponent extends React.Component<Props, State> {
               <div className="pt-non-ideal-state-visual pt-non-ideal-state-icon">
                 <span className="pt-icon pt-icon-th"></span>
               </div>
-              <h4 className="pt-non-ideal-state-title">Table is empty.</h4>
-              <div className="pt-non-ideal-state-description">
-                Select table or Refresh
-              </div>
+              <h4 className="pt-non-ideal-state-title">Select Table</h4>
             </div>
           )
         }
@@ -98,7 +95,6 @@ export class HomeComponent extends React.Component<Props, State> {
   handleOnTableChange = async ev => {
     const value = ev.target.value
 
-    console.log('what')
     if (!value.startsWith('__')) {
       this.props.setTable(value)
       await this.props.readRecords(value)

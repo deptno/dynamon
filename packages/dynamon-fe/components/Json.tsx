@@ -42,17 +42,19 @@ export class JsonComponent extends React.Component<Props, State> {
             onClick={this.handleSize}
           />
         </label>
-        <RJV
-          src={src}
-          name={null}
-          theme="ocean"
-          iconStyle="circle"
-          indentWidth={2}
-          displayDataTypes={false}
-          onEdit={this.props.onEdit && this.handleEdit}
-          onAdd={this.props.onEdit && this.handleEdit}
-          onDelete={this.props.onEdit && this.handleEdit}
-        />
+        {src && (
+          <RJV
+            src={src}
+            name={null}
+            theme="ocean"
+            iconStyle="circle"
+            indentWidth={2}
+            displayDataTypes={false}
+            onEdit={this.props.onEdit && this.handleEdit}
+            onAdd={this.props.onEdit && this.handleEdit}
+            onDelete={this.props.onEdit && this.handleEdit}
+          />
+        )}
       </div>
     )
   }
