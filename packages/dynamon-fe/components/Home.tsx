@@ -35,11 +35,25 @@ export class HomeComponent extends React.Component<Props, State> {
           </SelectComponent>
         </div>
         <JsonComponent src={this.state.json || records} onEdit={this.handleJsonEdit}/>
-        <StackableJsonTableComponent
-          collection={records}
-          onItemSelected={this.handleOnItemSelected}
-          onRefresh={this.handleOnRefreshRecords}
-        />
+        {records.length > 0
+        ?
+          <StackableJsonTableComponent
+            collection={records}
+            onItemSelected={this.handleOnItemSelected}
+            onRefresh={this.handleOnRefreshRecords}
+          />
+          : (
+            <div className="pt-non-ideal-state" style={{marginTop: '45px'}}>
+              <div className="pt-non-ideal-state-visual pt-non-ideal-state-icon">
+                <span className="pt-icon pt-icon-th"></span>
+              </div>
+              <h4 className="pt-non-ideal-state-title">Table is empty.</h4>
+              <div className="pt-non-ideal-state-description">
+                Select table or Refresh
+              </div>
+            </div>
+          )
+        }
       </div>
     )
   }
