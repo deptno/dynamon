@@ -4,8 +4,9 @@ Dynamon is GUI client for DynamoDB
 
 ---
 
-under development
+under development(unstable)
 
+[![](https://user-images.githubusercontent.com/1223020/38453064-7a2d421c-3a8a-11e8-821f-c607fff85642.png)](https://www.youtube.com/watch?v=UI9xyrAKAg0&feature=youtu.be))](https://www.youtube.com/watch?v=UI9xyrAKAg0&feature=youtu.be)
 checkout development version [:eyes:](https://github.com/deptno/dynamon/releases)
 
 ## features
@@ -15,7 +16,7 @@ checkout development version [:eyes:](https://github.com/deptno/dynamon/releases
 * View
   * Table view
     * [x] Sub collection view
-    * [ ] Table schema view
+    * [x] Table schema view
     * [ ] Nested JSON
   * [x] JSON view
-* [ ] Edit record
+* [x] Edit record
