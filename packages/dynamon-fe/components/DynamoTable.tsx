@@ -4,7 +4,8 @@ import {Popover} from '@blueprintjs/core'
 import {TableStateDescription} from './TableStateDescription'
 import {JsonComponent} from './Json'
 import {connect} from 'react-redux'
-import {actions, Actions, RootState} from '../redux'
+import {RootState} from '../redux'
+import {Actions, actions} from 'dynamon-redux-actions'
 
 export class DynamoTableComponent extends React.Component<Props, State> {
   render() {

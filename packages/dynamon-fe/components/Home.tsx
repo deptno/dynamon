@@ -1,10 +1,11 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
-import {Actions, actions, RootState} from '../redux'
+import {RootState} from '../redux'
 import {SelectComponent} from './Select'
 import {JsonComponent} from './Json'
 import {DynamoTable} from './DynamoTable'
 import {LinksComponent} from './Links'
+import {actions, Actions} from 'dynamon-redux-actions'
 
 export class HomeComponent extends React.Component<Props, State> {
   private selectedTable = '__'
@@ -32,7 +33,6 @@ export class HomeComponent extends React.Component<Props, State> {
             onChange={this.handleOnTableChange}
             onZoom={() => {
               console.log(this.props, this.state)
-              debugger
             }}
             disabled={countTables === 0}
           >

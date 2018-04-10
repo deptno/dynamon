@@ -22,8 +22,9 @@
   },
   "dependencies": {
     "detect-port": "^1.2.2",
-    "dynamon-engine": "*",
     "dynamodb-localhost": "^0.0.5",
+    "dynamon-engine": "*",
+    "dynamon-redux-actions": "*",
     "mkdirp": "^0.5.1"
   },
   "build": {

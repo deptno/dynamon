@@ -1,13 +1,12 @@
 import {DbControl} from './built-in-db'
 import {DynamonDbTable, DynamonEngine, Endpoint} from 'dynamon-engine'
+import {ActionsReturnType, ActionTypes, responseActions, ResponseActionsReturnType} from 'dynamon-redux-actions'
 
 let dynamon: DynamonEngine
 
-export async function ipcHandler(db: Promise<DbControl>, {sender}, action) {
-  const {type, payload} = action
-
-  switch (type) {
-    case 'read endpoints': {
+export async function ipcHandler(db: Promise<DbControl>, {sender}, action: ActionsReturnType) {
+  switch (action.type) {
+    case ActionTypes.READ_ENDPOINTS: {
       const list = endpoints.slice(0)
 
       try {
@@ -29,65 +28,67 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action) {
         }
       } catch (ex) {
       } finally {
-        send(list)
+        console.log(list)
+        response(responseActions.readEndpoints(list))
       }
       break
     }
-    case 'read tables': {
-      dynamon = engine(payload)
+    case ActionTypes.READ_TABLES: {
+      dynamon = engine(action.payload)
       const tables = await dynamon.tables()
-      send(tables.map(table => table.table))
+      response(responseActions.readTables(tables.map(table => table.table)))
       break
     }
 
-    case 'create table': {
-      console.log('create table', payload)
-      break
-    }
-    case 'read table': {
+    // case ActionTypes.CREATE_TABLE: {
+    //   break
+    // }
+    case ActionTypes.READ_TABLE: {
       const table = DynamonDbTable.getLatestAccessedTable()
-      send(table.table)
-      console.log('read table', payload)
+      response(responseActions.readTable(table.table))
+      console.log('read table', action.payload)
       break
     }
-    case 'update table': {
-      console.log('update table', payload)
-      break
-    }
-    case 'delete table': {
-      console.log('delete table', payload)
-      break
-    }
+    // case ActionTypes.UPDATE_TABLE: {
+    //   console.log('update table', action.payload)
+    //   break
+    // }
+    // case ActionTypes.DELETE_TABLE: {
+    //   console.log('delete table', action.payload)
+    //   break
+    // }
 
-    case 'read records': {
+    case ActionTypes.READ_RECORDS: {
       const tables = await dynamon.tables()
-      const table = tables.find(table => table.name() === payload)
+      const table = tables.find(table => table.name() === action.payload)
       const result = await table.scan()
-      send(result.Items)
+      response(responseActions.readRecords(result.Items))
       break
     }
-    case 'update record':
-    case 'create record': {
+    case ActionTypes.UPDATE_RECORD:
+    case ActionTypes.CREATE_RECORD: {
       const table = DynamonDbTable.getLatestAccessedTable()
       try {
-        const ret = await table.put(table.name(), payload.record)
-        send(payload.record)
-        console.log('update record', payload, 'ret', ret)
-      } catch(ex) {
-        console.log('update record', payload, 'ex', ex)
-        send(null)
+        const ret = await table.put(table.name(), action.payload.record)
+        response(responseActions.updateRecord(action.payload.record))
+        console.log('update record', action.payload, 'ret', ret)
+      } catch (ex) {
+        console.log('update record', action.payload, 'ex', ex)
+        response(responseActions.updateRecord(null))
       }
       break
     }
-    case 'delete record': {
-      console.log('delete record', payload)
-      break
-    }
+    // case ActionTypes.DELETE_RECORD: {
+    //   console.log('delete record', action.payload)
+    //   break
+    // }
+    default:
+      console.log('unhandled action', JSON.stringify(action, null, 2))
   }
 
   //
-  function send(payload, anotherType?: string) {
-    sender.send('action', {type: anotherType || type, payload})
+  function response(action: ResponseActionsReturnType) {
+    return sender.send('action', action)
   }
 }
 const endpoints = [
