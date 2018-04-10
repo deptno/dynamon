@@ -42,28 +42,30 @@ function createWindow() {
   mainWindow.loadURL(process.env.ELECTRON_URL || 'file://' + __dirname + '/client/index.html')
   mainWindow.on('closed', () => (mainWindow = null))
 
-  const template = [{
-    label  : 'Application',
-    submenu: [
-      {label: 'About Dynamon', selector: 'orderFrontStandardAboutPanel:'},
-      {
-        label: 'Quit', accelerator: 'Command+Q', click() {
-          app.quit()
+  const template = [
+    {
+      label  : 'Application',
+      submenu: [
+        {label: 'About Dynamon', selector: 'orderFrontStandardAboutPanel:'},
+        {
+          label: 'Quit', accelerator: 'Command+Q', click() {
+            app.quit()
+          },
         },
-      },
-    ],
-  }, {
-    label  : 'Edit',
-    submenu: [
-      {label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:'},
-      {label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:'},
-      {label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:'},
-      {label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:'},
-      {label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:'},
-      {label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:'},
-    ],
-  },
+      ],
+    }, {
+      label  : 'Edit',
+      submenu: [
+        {label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:'},
+        {label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:'},
+        {label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:'},
+        {label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:'},
+        {label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:'},
+        {label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:'},
+      ],
+    }
   ]
+  mainWindow.openDevTools()
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(template))
 }

@@ -1,12 +1,12 @@
 {
-  "name": "dynamon-engine",
+  "name": "dynamon-redux-actions",
   "version": "0.1.0",
-  "description": "dynamodb wrapper",
+  "description": "dynamon redux actions, actionTypes",
   "main": "index.js",
   "repository": "https://github.com/deptno/dynamon.git",
   "author": "Bonggyun Lee <deptno@gmail.com>",
   "license": "MIT",
-  "private": false,
+  "private": true,
   "devDependencies": {
     "@types/jest": "^22.2.2",
     "@types/node": "^9.6.1",
@@ -15,13 +15,7 @@
     "typescript": "^2.8.1"
   },
   "scripts": {
-    "dev": "",
-    "start": "",
     "test": "jest"
-  },
-  "dependencies": {
-    "dynamon-redux-actions": "*",
-    "aws-sdk": "^2.218.1"
   },
   "jest": {
     "moduleFileExtensions": ["ts", "tsx", "js"],

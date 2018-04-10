@@ -5,6 +5,7 @@ export function createUniversalElectronMw(ipc: any, channel: string): Middleware
   const universal = store => next => action => {
     const {universal, ...a} = action
 
+    console.log(action)
     if (universal) {
       const _ = handleResponse(store, action)
     }
