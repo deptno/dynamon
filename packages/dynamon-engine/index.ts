@@ -73,6 +73,13 @@ export class DynamonDbTable {
       .put({TableName, Item})
       .promise()
   }
+  async delete(TableName, Key) {
+    DynamonDbTable.setLatestAccessedTable(this)
+    console.log('delete', {TableName, Key})
+    return this.docClient
+      .delete({TableName, Key})
+      .promise()
+  }
 
   keySchema() {
     DynamonDbTable.setLatestAccessedTable(this)

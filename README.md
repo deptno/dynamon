@@ -1,6 +1,6 @@
 ![Logo](packages/dynamon/assets/dynamon.png)
 
-Dynamon is GUI client for DynamoDB
+Dynamon is GUI client for DynamoDB, [:kr: Blog](https://medium.com/@deptno/dynamon-gui-dynamodb-client-2827d60d406f)[Post(소개글)](https://medium.com/p/dynamon-gui-dynamodb-client-2827d60d406f)
 
 ---
 
@@ -32,6 +32,12 @@ checkout development version <https://github.com/deptno/dynamon/releases>
     * [ ] Delete record
 
 ## changelog
+
+##### 0.1.4
+
+* Features
+  * [x] Delete record(right click via row header)
+  * [ ] Move key properties to front
 
 ##### 0.1.3
 

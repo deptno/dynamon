@@ -36,7 +36,7 @@ export class DynamoTableComponent extends React.Component<Props, State> {
         </label>
         {records
           ? records.length > 0
-            ? <StackableJsonTableComponent collection={records} onItemSelected={onItemSelected}/>
+            ? <StackableJsonTableComponent collection={records} onItemSelect={onItemSelected} onItemDelete={this.handleOnItemDelete}/>
             : <TableStateDescription description="Empty"/>
           : <TableStateDescription description="Select Table"/>
         }
@@ -46,6 +46,12 @@ export class DynamoTableComponent extends React.Component<Props, State> {
 
   handleOnEdit = async (prev, next) => {
     await this.props.createRecord(this.props.table.TableName, next)
+    this.props.readRecords(this.props.table.TableName)
+  }
+  handleOnItemDelete = async item => {
+    const ret = this.props.deleteRecord(item)
+    console.log('ret', ret)
+    await ret
     this.props.readRecords(this.props.table.TableName)
   }
 }
