@@ -35,6 +35,7 @@ export const actions = {
   readRecords  : (tableName: string) => action(true, ActionTypes.READ_RECORDS, tableName),
   createRecord : (tableName: string, record: any) => action(true, ActionTypes.CREATE_RECORD, {tableName, record}),
   updateRecord : (tableName: string, record: any) => action(true, ActionTypes.UPDATE_RECORD, {tableName, record}),
+  deleteRecord : (record: any) => action(true, ActionTypes.DELETE_RECORD, record),
 }
 //responseActions shouldn't be dispatched by frontend
 export const responseActions = {

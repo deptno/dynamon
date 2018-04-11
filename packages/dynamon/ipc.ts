@@ -28,7 +28,6 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action: Actio
         }
       } catch (ex) {
       } finally {
-        console.log(list)
         response(responseActions.readEndpoints(list))
       }
       break
@@ -78,10 +77,23 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action: Actio
       }
       break
     }
-    // case ActionTypes.DELETE_RECORD: {
-    //   console.log('delete record', action.payload)
-    //   break
-    // }
+    case ActionTypes.DELETE_RECORD: {
+      const table = DynamonDbTable.getLatestAccessedTable()
+      try {
+        const Key = table
+          .keySchema()
+          .reduce((p, c) => {
+            p[c.AttributeName] = action.payload[c.AttributeName]
+            return p
+          }, {})
+        await table.delete(table.name(), Key)
+      } catch (ex) {
+      } finally {
+        response(responseActions.updateRecord(null))
+      }
+      console.log('delete record', action.payload)
+      break
+    }
     default:
       console.log('unhandled action', JSON.stringify(action, null, 2))
   }

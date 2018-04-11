@@ -1,14 +1,15 @@
 import * as React from 'react'
 import {DeepJsonTableComponent} from './DeepJsonTable'
 import {RowModel} from './Row'
-import {Cell, Column, ColumnHeaderCell, RegionCardinality, Table} from '@blueprintjs/table'
+import {Column, ColumnHeaderCell, RegionCardinality, Table} from '@blueprintjs/table'
 import {Button, ButtonGroup, Menu, MenuItem} from '@blueprintjs/core'
 import '@blueprintjs/core/lib/css/blueprint.css'
 import '@blueprintjs/icons/lib/css/blueprint-icons.css'
 import '@blueprintjs/table/lib/css/table.css'
+import {TypedCell} from './TypedCell'
 
-export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
-  state = {
+export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> {
+  readonly state = {
     step      : [],
     headers   : [],
     collection: [],
@@ -65,7 +66,10 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
           onFocusedCell={this.handleFocusedCell}
           onSelection={console.log}
           selectionModes={[RegionCardinality.CELLS]}
-          enableFocusedCell>
+          // rowHeaderCellRenderer={}
+          enableColumnReordering
+          enableFocusedCell
+        >
           {headers.map((header, i) =>
             <Column
               key={header}
@@ -134,11 +138,11 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
     const content = this.content(row, header)
 
     if (Array.isArray(cell)) {
-      return <Cell style={{backgroundColor: 'red'}}>{content}</Cell>
+      return <TypedCell onDelete={this.props.onDelete} rowIndex={rowIndex} style={{backgroundColor: 'red'}}>{content}</TypedCell>
     } else if (cell !== null && typeof cell === 'object') {
-      return <Cell style={{backgroundColor: 'green'}}>{content}</Cell>
+      return <TypedCell onDelete={this.props.onDelete} rowIndex={rowIndex} style={{backgroundColor: 'green'}}>{content}</TypedCell>
     }
-    return <Cell>{content}</Cell>
+    return <TypedCell onDelete={this.props.onDelete} rowIndex={rowIndex}>{content}</TypedCell>
   }
 
   content(row, header) {
@@ -180,6 +184,9 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<State> {
     }
     this.position = [row, col]
   }
+}
+interface Props {
+  onDelete(rowIndex: number): void
 }
 interface State {
   step: string[]
