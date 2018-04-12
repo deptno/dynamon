@@ -1,8 +1,14 @@
 declare module 'react-json-view' {
-  export default class RJV extends React.Component<P, S> {}
+  export default class RJV extends React.Component<P, S> {
+  }
 
   interface P<T = any> {
     src: T
+    name: string
+    theme: string
+    iconStyle: string
+    indentWidth: number
+    displayDataTypes: boolean
     onEdit(data: RJVModified<T>): void
     onAdd(data: RJVModified<T>): void
     onDelete(data: RJVModified<T>): void
@@ -11,7 +17,7 @@ declare module 'react-json-view' {
 
   }
 
-  export interface RJVModified<T> {
+  export interface RJVModified<T = any> {
     existing_src: T
     updated_src: T
     name: keyof T

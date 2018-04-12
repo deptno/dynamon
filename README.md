@@ -1,4 +1,4 @@
-![Logo](packages/dynamon/assets/dynamon.png)
+![Logo](packages/dynamon/assets/dynamon.png) [![CircleCI](https://circleci.com/gh/deptno/dynamon.svg?style=svg)](https://circleci.com/gh/deptno/dynamon)
 
 Dynamon is GUI client for DynamoDB, [:kr: Blog](https://medium.com/@deptno/dynamon-gui-dynamodb-client-2827d60d406f)[Post(소개글)](https://medium.com/p/dynamon-gui-dynamodb-client-2827d60d406f)
 
@@ -51,8 +51,12 @@ yarn dev
 ##### 0.1.4
 
 * Features
+
   * [x] Delete record(right click via row header)
   * [x] Move key properties to front
+
+* Miscellaneous
+  * support CI
 
 ##### 0.1.3
 

@@ -1,0 +1,27 @@
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: deptno/circleci-awscli-jq-node8:latest
+
+version: 2
+jobs:
+  check_syntax:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-yarn-deps-{{ checksum "package.json" }}
+      - run: yarn check:syntax
+      - save_cache:
+          key: v1-yarn-deps-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+workflows:
+  version: 2
+  pull_request:
+    jobs:
+      - check_syntax:
+          filters:
+            tags:
+              ignore: /.*/
