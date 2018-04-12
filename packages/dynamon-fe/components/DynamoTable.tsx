@@ -8,6 +8,19 @@ import {RootState} from '../redux'
 import {Actions, actions} from '../../dynamon-redux-actions'
 
 export class DynamoTableComponent extends React.Component<Props, State> {
+  static getDerivedStateFromProps(nextProps: Props, _) {
+    if (nextProps.table) {
+      return {
+        keys: nextProps.table.KeySchema
+          .sort((p, c) => p.KeyType === 'HASH_KEY' ? 1 : 0)
+          .map(key => key.AttributeName)
+      }
+    }
+    return null
+  }
+  readonly state = {
+    keys: []
+  }
   render() {
     const {table, records, onItemSelected, onRefresh} = this.props
 
@@ -36,7 +49,14 @@ export class DynamoTableComponent extends React.Component<Props, State> {
         </label>
         {records
           ? records.length > 0
-            ? <StackableJsonTableComponent collection={records} onItemSelect={onItemSelected} onItemDelete={this.handleOnItemDelete}/>
+            ? (
+              <StackableJsonTableComponent
+                keyOrder={this.state.keys}
+                collection={records}
+                onItemSelect={onItemSelected}
+                onItemDelete={this.handleOnItemDelete}
+              />
+            )
             : <TableStateDescription description="Empty"/>
           : <TableStateDescription description="Select Table"/>
         }

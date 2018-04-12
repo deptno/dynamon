@@ -1,6 +1,6 @@
 import {applyMiddleware, createStore} from 'redux'
 import {reducer} from './redux'
-import {createUniversalElectronMw} from './lib/redux-universal-electron'
+import {createUniversalElectronMw} from '../redux-universal-electron'
 
 declare const ipc
 
