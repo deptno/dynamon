@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {BlueprintDJTComponent} from 'react-deep-json-table/BlueprintDJT'
+import {BlueprintDJTComponent} from '../../react-deep-json-table/BlueprintDJT'
 
 export class StackableJsonTableComponent extends React.Component<Props, State> {
   state = {
