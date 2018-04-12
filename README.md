@@ -11,10 +11,25 @@ Dynamon is GUI client for DynamoDB, [:kr: Blog](https://medium.com/@deptno/dynam
 
 checkout development version <https://github.com/deptno/dynamon/releases>
 
+## contribution
+
+```bash
+yarn
+yarn workspace dynamon dev
+yarn workspace dynamon-fe dev # run another terminal
+```
+
+or
+
+```bash
+yarn
+yarn dev
+```
+
 ## features
 
 * [x] Local DynamoDB (port 8000)
-* [ ] Built-in Local DynamoDB (can't spawn after build)
+* [ ] Built-in Local DynamoDB (can't spawn in production)
 * View
   * Table view
     * [x] Sub collection view
@@ -29,7 +44,7 @@ checkout development version <https://github.com/deptno/dynamon/releases>
   * Record
     * [x] Add record
     * [x] Edit record
-    * [ ] Delete record
+    * [x] Delete record
 
 ## changelog
 
@@ -37,7 +52,7 @@ checkout development version <https://github.com/deptno/dynamon/releases>
 
 * Features
   * [x] Delete record(right click via row header)
-  * [ ] Move key properties to front
+  * [x] Move key properties to front
 
 ##### 0.1.3
 

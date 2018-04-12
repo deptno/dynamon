@@ -1,6 +1,6 @@
 {
   "name": "dynamon",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "dynamodb GUI client",
   "main": "index.js",
   "repository": "https://github.com/deptno/dynamon.git",

@@ -8,6 +8,20 @@ import '@blueprintjs/icons/lib/css/blueprint-icons.css'
 import '@blueprintjs/table/lib/css/table.css'
 
 export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> {
+  static getDerivedStateFromProps(nextProps, _) {
+    const headers = nextProps.keyOrder
+      .concat(
+        Object
+          .keys(nextProps.data[0] || {})
+          .filter(header => !nextProps.keyOrder.some(key => header === key))
+      )
+    return {
+      step: [],
+      collection: nextProps.data,
+      headers
+    }
+  }
+
   readonly state = {
     step      : [],
     headers   : [],
@@ -201,6 +215,7 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> 
   }
 }
 interface Props {
+  keyOrder: string[]
   onDelete(rowIndex: number): void
 }
 interface State {

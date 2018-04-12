@@ -2,7 +2,7 @@ import * as React from 'react'
 import {BlueprintDJTComponent} from '../../react-deep-json-table/BlueprintDJT'
 
 export class StackableJsonTableComponent extends React.Component<Props, State> {
-  state = {
+  readonly state = {
     stack: [],
   }
 
@@ -21,6 +21,7 @@ export class StackableJsonTableComponent extends React.Component<Props, State> {
     return this.state.stack.map(({collection, keepHeader}, i) => (
       <BlueprintDJTComponent
         key={i}
+        keyOrder={this.props.keyOrder}
         keepHeader={keepHeader}
         data={collection}
         onRowClick={this.handleRowClick}
@@ -59,6 +60,7 @@ export class StackableJsonTableComponent extends React.Component<Props, State> {
 }
 
 interface Props {
+  keyOrder?: string[]
   keys?: string[]
   collection: any[]
   onItemSelect?(item): void
