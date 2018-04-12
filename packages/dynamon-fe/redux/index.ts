@@ -3,7 +3,7 @@ import {
   ActionTypes,
   Endpoint,
   ResponseActionsReturnType,
-} from 'dynamon-redux-actions'
+} from '../../dynamon-redux-actions'
 import {ItemList, TableDescription} from 'aws-sdk/clients/dynamodb'
 
 const defaultState: RootState = Object.freeze({

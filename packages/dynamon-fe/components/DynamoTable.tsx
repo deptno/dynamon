@@ -5,7 +5,7 @@ import {TableStateDescription} from './TableStateDescription'
 import {JsonComponent} from './Json'
 import {connect} from 'react-redux'
 import {RootState} from '../redux'
-import {Actions, actions} from 'dynamon-redux-actions'
+import {Actions, actions} from '../../dynamon-redux-actions'
 
 export class DynamoTableComponent extends React.Component<Props, State> {
   render() {
@@ -49,9 +49,7 @@ export class DynamoTableComponent extends React.Component<Props, State> {
     this.props.readRecords(this.props.table.TableName)
   }
   handleOnItemDelete = async item => {
-    const ret = this.props.deleteRecord(item)
-    console.log('ret', ret)
-    await ret
+    await this.props.deleteRecord(item)
     this.props.readRecords(this.props.table.TableName)
   }
 }
