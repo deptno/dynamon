@@ -11,7 +11,8 @@
     "dev": "yarn workspace dynamon-fe dev & yarn workspace dynamon dev && kill -9 $(lsof -ti:1234)",
     "pack": "yarn workspace dynamon-fe build && yarn workspace dynamon pack && open ./packages/dynamon/dist",
     "release": "yarn workspace dynamon-fe build && yarn workspace dynamon dist && open ./packages/dynamon/dist",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "check:syntax": "tsc --noEmit"
   },
   "lint-staged": {
     "*.{js,json,css,md}": ["prettier --write", "git add"]
