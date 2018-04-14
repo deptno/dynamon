@@ -1,7 +1,6 @@
 import * as React from 'react'
 import RJV, {RJVModified} from 'react-json-view'
 import classnames from 'classnames'
-import {EditorComponent} from './Editor'
 
 export class JsonComponent extends React.Component<Props, State> {
   static defaultProps = {
@@ -46,7 +45,7 @@ export class JsonComponent extends React.Component<Props, State> {
             onClick={this.handleSize}
           />
         </label>
-        {!src && (
+        {src && (
           <RJV
             src={src}
             name={null}
@@ -59,7 +58,6 @@ export class JsonComponent extends React.Component<Props, State> {
             onDelete={this.props.onEdit && this.handleEdit}
           />
         )}
-        {src && <EditorComponent src={src}/>}
       </div>
     )
   }

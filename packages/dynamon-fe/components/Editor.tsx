@@ -1,5 +1,7 @@
 import * as React from 'react'
 import {findDOMNode} from 'react-dom'
+import classnames from 'classnames'
+
 // (1) Desired editor features:
 import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands.js'
 // import 'monaco-editor/esm/vs/editor/browser/widget/codeEditorWidget.js';
@@ -89,25 +91,6 @@ import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js'
 // import 'monaco-editor/esm/vs/basic-languages/xml/xml.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/yaml/yaml.contribution.js';
 
-(window as any).MonacoEnvironment = {
-  getWorkerUrl: function(moduleId, label) {
-    console.log('called')
-    // if (label === 'json') {
-    // 	return './json.worker.bundle.js';
-    // }
-    // if (label === 'css') {
-    // 	return './css.worker.bundle.js';
-    // }
-    // if (label === 'html') {
-    // 	return './html.worker.bundle.js';
-    // }
-    // if (label === 'typescript' || label === 'javascript') {
-    // 	return './ts.worker.bundle.js';
-    // }
-    return './editor.worker.js'
-  },
-}
-
 
 export class EditorComponent extends React.Component<Props, State> {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -121,36 +104,99 @@ export class EditorComponent extends React.Component<Props, State> {
 
     return {src, modified}
   }
+
   readonly state = {
     mount   : false,
     src     : 'invalid JSON',
     modified: 'invalid JSON',
+    dirty: false,
+    expend: false
   }
   private editor
 
   render() {
-    if (!this.state.mount) {
+    const {dirty, expend, mount} = this.state
+    if (!mount) {
       return null
     }
-    return <div style={{height: '200px'}}/>
+    return (
+      <div style={{width: '800px', height: '200px'}}>
+        <label className="pt-label pt-inline" style={{marginTop: '10px', marginBottom: 0}}>
+          write valid JSON(Schema|Schema[]), collection will create multiple rows
+        </label>
+        <button
+            className={classnames('pt-button pt-icon-confirm pt-minimal', {'pt-intent-success': dirty})}
+            onClick={this.handleApplyChanges}
+            disabled={!dirty}
+          />
+          <button
+            type="button"
+            className={classnames('pt-button pt-minimal', {
+              'pt-intent-success': !expend,
+              'pt-icon-maximize' : !expend,
+              'pt-intent-danger' : expend,
+              'pt-icon-minimize' : expend,
+            })}
+            onClick={this.handleSize}
+          />
+      </div>
+    )
   }
 
   componentDidMount() {
     this.setState({mount: true}, () => {
-      this.editor = monaco.editor.createDiffEditor(findDOMNode(this), {theme: 'vs-dark'})
-      this.editor.setModel({
-        original: monaco.editor.createModel(this.state.src, 'json'),
-        modified: monaco.editor.createModel(this.state.modified, 'json'),
-      })
-      this.editor.onDidChangeContent = ({changes}) => {
-        console.log(changes)
+      if (this.props.diff) {
+        this.editor = monaco.editor.createDiffEditor(findDOMNode(this), {theme: 'vs-dark'})
+        this.editor.setModel({
+          original: monaco.editor.createModel(this.state.src, 'json'),
+          modified: monaco.editor.createModel(this.state.modified, 'json'),
+        })
+        //fixme: below
+        this.editor.onDidChangeContent = ({changes}) => {
+          console.log(changes)
+        }
+      } else {
+        this.editor = monaco.editor.create(findDOMNode(this), {theme: 'vs-dark'}, {
+          language: 'json',
+          value   : this.state.src,
+        })
+        this.editor.onDidChangeModelContent((a) => {
+          console.log(this.editor)
+          console.table(a.changes)
+        })
       }
     })
   }
+
+  handleApplyChanges = () => {
+    this.props.onEdit(this.props.src, this.state.src)
+    this.setState({dirty: false})
+  }
+  handleEdit = (data) => {
+    console.log('handleEdit', data)
+    // if (data.existing_value !== data.new_value) {
+    //   this.setState({dirty: true, src: data.updated_src})
+    // }
+  }
+
+  handleSize = () => {
+    this.setState({expend: !this.state.expend})
+  }
+}
+
+(window as any).MonacoEnvironment = {
+  getWorkerUrl(moduleId, label) {
+    return './editor.worker.js'
+  },
 }
 
 interface Props {
+  diff?: boolean
   src: object | any[]
+  onEdit?(prev, next): void
 }
 interface State {
+  expend: boolean
+  dirty: boolean
+  mount: boolean
 }

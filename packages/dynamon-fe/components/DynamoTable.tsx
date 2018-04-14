@@ -6,6 +6,7 @@ import {JsonComponent} from './Json'
 import {connect} from 'react-redux'
 import {RootState} from '../redux'
 import {Actions, actions} from '../../dynamon-redux-actions'
+import {EditorComponent} from './Editor'
 
 export class DynamoTableComponent extends React.Component<Props, State> {
   static getDerivedStateFromProps(nextProps: Props, _) {
@@ -13,14 +14,16 @@ export class DynamoTableComponent extends React.Component<Props, State> {
       return {
         keys: nextProps.table.KeySchema
           .sort((p, c) => p.KeyType === 'HASH_KEY' ? 1 : 0)
-          .map(key => key.AttributeName)
+          .map(key => key.AttributeName),
       }
     }
     return null
   }
+
   readonly state = {
-    keys: []
+    keys: [],
   }
+
   render() {
     const {table, records, onItemSelected, onRefresh} = this.props
 
@@ -39,6 +42,12 @@ export class DynamoTableComponent extends React.Component<Props, State> {
                 }, {})}
                 onEdit={this.handleOnEdit}
               />
+            </Popover>
+          )}
+          {table && (
+            <Popover>
+              <button className="pt-button pt-icon-add-to-artifact pt-intent-primary pt-inline pt-minimal"/>
+              <EditorComponent src={[]}/>
             </Popover>
           )}
           <button
