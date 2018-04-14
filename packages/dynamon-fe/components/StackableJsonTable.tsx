@@ -33,7 +33,6 @@ export class StackableJsonTableComponent extends React.Component<Props, State> {
   }
 
   handleOnItemSelected = (item = this.props.collection) => {
-    console.log('selected', item)
     return this.props.onItemSelect(item)
   }
 
