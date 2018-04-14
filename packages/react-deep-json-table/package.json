@@ -1,6 +1,6 @@
 {
   "name": "react-deep-json-table",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "deep json table",
   "main": "dist/index.js",
   "repository": "https://github.com/deptno/dynamon.git",

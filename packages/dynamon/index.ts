@@ -66,5 +66,6 @@ function createWindow() {
     }
   ]
 
+  mainWindow.openDevTools()
   Menu.setApplicationMenu(Menu.buildFromTemplate(template))
 }

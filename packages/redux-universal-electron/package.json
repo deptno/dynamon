@@ -1,6 +1,6 @@
 {
   "name": "redux-universal-electron",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "redux universal electron middleware",
   "keywords": ["redux", "universal", "electron", "middleware"],
   "main": "index.js",
