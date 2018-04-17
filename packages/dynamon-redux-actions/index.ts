@@ -32,6 +32,7 @@ export const actions = {
   readEndpoints: () => action(true, ActionTypes.READ_ENDPOINTS),
   readTables   : (endpoint: Endpoint) => action(true, ActionTypes.READ_TABLES, endpoint),
   readTable    : (tableName: string) => action(true, ActionTypes.READ_TABLE, tableName),
+  createRecords: (tableName: string, records: any[]) => action(true, ActionTypes.CREATE_RECORDS, {tableName, records}),
   readRecords  : (tableName: string) => action(true, ActionTypes.READ_RECORDS, tableName),
   createRecord : (tableName: string, record: any) => action(true, ActionTypes.CREATE_RECORD, {tableName, record}),
   updateRecord : (tableName: string, record: any) => action(true, ActionTypes.UPDATE_RECORD, {tableName, record}),
@@ -42,8 +43,10 @@ export const responseActions = {
   readEndpoints: (endpoints: Endpoint[]) => responseAction(ActionTypes.READ_ENDPOINTS, endpoints),
   readTables   : (tables: TableDescription[]) => responseAction(ActionTypes.READ_TABLES, tables),
   readTable    : (table: TableDescription) => responseAction(ActionTypes.READ_TABLE, table),
+  createRecords: (result) => action(true, ActionTypes.CREATE_RECORDS, result),
   readRecords  : (records: any[]) => responseAction(ActionTypes.READ_RECORDS, records),
   updateRecord : (record: any) => responseAction(ActionTypes.UPDATE_RECORD, record),
+  deleteRecord : () => responseAction(ActionTypes.DELETE_RECORD),
 }
 
 /*

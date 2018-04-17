@@ -5,9 +5,8 @@ export function createUniversalElectronMw(ipc: any, channel: string): Middleware
   const universal = store => next => action => {
     const {universal, ...a} = action
 
-    console.log(action)
     if (universal) {
-      const _ = handleResponse(store, action)
+      return handleResponse(store, action)
     }
 
     return next(a)
@@ -15,8 +14,8 @@ export function createUniversalElectronMw(ipc: any, channel: string): Middleware
     //
     async function handleResponse(store, action) {
       const actionFromServer = await send(action)
-      console.log('actionFromServer', actionFromServer)
       store.dispatch(actionFromServer)
+      return
     }
   }
 
@@ -37,7 +36,7 @@ export function createUniversalElectronMw(ipc: any, channel: string): Middleware
       }
     })
 
-    return action =>
+    return action => ((window as any).ggg =
       new Promise(resolve => {
         ipc.send(channel, action)
         queue.push({
@@ -45,5 +44,6 @@ export function createUniversalElectronMw(ipc: any, channel: string): Middleware
           resolve,
         })
       })
+    )
   }
 }

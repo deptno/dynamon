@@ -66,6 +66,17 @@ export class DynamonDbTable {
       .promise()
   }
 
+  async puts(TableName, Items) {
+    DynamonDbTable.setLatestAccessedTable(this)
+    return this.docClient
+      .batchWrite({
+        RequestItems: {
+          [TableName]: Items.map(Item => ({PutRequest: {Item}})),
+        },
+      })
+      .promise()
+  }
+
   async put(TableName, Item) {
     DynamonDbTable.setLatestAccessedTable(this)
     console.log('put', TableName, Item)
@@ -73,6 +84,7 @@ export class DynamonDbTable {
       .put({TableName, Item})
       .promise()
   }
+
   async delete(TableName, Key) {
     DynamonDbTable.setLatestAccessedTable(this)
     console.log('delete', {TableName, Key})

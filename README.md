@@ -1,13 +1,15 @@
+# Dynamon. DynamoDB GUI client
+
 ![Logo](packages/dynamon/assets/dynamon.png) [![CircleCI](https://circleci.com/gh/deptno/dynamon.svg?style=svg)](https://circleci.com/gh/deptno/dynamon)
 
-Dynamon is GUI client for DynamoDB, [:kr: Blog](https://medium.com/@deptno/dynamon-gui-dynamodb-client-2827d60d406f)[Post(소개글)](https://medium.com/p/dynamon-gui-dynamodb-client-2827d60d406f)
+Dynamon is GUI client for DynamoDB, [:kr: Blog Post(소개글)](https://medium.com/p/dynamon-gui-dynamodb-client-2827d60d406f)
 
 ---
 
 > unstable (under development)
 
 [![](https://user-images.githubusercontent.com/1223020/38453064-7a2d421c-3a8a-11e8-821f-c607fff85642.png)](https://www.youtube.com/watch?v=UI9xyrAKAg0&feature=youtu.be)
-:eyes: Click to watch
+:eyes: Click to watch screenshot
 
 checkout development version <https://github.com/deptno/dynamon/releases>
 
@@ -42,18 +44,29 @@ yarn dev
     * [ ] Edit Table
     * [ ] Delete Table
   * Record
+    * [x] Add multiple records
     * [x] Add record
     * [x] Edit record
     * [x] Delete record
 
 ## changelog
 
+##### 0.1.5
+
+* Features
+
+  * Add multiple rows
+  * Refresh after operations
+
+* Bug fixes
+  * redux-universal-electron didn't return promise correctly
+
 ##### 0.1.4
 
 * Features
 
-  * [x] Delete record(right click via row header)
-  * [x] Move key properties to front
+  * Delete record(right click via row header)
+  * Move key properties to front
 
 * Miscellaneous
   * support CI
