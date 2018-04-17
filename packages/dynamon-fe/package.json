@@ -18,7 +18,7 @@
   "scripts": {
     "dev": "yarn build:editor && parcel index.html --no-autoinstall",
     "build:editor": "parcel build ../../node_modules/monaco-editor/esm/vs/editor/editor.worker.js",
-    "build": "yarn build:editor && jparcel build index.html --public-url ./ --out-dir ../dynamon/client"
+    "build": "yarn build:editor && parcel build index.html --public-url ./ --out-dir ../dynamon/client"
   },
   "dependencies": {
     "@blueprintjs/core": "^2.0.1",
