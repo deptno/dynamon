@@ -47,7 +47,9 @@ export class DynamoTableComponent extends React.Component<Props, State> {
           {table && (
             <Popover>
               <button className="pt-button pt-icon-add-to-artifact pt-intent-primary pt-inline pt-minimal"/>
-              <EditorComponent src={[]}/>
+              <EditorComponent schema={table.KeySchema} onEdit={(a) => {
+                console.table(a)
+              }}/>
             </Popover>
           )}
           <button
