@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {findDOMNode} from 'react-dom'
 import classnames from 'classnames'
-
 // (1) Desired editor features:
 import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands.js'
 // import 'monaco-editor/esm/vs/editor/browser/widget/codeEditorWidget.js';
@@ -77,6 +76,8 @@ import 'monaco-editor/esm/vs/language/json/monaco.contribution'
 // import 'monaco-editor/esm/vs/basic-languages/powershell/powershell.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/pug/pug.contribution.js';
 import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js'
+import {validate} from '../lib/validator'
+import {KeySchema} from 'aws-sdk/clients/dynamodb'
 // import 'monaco-editor/esm/vs/basic-languages/r/r.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/razor/razor.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/redis/redis.contribution.js';
@@ -90,7 +91,7 @@ import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js'
 // import 'monaco-editor/esm/vs/basic-languages/vb/vb.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/xml/xml.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/yaml/yaml.contribution.js';
-
+import * as dTypes from 'dynamodb-data-types'
 
 export class EditorComponent extends React.Component<Props, State> {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -106,81 +107,58 @@ export class EditorComponent extends React.Component<Props, State> {
   }
 
   readonly state = {
-    mount   : false,
-    src     : 'invalid JSON',
-    modified: 'invalid JSON',
-    dirty: false,
-    expend: false
+    mount: false,
+    valid: false,
   }
   private editor
 
   render() {
-    const {dirty, expend, mount} = this.state
+    const {valid, mount} = this.state
     if (!mount) {
       return null
     }
     return (
-      <div style={{width: '800px', height: '200px'}}>
+      <div style={{width: '600px', height: '600px'}}>
         <label className="pt-label pt-inline" style={{marginTop: '10px', marginBottom: 0}}>
-          write valid JSON(Schema|Schema[]), collection will create multiple rows
+          Write valid JSON(Schema|Schema[]), collection will create multiple rows
         </label>
         <button
-            className={classnames('pt-button pt-icon-confirm pt-minimal', {'pt-intent-success': dirty})}
-            onClick={this.handleApplyChanges}
-            disabled={!dirty}
-          />
-          <button
-            type="button"
-            className={classnames('pt-button pt-minimal', {
-              'pt-intent-success': !expend,
-              'pt-icon-maximize' : !expend,
-              'pt-intent-danger' : expend,
-              'pt-icon-minimize' : expend,
-            })}
-            onClick={this.handleSize}
-          />
+          className={classnames('pt-button pt-icon-confirm pt-minimal', {'pt-intent-success': valid})}
+          onClick={this.handleApplyChanges}
+          disabled={!valid}
+        />
       </div>
     )
   }
 
   componentDidMount() {
     this.setState({mount: true}, () => {
-      if (this.props.diff) {
-        this.editor = monaco.editor.createDiffEditor(findDOMNode(this), {theme: 'vs-dark'})
-        this.editor.setModel({
-          original: monaco.editor.createModel(this.state.src, 'json'),
-          modified: monaco.editor.createModel(this.state.modified, 'json'),
-        })
-        //fixme: below
-        this.editor.onDidChangeContent = ({changes}) => {
-          console.log(changes)
+      this.editor = monaco.editor.create(findDOMNode(this), {
+        theme   : 'vs-dark',
+        language: 'json',
+        value   : [
+          '[',
+          '  {',
+          this.props.schema
+            .map(key => `    "${key.AttributeName}": null`)
+            .join(',\n'),
+          '  }',
+          ']',
+        ].join('\n'),
+      })
+      this.editor.onDidChangeModelContent((a) => {
+        const value = this.editor.getValue()
+        const valid = validate(value)
+
+        if (valid !== this.state.valid) {
+          this.setState({valid})
         }
-      } else {
-        this.editor = monaco.editor.create(findDOMNode(this), {theme: 'vs-dark'}, {
-          language: 'json',
-          value   : this.state.src,
-        })
-        this.editor.onDidChangeModelContent((a) => {
-          console.log(this.editor)
-          console.table(a.changes)
-        })
-      }
+      })
     })
   }
 
   handleApplyChanges = () => {
-    this.props.onEdit(this.props.src, this.state.src)
-    this.setState({dirty: false})
-  }
-  handleEdit = (data) => {
-    console.log('handleEdit', data)
-    // if (data.existing_value !== data.new_value) {
-    //   this.setState({dirty: true, src: data.updated_src})
-    // }
-  }
-
-  handleSize = () => {
-    this.setState({expend: !this.state.expend})
+    this.props.onEdit(JSON.parse(this.editor.getValue()))
   }
 }
 
@@ -191,12 +169,10 @@ export class EditorComponent extends React.Component<Props, State> {
 }
 
 interface Props {
-  diff?: boolean
-  src: object | any[]
-  onEdit?(prev, next): void
+  schema: KeySchema
+  onEdit?(json: object | any[]): void
 }
 interface State {
-  expend: boolean
-  dirty: boolean
   mount: boolean
+  valid: boolean
 }
