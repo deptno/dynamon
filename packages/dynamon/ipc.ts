@@ -57,6 +57,12 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action: Actio
     //   break
     // }
 
+    case ActionTypes.CREATE_RECORDS: {
+      const table = DynamonDbTable.getLatestAccessedTable()
+      const result = await table.puts(table.name(), action.payload.records)
+      response(responseActions.createRecords(result))
+      break
+    }
     case ActionTypes.READ_RECORDS: {
       const tables = await dynamon.tables()
       const table = tables.find(table => table.name() === action.payload)
@@ -89,9 +95,8 @@ export async function ipcHandler(db: Promise<DbControl>, {sender}, action: Actio
         await table.delete(table.name(), Key)
       } catch (ex) {
       } finally {
-        response(responseActions.updateRecord(null))
+        response(responseActions.deleteRecord())
       }
-      console.log('delete record', action.payload)
       break
     }
     default:

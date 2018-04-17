@@ -2172,10 +2172,6 @@ duplexer@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
 
-dynamodb-data-types@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/dynamodb-data-types/-/dynamodb-data-types-3.0.1.tgz#5568531574ce2e190bc27cc3a5895fbf37aefca5"
-
 dynamodb-localhost@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/dynamodb-localhost/-/dynamodb-localhost-0.0.5.tgz#2dfcd5c0ac83e534327f5d5da5dada8d31310755"

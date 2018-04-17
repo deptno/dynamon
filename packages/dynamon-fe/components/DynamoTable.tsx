@@ -47,9 +47,7 @@ export class DynamoTableComponent extends React.Component<Props, State> {
           {table && (
             <Popover>
               <button className="pt-button pt-icon-add-to-artifact pt-intent-primary pt-inline pt-minimal"/>
-              <EditorComponent schema={table.KeySchema} onEdit={(a) => {
-                console.table(a)
-              }}/>
+              <EditorComponent schema={table.KeySchema} onSave={this.writeRows}/>
             </Popover>
           )}
           <button
@@ -81,6 +79,11 @@ export class DynamoTableComponent extends React.Component<Props, State> {
   }
   handleOnItemDelete = async item => {
     await this.props.deleteRecord(item)
+    this.props.readRecords(this.props.table.TableName)
+  }
+  writeRows = async data => {
+    const records = Array.isArray(data) ? data : [data]
+    await this.props.createRecords(this.props.table.TableName, records)
     this.props.readRecords(this.props.table.TableName)
   }
 }

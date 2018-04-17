@@ -9,10 +9,7 @@ export class TableDescriptionComponent extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState) => {
-  console.log('state', state)
-  return state
-}
+const mapStateToProps = (state: RootState) => state
 const mapDispatchToProps = {}
 export const TableDescription = connect<StateProps, DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps)(TableDescriptionComponent)
 
