@@ -38,7 +38,7 @@ export class EditorComponent extends React.Component<Props, State> {
     }
     return (
       <div style={{width: '600px', height: '600px'}}>
-        <label className="pt-label pt-inline" style={{marginTop: '10px', marginBottom: 0}}>
+        <label className="bp3-label bp3-inline" style={{marginTop: '10px', marginBottom: 0}}>
           Write valid JSON(Schema|Schema[]), collection will create multiple rows
         </label>
         <Menu>

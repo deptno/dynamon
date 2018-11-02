@@ -26,6 +26,5 @@ module.exports = withTypescript(
       })
       return config
     },
-    cssModules: true,
   }),
 )

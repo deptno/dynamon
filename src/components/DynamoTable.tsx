@@ -29,11 +29,11 @@ export class DynamoTableComponent extends React.Component<Props, State> {
 
     return (
       <div>
-        <label className="pt-label pt-inline">
+        <label className="bp3-label bp3-inline">
           Records
           {table && (
             <Popover>
-              <button className="pt-button pt-icon-add pt-intent-primary pt-inline pt-minimal"/>
+              <button className="bp3-button bp3-icon-add bp3-intent-primary bp3-inline bp3-minimal"/>
               <JsonComponent
                 title="Add record"
                 src={table.KeySchema.reduce((p, c) => {
@@ -46,13 +46,13 @@ export class DynamoTableComponent extends React.Component<Props, State> {
           )}
           {table && (
             <Popover>
-              <button className="pt-button pt-icon-add-to-artifact pt-intent-primary pt-inline pt-minimal"/>
+              <button className="bp3-button bp3-icon-add-to-artifact bp3-intent-primary bp3-inline bp3-minimal"/>
               <EditorComponent schema={table.KeySchema} onSave={this.writeRows}/>
             </Popover>
           )}
           <button
             onClick={onRefresh}
-            className="pt-button pt-icon-refresh pt-intent-danger pt-inline pt-minimal"
+            className="bp3-button bp3-icon-refresh bp3-intent-danger bp3-inline bp3-minimal"
             disabled={!records}
           />
         </label>

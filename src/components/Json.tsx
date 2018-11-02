@@ -27,20 +27,20 @@ export class JsonComponent extends React.Component<Props, State> {
 
     return (
       <div style={expend ? {} : {maxHeight: '300px', overflow: 'scroll'}}>
-        <label className="pt-label pt-inline" style={{marginTop: '10px', marginBottom: 0}}>
+        <label className="bp3-label bp3-inline" style={{marginTop: '10px', marginBottom: 0}}>
           {this.props.title}
           <button
-            className={classnames('pt-button pt-icon-confirm pt-minimal', {'pt-intent-success': dirty})}
+            className={classnames('bp3-button bp3-icon-confirm bp3-minimal', {'bp3-intent-success': dirty})}
             onClick={this.handleApplyChanges}
             disabled={!dirty}
           />
           <button
             type="button"
-            className={classnames('pt-button pt-minimal', {
-              'pt-intent-success': !expend,
-              'pt-icon-maximize' : !expend,
-              'pt-intent-danger' : expend,
-              'pt-icon-minimize' : expend,
+            className={classnames('bp3-button bp3-minimal', {
+              'bp3-intent-success': !expend,
+              'bp3-icon-maximize' : !expend,
+              'bp3-intent-danger' : expend,
+              'bp3-icon-minimize' : expend,
             })}
             onClick={this.handleSize}
           />

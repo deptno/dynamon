@@ -3,20 +3,16 @@ import {Header} from './Header'
 import {Footer} from './Footer'
 import Head from 'next/head'
 import 'normalize.css/normalize.css'
-import css from './Layout.css'
+import '@blueprintjs/core/lib/css/blueprint.css'
+import '@blueprintjs/icons/lib/css/blueprint-icons.css'
 
-export class Layout extends React.Component<{}, {}> {
-  render() {
-    const {children} = this.props
-    return (
-      <div id="layout" className={css.layout}>
-        <Head/>
-        <Header/>
-        <main>
-          {children}
-        </main>
-        <Footer/>
-      </div>
-    )
-  }
-}
+export const Layout = props => (
+  <div id="layout" className={'bp3-dark'} style={{backgroundColor: 'rgb(55,72,87)'}}>
+    <Head/>
+    <Header/>
+    <main>
+      {props.children}
+    </main>
+    <Footer/>
+  </div>
+)

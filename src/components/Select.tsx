@@ -19,9 +19,9 @@ export class SelectComponent extends React.Component<Props, State> {
     const {title, description, disabled, children, onZoom} = this.props
     return (
       <div>
-        <label className="pt-label pt-inline">
+        <label className="bp3-label bp3-inline">
           {title}
-          <div className="pt-select">
+          <div className="bp3-select">
             <select
               onChange={this.handleChange}
               defaultValue={this.props.default}
@@ -35,14 +35,14 @@ export class SelectComponent extends React.Component<Props, State> {
             </select>
           </div>
         </label>
-        <div className="pt-button-group pt-align-right pt-minimal">
-          <button type="button" className="pt-button pt-icon-add pt-intent-success"/>
-          <button type="button" className="pt-button pt-icon-refresh pt-intent-danger pt-inline"/>
+        <div className="bp3-button-group bp3-align-right bp3-minimal">
+          <button type="button" className="bp3-button bp3-icon-add bp3-intent-success"/>
+          <button type="button" className="bp3-button bp3-icon-refresh bp3-intent-danger bp3-inline"/>
           {this.state.selected && onZoom && (
             <Popover content={<TableDescription name={this.state.selected}/>}>
               <button
                 type="button"
-                className="pt-button pt-icon-zoom-in pt-intent-primary pt-inline"
+                className="bp3-button bp3-icon-zoom-in bp3-intent-primary bp3-inline"
               />
             </Popover>
           )}

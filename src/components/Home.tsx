@@ -19,7 +19,7 @@ export class HomeComponent extends React.Component<Props, State> {
     return (
       <div>
         <LinksComponent/>
-        <div className="pt-control-group pt-fill">
+        <div className="bp3-control-group bp3-fill">
           <SelectComponent
             title="Endpoint"
             description={loadingEndpoints ? 'Built-in DynamoDB initializing...' : `Select endpoint from ${endpoints.length} endpoints`}
@@ -40,7 +40,7 @@ export class HomeComponent extends React.Component<Props, State> {
           </SelectComponent>
         </div>
         <JsonComponent src={this.state.json} onEdit={this.handleJsonEdit}/>
-        <DynamoTable onItemSelected={this.handleOnItemSelected} onRefresh={this.handleOnRefreshRecords}/>
+        {/*<DynamoTable onItemSelected={this.handleOnItemSelected} onRefresh={this.handleOnRefreshRecords}/>*/}
       </div>
     )
   }
