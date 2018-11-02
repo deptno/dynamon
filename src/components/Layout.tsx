@@ -5,6 +5,7 @@ import Head from 'next/head'
 import 'normalize.css/normalize.css'
 import '@blueprintjs/core/lib/css/blueprint.css'
 import '@blueprintjs/icons/lib/css/blueprint-icons.css'
+import 'tachyons/css/tachyons.min.css'
 
 export const Layout = props => (
   <div id="layout" className={'bp3-dark'} style={{backgroundColor: 'rgb(55,72,87)'}}>

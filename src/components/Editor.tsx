@@ -11,8 +11,7 @@ import {validate} from '../lib/validator'
 import {KeySchema} from 'aws-sdk/clients/dynamodb'
 import {Intent, Menu, MenuItem} from '@blueprintjs/core'
 
-
-export class EditorComponent extends React.Component<Props, State> {
+export default class EditorComponent extends React.Component<Props, State> {
   static getDerivedStateFromProps(nextProps, prevState) {
     let src, modified: string
 

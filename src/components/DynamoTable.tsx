@@ -6,7 +6,9 @@ import {JsonComponent} from './Json'
 import {connect} from 'react-redux'
 import {RootState} from '../redux'
 import {Actions, actions} from '../redux/dynamon'
-import {EditorComponent} from './Editor'
+import dynamic from 'next/dynamic'
+
+const Editor = dynamic(() => import('./Editor'), {ssr: false})
 
 export class DynamoTableComponent extends React.Component<Props, State> {
   static getDerivedStateFromProps(nextProps: Props, _) {
@@ -47,7 +49,7 @@ export class DynamoTableComponent extends React.Component<Props, State> {
           {table && (
             <Popover>
               <button className="bp3-button bp3-icon-add-to-artifact bp3-intent-primary bp3-inline bp3-minimal"/>
-              <EditorComponent schema={table.KeySchema} onSave={this.writeRows}/>
+              <Editor schema={table.KeySchema} onSave={this.writeRows}/>
             </Popover>
           )}
           <button
