@@ -4,7 +4,6 @@ import {RootState} from '../redux'
 import {SelectComponent} from './Select'
 import {JsonComponent} from './Json'
 import {DynamoTable} from './DynamoTable'
-import {LinksComponent} from './Links'
 import {actions, Actions} from '../redux/dynamon'
 
 export class HomeComponent extends React.Component<Props, State> {
