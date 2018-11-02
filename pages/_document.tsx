@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import Document, {Head, Main, NextScript} from 'next/document'
 import {
   DEV, FB_TRACKING_ID, SENTRY_TRACKING_ID, SITE_DESCRIPTION, SITE_IMAGE,

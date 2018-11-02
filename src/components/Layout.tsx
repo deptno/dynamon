@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import {Header} from './Header'
 import {Footer} from './Footer'
 import Head from 'next/head'
@@ -8,7 +8,7 @@ import '@blueprintjs/icons/lib/css/blueprint-icons.css'
 import 'tachyons/css/tachyons.min.css'
 
 export const Layout = props => (
-  <div id="layout" className={'bp3-dark'} style={{backgroundColor: 'rgb(55,72,87)'}}>
+  <div id="layout" className={'bp3-dark pa2'} style={{backgroundColor: 'rgb(55,72,87)'}}>
     <Head/>
     <Header/>
     <main>

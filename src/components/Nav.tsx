@@ -1,5 +1,4 @@
-import * as React from 'react'
-import Link from 'next/link'
+import React from 'react'
 
 export const Nav = props =>
   <nav>

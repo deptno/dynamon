@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import {RowComponent} from './Row'
 
 export class DeepJsonTableComponent<P, S extends State> extends React.Component<Props & P, S> {

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 
 export const TableStateDescription: React.SFC<Props> = props =>
   <div className="bp3-non-ideal-state" style={{marginTop: '45px'}}>

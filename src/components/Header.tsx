@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import {Nav} from './Nav'
 
 export class Header extends React.Component<{}, {}> {

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import {DeepJsonTableComponent} from './DeepJsonTable'
 import {RowModel} from './Row'
 import {Cell, Column, ColumnHeaderCell, RegionCardinality, RowHeaderCell, Table} from '@blueprintjs/table'

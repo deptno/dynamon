@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
 import {RootState} from '../redux'
 import {SelectComponent} from './Select'
@@ -18,7 +18,6 @@ export class HomeComponent extends React.Component<Props, State> {
     const countTables = tables.length
     return (
       <div>
-        <LinksComponent/>
         <div className="bp3-control-group bp3-fill">
           <SelectComponent
             title="Endpoint"

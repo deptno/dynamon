@@ -1,5 +1,5 @@
 import 'isomorphic-fetch'
-import * as React from 'react'
+import React from 'react'
 import {Provider} from 'react-redux'
 import App, {Container} from 'next/app'
 import {getStore} from '../src/store'

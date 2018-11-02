@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import {JSONFormat} from '@blueprintjs/table'
 
 export class RowComponent extends React.Component<Props, State> {

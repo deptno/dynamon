@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import {StackableJsonTableComponent} from './StackableJsonTable'
 import {Popover} from '@blueprintjs/core'
 import {TableStateDescription} from './TableStateDescription'
