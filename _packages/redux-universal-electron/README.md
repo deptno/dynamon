@@ -8,5 +8,5 @@ see blog screenshot
 
 ##### 0.1.5
 
-* Bug fixes
-  * redux-universal-electron didn't return promise correctly
+- Bug fixes
+  - redux-universal-electron didn't return promise correctly

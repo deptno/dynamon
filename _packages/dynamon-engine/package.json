@@ -24,12 +24,28 @@
     "aws-sdk": "^2.218.1"
   },
   "jest": {
-    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testMatch": ["**/*.(test|spec).(ts|tsx)"],
-    "coveragePathIgnorePatterns": ["/node_modules/", "/out/", "/dist/", "/.*/"],
-    "coverageReporters": ["json", "lcov", "text", "text-summary"]
+    "testMatch": [
+      "**/*.(test|spec).(ts|tsx)"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/out/",
+      "/dist/",
+      "/.*/"
+    ],
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "text-summary"
+    ]
   }
 }

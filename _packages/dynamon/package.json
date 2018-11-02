@@ -33,7 +33,11 @@
     "mac": {
       "category": "public.app-category.developer-tools",
       "compression": "store",
-      "files": ["!builds/*", "!*.log", "!**/*.ts"]
+      "files": [
+        "!builds/*",
+        "!*.log",
+        "!**/*.ts"
+      ]
     }
   }
 }

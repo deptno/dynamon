@@ -1,25 +1,96 @@
 {
   "name": "dynamon",
-  "version": "0.1.5",
-  "description": "dynamodb GUI client",
+  "version": "0.2.0",
+  "description": "Dynamodb GUI client",
   "repository": "https://github.com/deptno/dynamon.git",
   "author": "Bonggyun Lee <deptno@gmail.com>",
   "license": "Apache 2.0",
-  "private": true,
-  "workspaces": ["packages/*"],
   "scripts": {
-    "dev": "yarn workspace dynamon-fe dev & yarn workspace dynamon dev && kill -9 $(lsof -ti:1234)",
-    "pack": "yarn workspace dynamon-fe build && yarn workspace dynamon pack && open ./packages/dynamon/dist",
-    "release": "yarn workspace dynamon-fe build && yarn workspace dynamon dist && open ./packages/dynamon/dist",
+    "start": "next",
     "precommit": "lint-staged",
-    "check:syntax": "tsc --noEmit"
+    "syntax": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{js,json,css,md}": ["prettier --write", "git add"]
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "@blueprintjs/core": "^3.7.0",
+    "@blueprintjs/table": "^3.2.0",
+    "classnames": "^2.2.6",
+    "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.22.2",
+    "monaco-editor": "^0.14.3",
+    "next": "^7.0.2",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-ga": "^2.5.3",
+    "react-json-view": "^1.19.1",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^4.9.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.6",
+    "@types/enzyme": "^3.1.10",
+    "@types/enzyme-adapter-react-16": "^1.0.2",
+    "@types/jest": "^23.3.3",
+    "@types/node": "^8.10.14",
+    "@types/react": "^16.3.14",
+    "@types/react-redux": "^6.0.0",
+    "@zeit/next-css": "^1.0.1",
+    "@zeit/next-typescript": "^1.1.1",
+    "aws-sdk": "^2.346.0",
+    "babel-loader": "^8.0.4",
+    "babel-plugin-transform-define": "^1.3.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "jest": "^23.6.0",
+    "postcss": "^7.0.5",
+    "postcss-preset-env": "^6.3.0",
+    "ts-jest": "^23.10.4",
+    "typescript": "^3.1.5",
+    "webpack-bundle-analyzer": "^3.0.2",
     "husky": "^0.14.3",
     "lint-staged": "^7.0.2",
     "prettier": "^1.11.1"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testMatch": [
+      "**/*.(test|spec).(ts|tsx)"
+    ],
+    "globals": {
+      "ts-jest": {
+        "babelConfig": true,
+        "tsConfig": "jest.tsconfig.json"
+      }
+    },
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "enzyme.js"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/enzyme.js",
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "text-summary"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/mocks.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/mocks.js"
+    }
   }
 }

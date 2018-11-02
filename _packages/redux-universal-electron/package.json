@@ -2,7 +2,12 @@
   "name": "redux-universal-electron",
   "version": "0.1.5",
   "description": "redux universal electron middleware",
-  "keywords": ["redux", "universal", "electron", "middleware"],
+  "keywords": [
+    "redux",
+    "universal",
+    "electron",
+    "middleware"
+  ],
   "main": "index.js",
   "repository": "https://github.com/deptno/dynamon.git",
   "author": "Bonggyun Lee <deptno@gmail.com>",
