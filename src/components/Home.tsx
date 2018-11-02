@@ -40,7 +40,7 @@ export class HomeComponent extends React.Component<Props, State> {
           </SelectComponent>
         </div>
         <JsonComponent src={this.state.json} onEdit={this.handleJsonEdit}/>
-        {/*<DynamoTable onItemSelected={this.handleOnItemSelected} onRefresh={this.handleOnRefreshRecords}/>*/}
+        <DynamoTable onItemSelected={this.handleOnItemSelected} onRefresh={this.handleOnRefreshRecords}/>
       </div>
     )
   }

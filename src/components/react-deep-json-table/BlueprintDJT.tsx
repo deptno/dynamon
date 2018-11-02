@@ -4,7 +4,7 @@ import {RowModel} from './Row'
 import {Cell, Column, ColumnHeaderCell, RegionCardinality, RowHeaderCell, Table} from '@blueprintjs/table'
 import {Button, ButtonGroup, Menu, MenuItem} from '@blueprintjs/core'
 import '@blueprintjs/core/lib/css/blueprint.css'
-//import '@blueprintjs/icons/lib/css/blueprint-icons.css'
+import '@blueprintjs/icons/lib/css/blueprint-icons.css'
 import '@blueprintjs/table/lib/css/table.css'
 
 export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> {

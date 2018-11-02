@@ -1,4 +1,6 @@
 :root {
   --colorPrimary: #0057ac;
   --colorSecondary: #fedf00;
+  --colorDefault: white;
+  --colorBg: rgb(55, 72, 87);
 }

@@ -1,0 +1,6 @@
+@import 'Color.css';
+
+.layout {
+  color: var(--colorDefault);
+  background: var(--colorBg);
+}
