@@ -1,19 +1,14 @@
-const withTypescript = require('@zeit/next-typescript')
-const withCSS = require('@zeit/next-css')
-const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer')
-
-module.exports = withTypescript(
-  withCSS({
+var __importDefault =
+  (this && this.__importDefault) ||
+  function(mod) {
+    return mod && mod.__esModule ? mod : {default: mod}
+  }
+Object.defineProperty(exports, '__esModule', {value: true})
+const next_typescript_1 = __importDefault(require('@zeit/next-typescript'))
+const next_css_1 = __importDefault(require('@zeit/next-css'))
+module = next_typescript_1.default(
+  next_css_1.default({
     webpack(config) {
-      if (process.env.ANALYZE) {
-        config.plugins.push(
-          new BundleAnalyzerPlugin({
-            analyzerMode: 'server',
-            analyzerPort: 8888,
-            openAnalyzer: true,
-          }),
-        )
-      }
       config.module.rules.push({
         test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif)$/,
         use: {

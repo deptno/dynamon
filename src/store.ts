@@ -5,6 +5,15 @@ import thunk from 'redux-thunk'
 import {createLogger} from 'redux-logger';
 import {persistStore, autoRehydrate} from 'redux-persist'
 import {session} from './redux/system'
+import {createUniversalElectronMw} from './redux/_mw/universal'
+
+declare const rpc
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    __REACT_DEVTOOLS_GLOBAL_HOOK__
+  }
+}
 
 let store
 
@@ -15,7 +24,8 @@ export const getStore = (state, isServer?): Store<RootState> => {
     const composeEnhancers = DEV && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
     if (!store) {
-      const mw = [thunk]
+      const universal = createUniversalElectronMw(rpc, 'action')
+      const mw = [thunk, universal]
       if (!DEV) {
         if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
           window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () {}
