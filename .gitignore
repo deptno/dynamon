@@ -4,11 +4,9 @@
 out
 dist
 build
-**/*.js?
+**/*.js
+**/*.jsx
 **/*.map
-src/**/*.js
-src/**/*.map
-src/**/*.jsx
 logs
 *.log
 npm-debug.log*

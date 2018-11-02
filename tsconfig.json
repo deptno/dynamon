@@ -8,6 +8,5 @@
     "noImplicitUseStrict": true,
     "removeComments": true,
     "esModuleInterop": true
-  },
-  "include": []
+  }
 }

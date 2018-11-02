@@ -1,8 +1,11 @@
 import withTypescript from '@zeit/next-typescript'
 import withCSS from '@zeit/next-css'
 
-module = withTypescript(
-  withCSS({
+console.log(withTypescript, withCSS)
+module =
+  withCSS(
+    withTypescript(
+    {
     webpack(config) {
       config.module.rules.push({
         test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif)$/,

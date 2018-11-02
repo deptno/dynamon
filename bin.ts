@@ -11,6 +11,7 @@ import path from 'path'
   })
   app.on('exit', () => process.exit())
   app.serveFolder(__dirname + '/out')
+  console.log(__dirname + '/out')
   await app.exposeFunction('hello', hello)
   await app.load('index.html')
 })()

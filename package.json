@@ -6,10 +6,11 @@
   "author": "Bonggyun Lee <deptno@gmail.com>",
   "license": "Apache License 2.0",
   "scripts": {
-    "start": "next",
-    "build": "next build; next export",
+    "start": "node bin",
+    "develop": "next",
+    "build": "npm run build:env && next build && next export",
+    "build:env": "tsc -p tsconfig.env.json",
     "precommit": "lint-staged",
-    "compile": "tsc -p tsconfig.server.json",
     "syntax": "tsc --noEmit"
   },
   "lint-staged": {
