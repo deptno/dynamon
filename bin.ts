@@ -1,6 +1,7 @@
 import carlo from 'carlo'
 import os from 'os'
 import path from 'path'
+import {api} from './backend/api'
 
 (async () => {
   const app = await carlo.launch({
@@ -11,11 +12,7 @@ import path from 'path'
   })
   app.on('exit', () => process.exit())
   app.serveFolder(__dirname + '/out')
-  console.log(__dirname + '/out')
-  await app.exposeFunction('hello', hello)
+
+  await app.exposeObject('api', api)
   await app.load('index.html')
 })()
-
-async function hello() {
-  return 'world'
-}

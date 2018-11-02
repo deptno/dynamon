@@ -30,6 +30,7 @@
     "moment": "^2.22.2",
     "monaco-editor": "^0.14.3",
     "next": "^7.0.2",
+    "ramda": "^0.25.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-ga": "^2.5.3",

@@ -28,7 +28,7 @@ export enum ActionTypes {
  * actions
  */
 export const actions = {
-  setTable: (tableName: string) => action(false, ActionTypes.SET_TABLE, tableName),
+  setTable     : (tableName: string) => action(false, ActionTypes.SET_TABLE, tableName),
   readEndpoints: () => action(true, ActionTypes.READ_ENDPOINTS),
   readTables   : (endpoint: Endpoint) => action(true, ActionTypes.READ_TABLES, endpoint),
   readTable    : (tableName: string) => action(true, ActionTypes.READ_TABLE, tableName),
@@ -52,7 +52,7 @@ export const responseActions = {
 /*
  internal helper functions
  */
-export function action<A extends ActionTypes>   (universal: boolean, type: A): TypedAction<A>
+export function action<A extends ActionTypes>(universal: boolean, type: A): TypedAction<A>
 export function action<A extends ActionTypes, P>(universal: boolean, type: A, payload: P): TypedActionWithPayload<A, P>
 export function action<A extends ActionTypes, P>(universal: boolean, type: A, payload?: P) {
   if (payload !== undefined) {
@@ -110,6 +110,7 @@ const defaultState: DynamonState = {
   loadingEndpoints: false,
 }
 export const reducer = (state = defaultState, action) => {
+  console.log('dynamon action', action)
   if (action.type.startsWith('@')) {
     return state
   }

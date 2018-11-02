@@ -1,17 +1,18 @@
-import {applyMiddleware, compose, createStore, Store} from 'redux'
+import {applyMiddleware, compose, createStore, Middleware, Store} from 'redux'
 import {reducer, RootState} from './redux'
 import {DEV} from './constants/env'
 import thunk from 'redux-thunk'
 import {createLogger} from 'redux-logger';
 import {persistStore, autoRehydrate} from 'redux-persist'
 import {session} from './redux/system'
-import {createUniversalElectronMw} from './redux/_mw/universal'
 
-declare const rpc
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     __REACT_DEVTOOLS_GLOBAL_HOOK__
+    rpc: {
+      lookup(name: string): Promise<any>
+    }
   }
 }
 
@@ -24,8 +25,7 @@ export const getStore = (state, isServer?): Store<RootState> => {
     const composeEnhancers = DEV && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
     if (!store) {
-      const universal = createUniversalElectronMw(rpc, 'action')
-      const mw = [thunk, universal]
+      const mw: Middleware[] = [thunk]
       if (!DEV) {
         if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
           window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () {}
