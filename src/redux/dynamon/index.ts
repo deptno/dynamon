@@ -1,6 +1,27 @@
 import {ItemList, TableDescription} from 'aws-sdk/clients/dynamodb'
 import {api} from './api'
 
+export const reducer = (state = defaultState, action) => {
+  switch (action.type) {
+    case ActionTypes.SET_TABLE:
+      return {...state, table: state.tables.find(t => t.TableName === action.payload)}
+    case ActionTypes.READ_ENDPOINTS:
+      return {...state, loadingEndpoints: true}
+    case ActionTypes.READ_RECORDS:
+      return {...state, records: defaultState.records}
+    case ActionTypes.READ_TABLES:
+      return {...state, tables: defaultState.tables}
+
+    case ActionTypes.OK_READ_ENDPOINTS:
+      return {...state, endpoints: action.payload, loadingEndpoints: false}
+    case ActionTypes.OK_READ_TABLES:
+      return {...state, tables: action.payload}
+    case ActionTypes.OK_READ_RECORDS:
+      return {...state, records: action.payload}
+  }
+  return state
+}
+
 /**
  * action types
  */
@@ -48,9 +69,15 @@ export const actions = {
   deleteRecord : (record: any) => action(true, ActionTypes.DELETE_RECORD, record),
 }
 
-
-/*
- internal helper functions
+export const defaultState: DynamonState = {
+  endpoints       : [],
+  tables          : [],
+  records         : null,
+  table           : null,
+  loadingEndpoints: false,
+}
+/**
+ * internal helper functions
  */
 export function action<A extends ActionTypes>(universal: boolean, type: A): TypedAction<A>
 export function action<A extends ActionTypes, P>(universal: boolean, type: A, payload: P): TypedActionWithPayload<A, P>
@@ -62,8 +89,8 @@ export function action<A extends ActionTypes, P>(universal: boolean, type: A, pa
 }
 
 
-/*
- types
+/**
+ * types
  */
 export type Actions = typeof actions
 export type ActionsReturnType = ReturnType<Actions[keyof Actions]>
@@ -74,45 +101,11 @@ export interface TypedAction<A> {
 export interface TypedActionWithPayload<A, P> extends TypedAction<A> {
   payload: P
 }
-
-
 export interface Endpoint {
   name: string
   region: string
   endpoint: string
 }
-
-/**
- * copy from dynamon
- */
-export const defaultState: DynamonState = {
-  endpoints       : [],
-  tables          : [],
-  records         : null,
-  table           : null,
-  loadingEndpoints: false,
-}
-export const reducer = (state = defaultState, action) => {
-  switch (action.type) {
-    case ActionTypes.SET_TABLE:
-      return {...state, table: state.tables.find(t => t.TableName === action.payload)}
-    case ActionTypes.READ_ENDPOINTS:
-      return {...state, loadingEndpoints: true}
-    case ActionTypes.READ_RECORDS:
-      return {...state, records: defaultState.records}
-    case ActionTypes.READ_TABLES:
-      return {...state, tables: defaultState.tables}
-
-    case ActionTypes.OK_READ_ENDPOINTS:
-      return {...state, endpoints: action.payload, loadingEndpoints: false}
-    case ActionTypes.OK_READ_TABLES:
-      return {...state, tables: action.payload}
-    case ActionTypes.OK_READ_RECORDS:
-      return {...state, records: action.payload}
-  }
-  return state
-}
-
 export interface DynamonState {
   endpoints: Endpoint[]
   tables: TableDescription[]

@@ -1,26 +1,23 @@
 import {action, ActionTypes, Endpoint} from './index'
 import {TableDescription} from 'aws-sdk/clients/dynamodb'
 
-export const api = (type: ActionTypes, ...args) => {
-  return async (dispatch, getState) => {
+export const api = (type: ActionTypes, body?) =>
+  async (dispatch, getState) => {
     switch (type) {
       case ActionTypes.READ_ENDPOINTS: {
-        console.log('api call', type)
-        const data = await fetch('/api/endpoints')
-        console.log(data)
-        return ''
+        const response = await fetch('/api/endpoints', body)
+        return dispatch(responseAction(ActionTypes.OK_READ_ENDPOINTS, await response.json()))
       }
       case ActionTypes.READ_TABLES: {
-        console.log('api call', type)
-        return
+        const response = await fetch('/api/tables', body)
+        return dispatch(responseAction(ActionTypes.OK_READ_ENDPOINTS, await response.json()))
       }
       case ActionTypes.READ_RECORDS: {
-        console.log('api call', type)
-        return
+        const response = await fetch('/api/records', {body})
+        return dispatch(responseAction(ActionTypes.OK_READ_ENDPOINTS, await response.json()))
       }
     }
   }
-}
 
 //responseActions shouldn't be dispatched by frontend
 export const responseActions = {
