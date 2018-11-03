@@ -1,19 +1,20 @@
-import {action, ActionTypes, Endpoint} from './index'
+import qs from 'querystring'
 import {TableDescription} from 'aws-sdk/clients/dynamodb'
+import {action, ActionTypes, Endpoint} from './index'
 
 export const api = (type: ActionTypes, body?) =>
   async (dispatch, getState) => {
     switch (type) {
       case ActionTypes.READ_ENDPOINTS: {
-        const response = await fetch('/api/endpoints', body)
+        const response = await fetch('/api/endpoints')
         return dispatch(responseAction(ActionTypes.OK_READ_ENDPOINTS, await response.json()))
       }
       case ActionTypes.READ_TABLES: {
-        const response = await fetch('/api/tables', body)
+        const response = await fetch(`/api/tables?${qs.stringify({region: body})}`)
         return dispatch(responseAction(ActionTypes.OK_READ_ENDPOINTS, await response.json()))
       }
       case ActionTypes.READ_RECORDS: {
-        const response = await fetch('/api/records', {body})
+        const response = await fetch('/api/records')
         return dispatch(responseAction(ActionTypes.OK_READ_ENDPOINTS, await response.json()))
       }
     }

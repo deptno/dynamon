@@ -30,7 +30,6 @@
     "carlo": "^0.9.10",
     "classnames": "^2.2.6",
     "docker-cli-js": "^2.5.1",
-    "dynalee": "^0.1.5",
     "express": "^4.16.4",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.22.2",

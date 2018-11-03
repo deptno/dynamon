@@ -60,10 +60,20 @@ export const actions = {
       dispatch(api(ActionTypes.READ_ENDPOINTS))
     }
   },
-  readTables   : (endpoint: Endpoint) => action(true, ActionTypes.READ_TABLES, endpoint),
+  readTables   : (endpoint: Endpoint['region']) => {
+    return (dispatch, getState) => {
+      dispatch(action(true, ActionTypes.READ_TABLES))
+      dispatch(api(ActionTypes.READ_TABLES, endpoint))
+    }
+  },
   readTable    : (tableName: string) => action(true, ActionTypes.READ_TABLE, tableName),
   createRecords: (tableName: string, records: any[]) => action(true, ActionTypes.CREATE_RECORDS, {tableName, records}),
-  readRecords  : (tableName: string) => action(true, ActionTypes.READ_RECORDS, tableName),
+  readRecords  : (tableName: string) => {
+    return (dispatch, actions) => {
+      dispatch(action(true, ActionTypes.READ_RECORDS, tableName))
+      dispatch(api(ActionTypes.READ_RECORDS, tableName))
+    }
+  },
   createRecord : (tableName: string, record: any) => action(true, ActionTypes.CREATE_RECORD, {tableName, record}),
   updateRecord : (tableName: string, record: any) => action(true, ActionTypes.UPDATE_RECORD, {tableName, record}),
   deleteRecord : (record: any) => action(true, ActionTypes.DELETE_RECORD, record),

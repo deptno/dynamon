@@ -1,8 +1,24 @@
+import {dynamodbLocal} from './dynamodb-local'
+import {getTables} from './engine'
+
 class Api {
   constructor() {
+    dynamodbLocal()
+      .then(endpoint => ENDPOINTS.unshift(endpoint))
   }
 
-  endpoints(body) {
+  endpoints({query}) {
+    return ENDPOINTS
+  }
+
+  tables({query}) {
+    const endpoint = ENDPOINTS.find(e => e.region === query.region)
+
+    return getTables(endpoint)
+  }
+
+  records({query}) {
+    console.log('records', query)
     return ENDPOINTS
   }
 }
