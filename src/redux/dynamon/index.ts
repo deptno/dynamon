@@ -15,6 +15,8 @@ export const reducer = (state = defaultState, action) => {
 
     case Action.OK_READ_ENDPOINTS:
       return {...state, endpoints: action.payload, loadingEndpoints: false}
+    case Action.ADD_ENDPOINT:
+      return {...state, endpoints: [action.payload].concat(state.endpoints)}
     case Action.OK_READ_TABLES:
       return {...state, tables: action.payload}
     case Action.OK_READ_RECORDS:
@@ -32,16 +34,16 @@ export const actions = {
       dispatch(R.tap(await send, action(Action.READ_ENDPOINTS)))
     }
   },
-  readTables   : (endpoint: Endpoint['region']) => {
-    return (dispatch, getState) => {
-      dispatch(action(Action.READ_TABLES))
+  readTables   : (endpoint: Endpoint) => {
+    return async (dispatch, getState, {send}) => {
+      dispatch(R.tap(await send, action(Action.READ_TABLES, endpoint)))
     }
   },
   readTable    : (tableName: string) => action(Action.READ_TABLE, tableName),
   createRecords: (tableName: string, records: any[]) => action(Action.CREATE_RECORDS, {tableName, records}),
   readRecords  : (tableName: string) => {
-    return (dispatch, actions) => {
-      dispatch(action(Action.READ_RECORDS, tableName))
+    return async (dispatch, actions, {send}) => {
+      dispatch(R.tap(await send, action(Action.READ_RECORDS, tableName)))
     }
   },
   createRecord : (tableName: string, record: any) => action(Action.CREATE_RECORD, {tableName, record}),

@@ -1,13 +1,14 @@
 import WebSocket from 'ws'
 import R from 'ramda'
 import {EDynamonActionTypes as Action} from '../dynamon-action-types'
+import {listTables} from './engine'
 
-export const createWs = (): Promise<(type: Action, payload?: any) => void> => {
+export const createWs = (): Promise<(action: ({type: Action, payload?: any})) => void> => {
   const server = new WebSocket.Server({port: 5945})
   return new Promise(r => {
     server.on('connection', ws => {
       const send = ws.send.bind(ws)
-      const dispatch = R.compose(send, JSON.stringify, handler)
+      const dispatch = R.composeP(send, JSON.stringify, handler)
 
       ws.on('message', R.compose(dispatch, JSON.parse))
       dispatch({type: Action.WS_CONNECTED})
@@ -16,15 +17,22 @@ export const createWs = (): Promise<(type: Action, payload?: any) => void> => {
   })
 }
 
-const handler = (action) => {
+const handler = async (action) => {
   const {type, payload} = action
+  console.log(action)
   switch (type) {
     case Action.READ_ENDPOINTS: {
       return {type: Action.OK_READ_ENDPOINTS, payload: ENDPOINTS}
     }
+    case Action.READ_TABLES: {
+      return {type: Action.OK_READ_TABLES, payload: await listTables(payload)}
+    }
+    case Action.ADD_ENDPOINT:
+      ENDPOINTS.unshift(payload)
   }
   return action
 }
+
 const ENDPOINTS = [
   {name: 'US East (Ohio)', region: 'us-east-2', endpoint: 'dynamodb.us-east-2.amazonaws.com'},
   {name: 'US East (N. Virginia)', region: 'us-east-1', endpoint: 'dynamodb.us-east-1.amazonaws.com'},

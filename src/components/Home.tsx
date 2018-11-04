@@ -65,7 +65,7 @@ export class HomeComponent extends React.Component<Props, State> {
       const endpoint = this.props.endpoints.find(({endpoint}) => endpoint === value)
 
       if (endpoint) {
-        this.props.readTables(endpoint.region)
+        this.props.readTables(endpoint)
       }
     }
     //todo: add

@@ -12,9 +12,10 @@ const app = next({dev})
   const server = express()
 
   server.get('*', app.getRequestHandler())
-  server.listen(3000, (err) => err || console.log('waiting API call...'))
+  server.listen(3000, (err) => err || console.log('😈 Ready to work'))
 
   const [dispatch, endpoint] = await Promise.all([createWs(), dynamodbLocal()])
 
-  dispatch(Action.ADD_ENDPOINT, endpoint)
+  dispatch({type: Action.ADD_ENDPOINT, payload: endpoint})
 })()
+
