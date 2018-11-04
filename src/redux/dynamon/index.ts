@@ -20,7 +20,7 @@ export const reducer = (state = defaultState, action) => {
     case Action.OK_READ_TABLES:
       return {...state, tables: action.payload}
     case Action.OK_READ_RECORDS:
-      return {...state, records: action.payload}
+      return {...state, records: action.payload.Items || [], lastEvaluateKey: action.payload.LastEvaluatedKey}
   }
   return state
 }
@@ -106,5 +106,6 @@ export interface DynamonState {
   records: ItemList
   loadingEndpoints: boolean
   endpoint: Endpoint
+  lastEvaluatedKey: any
 }
 
