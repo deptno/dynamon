@@ -13,7 +13,7 @@ export class HomeComponent extends React.Component<Props, State> {
   }
 
   render() {
-    const {loadingEndpoints, endpoints, tables, records, table} = this.props
+    const {loadingEndpoints, endpoints, endpoint, tables, records, table} = this.props
     const countTables = tables.length
     return (
       <div>
@@ -22,6 +22,11 @@ export class HomeComponent extends React.Component<Props, State> {
             title="Endpoint"
             description={loadingEndpoints ? 'Built-in DynamoDB initializing...' : `Select endpoint from ${endpoints.length} endpoints`}
             onChange={this.handleOnEndpointChange}
+            handleOnRefresh={endpoint
+              ? () => {
+
+              }
+              : null}
           >
             {endpoints.map(({name, endpoint}) => <option key={endpoint} value={endpoint}>{name}</option>)}
           </SelectComponent>
@@ -29,9 +34,24 @@ export class HomeComponent extends React.Component<Props, State> {
             title="Table"
             description={countTables > 0 ? `Select table from ${countTables} tables` : 'none'}
             onChange={this.handleOnTableChange}
-            onZoom={() => {
+            handleOnZoom={() => {
               console.log(this.props, this.state)
             }}
+            handleOnCreate={endpoint
+              ? () => {
+
+              }
+              : null}
+            handleOnDelete={endpoint
+              ? () => {
+
+              }
+              : null}
+            handleOnRefresh={endpoint
+              ? () => {
+
+              }
+              : null}
             disabled={countTables === 0}
           >
             {tables.map(({TableName}) => <option key={TableName} value={TableName}>{TableName}</option>)}

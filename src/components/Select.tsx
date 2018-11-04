@@ -1,6 +1,8 @@
 import React from 'react'
 import {Popover} from '@blueprintjs/core'
 import {TableDescription} from './TableDescription'
+import {PopoverButton} from './PopoverButton'
+import {TableCreator} from './TableCreator'
 
 declare module 'react' {
   export function createRef<T extends HTMLElement = HTMLElement>(): T
@@ -16,7 +18,16 @@ export class SelectComponent extends React.Component<Props, State> {
   rSelect = React.createRef<HTMLSelectElement>()
 
   render() {
-    const {title, description, disabled, children, onZoom} = this.props
+    const {
+            title,
+            description,
+            disabled,
+            children,
+            handleOnZoom,
+            handleOnCreate,
+            handleOnDelete,
+            handleOnRefresh
+          } = this.props
     return (
       <div>
         <label className="bp3-label bp3-inline">
@@ -36,15 +47,36 @@ export class SelectComponent extends React.Component<Props, State> {
           </div>
         </label>
         <div className="bp3-button-group bp3-align-right bp3-minimal">
-          <button type="button" className="bp3-button bp3-icon-add bp3-intent-success"/>
-          <button type="button" className="bp3-button bp3-icon-refresh bp3-intent-danger bp3-inline"/>
-          {this.state.selected && onZoom && (
-            <Popover content={<TableDescription name={this.state.selected}/>}>
-              <button
-                type="button"
-                className="bp3-button bp3-icon-zoom-in bp3-intent-primary bp3-inline"
-              />
-            </Popover>
+          {handleOnCreate && (
+            <PopoverButton
+              content={<TableCreator />}
+              icon="add"
+              color="success"
+            />
+          )}
+          {handleOnDelete && (
+            <PopoverButton
+              content={<TableDescription name={this.state.selected}/>}
+              icon="remove"
+              color="danger"
+              disabled={!this.state.selected}
+            />
+          )}
+          {handleOnRefresh && (
+            <PopoverButton
+              content={<TableDescription name={this.state.selected}/>}
+              icon="refresh"
+              color="primary"
+              disabled={!this.state.selected}
+            />
+          )}
+          {handleOnZoom && (
+            <PopoverButton
+              content={<TableDescription name={this.state.selected}/>}
+              icon="zoom-in"
+              color="primary"
+              disabled={!this.state.selected}
+            />
           )}
         </div>
       </div>
@@ -66,7 +98,10 @@ interface Props {
   description: string
   disabled?: boolean
   onChange(ev): any
-  onZoom?(ev): void
+  handleOnZoom?(ev): void
+  handleOnCreate?(ev): void
+  handleOnDelete?(ev): void
+  handleOnRefresh?(ev): void
 }
 interface State {
   selected: string

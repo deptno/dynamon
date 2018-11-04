@@ -21,6 +21,10 @@ export const reducer = (state = defaultState, action) => {
       return {...state, tables: action.payload}
     case Action.OK_READ_RECORDS:
       return {...state, records: action.payload.Items || [], lastEvaluateKey: action.payload.LastEvaluatedKey}
+    case Action.CREATE_TABLE:
+      return {...state}
+    case Action.DELETE_TABLE:
+      return {...state}
   }
   return state
 }
@@ -29,33 +33,46 @@ export const actions = {
   setTable(tableName: string) {
     return action(Action.SET_TABLE, tableName)
   },
+  createTable(table) {
+    return async (dispatch, getState, {send}) => {
+      dispatch(R.tap(await send, action(Action.CREATE_TABLE, {
+        endpoint: getState().dynamon.endpoint,
+        table
+      })))
+    }
+  },
+  deleteTable(tableName: string) {
+    return async (dispatch, getState, {send}) => {
+      dispatch(R.tap(await send, action(Action.DELETE_TABLE, {
+        endpoint: getState().dynamon.endpoint,
+      })))
+    }
+  },
   readEndpoints() {
     return async (dispatch, getState, {send}) => {
       dispatch(R.tap(await send, action(Action.READ_ENDPOINTS)))
     }
   },
-  readTables   : (endpoint: Endpoint) => {
+  readTables   : (endpoint) => {
     return async (dispatch, getState, {send}) => {
-      dispatch(R.tap(await send, action(Action.READ_TABLES, {
-        endpoint
-      })))
+      dispatch(R.tap(await send, action(Action.READ_TABLES, {endpoint})))
     }
   },
   readTable(tableName: string) {
-     return (dispatch, getState) => {
-       dispatch(action(Action.READ_TABLE, {
-         endpoint: getState().dynamon.endpoint,
-         tableName
-       }))
-     }
+    return (dispatch, getState) => {
+      dispatch(action(Action.READ_TABLE, {
+        endpoint: getState().dynamon.endpoint,
+        tableName,
+      }))
+    }
   },
   createRecords: (tableName: string, records: any[]) => action(Action.CREATE_RECORDS, {tableName, records}),
   readRecords  : (tableName: string) => {
     return async (dispatch, getState, {send}) => {
       dispatch(R.tap(await send, action(Action.READ_RECORDS, {
-         endpoint: getState().dynamon.endpoint,
-         tableName
-       })))
+        endpoint: getState().dynamon.endpoint,
+        tableName,
+      })))
     }
   },
   createRecord : (tableName: string, record: any) => action(Action.CREATE_RECORD, {tableName, record}),

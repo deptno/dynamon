@@ -32,3 +32,15 @@ export const listRecords = async (params) => {
     .promise()
   return result
 }
+
+export const createTable = async (params) => {
+  const ddb = getDdb(params.endpoint)
+  return ddb
+    .createTable(params.table)
+    .promise()
+}
+
+export const deleteTable = async (params) => {
+  const ddb = getDdb(params.endpoint)
+
+}
