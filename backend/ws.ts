@@ -1,7 +1,7 @@
 import WebSocket from 'ws'
 import R from 'ramda'
 import {EDynamonActionTypes as Action} from '../dynamon-action-types'
-import {listTables} from './engine'
+import {listRecords, listTables} from './engine'
 
 export const createWs = (): Promise<(action: ({type: Action, payload?: any})) => void> => {
   const server = new WebSocket.Server({port: 5945})
@@ -26,6 +26,9 @@ const handler = async (action) => {
     }
     case Action.READ_TABLES: {
       return {type: Action.OK_READ_TABLES, payload: await listTables(payload)}
+    }
+    case Action.READ_RECORDS: {
+      return {type: Action.OK_READ_RECORDS, payload: await listRecords(payload)}
     }
     case Action.ADD_ENDPOINT:
       ENDPOINTS.unshift(payload)

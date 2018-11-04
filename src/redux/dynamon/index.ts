@@ -11,7 +11,7 @@ export const reducer = (state = defaultState, action) => {
     case Action.READ_RECORDS:
       return {...state, records: defaultState.records}
     case Action.READ_TABLES:
-      return {...state, tables: defaultState.tables}
+      return {...state, tables: defaultState.tables, endpoint: action.payload.endpoint}
 
     case Action.OK_READ_ENDPOINTS:
       return {...state, endpoints: action.payload, loadingEndpoints: false}
@@ -36,14 +36,26 @@ export const actions = {
   },
   readTables   : (endpoint: Endpoint) => {
     return async (dispatch, getState, {send}) => {
-      dispatch(R.tap(await send, action(Action.READ_TABLES, endpoint)))
+      dispatch(R.tap(await send, action(Action.READ_TABLES, {
+        endpoint
+      })))
     }
   },
-  readTable    : (tableName: string) => action(Action.READ_TABLE, tableName),
+  readTable(tableName: string) {
+     return (dispatch, getState) => {
+       dispatch(action(Action.READ_TABLE, {
+         endpoint: getState().dynamon.endpoint,
+         tableName
+       }))
+     }
+  },
   createRecords: (tableName: string, records: any[]) => action(Action.CREATE_RECORDS, {tableName, records}),
   readRecords  : (tableName: string) => {
-    return async (dispatch, actions, {send}) => {
-      dispatch(R.tap(await send, action(Action.READ_RECORDS, tableName)))
+    return async (dispatch, getState, {send}) => {
+      dispatch(R.tap(await send, action(Action.READ_RECORDS, {
+         endpoint: getState().dynamon.endpoint,
+         tableName
+       })))
     }
   },
   createRecord : (tableName: string, record: any) => action(Action.CREATE_RECORD, {tableName, record}),
@@ -51,13 +63,14 @@ export const actions = {
   deleteRecord : (record: any) => action(Action.DELETE_RECORD, record),
 }
 
-export const defaultState: DynamonState = {
+export const defaultState = {
   endpoints       : [],
   tables          : [],
   records         : null,
   table           : null,
   loadingEndpoints: false,
-}
+} as DynamonState
+
 /**
  * internal helper functions
  */
@@ -69,8 +82,6 @@ export function action<A extends Action, P>(type: A, payload?: P) {
   }
   return {type}
 }
-
-
 /**
  * types
  */
@@ -94,5 +105,6 @@ export interface DynamonState {
   table: TableDescription
   records: ItemList
   loadingEndpoints: boolean
+  endpoint: Endpoint
 }
 
