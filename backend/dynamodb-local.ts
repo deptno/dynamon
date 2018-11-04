@@ -6,11 +6,17 @@ export async function dynamodbLocal(port = 8000) {
   console.log('Pulling DynamoDB local')
   await docker.command('pull amazon/dynamodb-local')
   docker.command(`run --name dynamon-db --rm -p ${port}:8000 amazon/dynamodb-local`)
-  console.log('Running DynamoDB local.')
+    .then(m => {
+      console.log('Running DynamoDB local.')
+    })
+    .catch(e => {
+      // console.error(e)
+      console.log('DynamoDB local is already running.')
+    })
 
   return {
-    name: 'Dynamon Local DB',
-    region: 'local',
-    endpoint: `http://localhost:${port}`
+    name    : 'Dynamon Local DB',
+    region  : 'local',
+    endpoint: `http://localhost:${port}`,
   }
 }

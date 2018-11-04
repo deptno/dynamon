@@ -5,6 +5,7 @@ import thunk from 'redux-thunk'
 import {createLogger} from 'redux-logger';
 import {persistStore, autoRehydrate} from 'redux-persist'
 import {session} from './redux/system'
+import * as R from 'ramda'
 
 declare global {
   interface Window {
@@ -25,7 +26,12 @@ export const getStore = (state, isServer?): Store<RootState> => {
     const composeEnhancers = DEV && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
     if (!store) {
-      const mw: Middleware[] = [thunk]
+      const ws = new WebSocket('ws://localhost:5945')
+      const send = new Promise(r => ws.onopen = r)
+        .then(() => R.compose(ws.send.bind(ws), JSON.stringify))
+      const mw: Middleware[] = [thunk.withExtraArgument({send})]
+
+
       if (!DEV) {
         if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
           window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () {}
@@ -43,6 +49,7 @@ export const getStore = (state, isServer?): Store<RootState> => {
         composeEnhancers(applyMiddleware(...mw), autoRehydrate())
       )
       store.dispatch(session());
+      ws.onmessage = R.compose(store.dispatch, JSON.parse, R.prop('data'))
 
       const whitelist = ['persist']
       persistStore(store, {whitelist}, _ => {

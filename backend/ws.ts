@@ -1,30 +1,30 @@
-import {dynamodbLocal} from './dynamodb-local'
-import {getTables} from './engine'
+import WebSocket from 'ws'
+import R from 'ramda'
+import {EDynamonActionTypes as Action} from '../dynamon-action-types'
 
-class Api {
-  constructor() {
-    dynamodbLocal()
-      .then(endpoint => ENDPOINTS.unshift(endpoint))
-  }
+export const createWs = (): Promise<(type: Action, payload?: any) => void> => {
+  const server = new WebSocket.Server({port: 5945})
+  return new Promise(r => {
+    server.on('connection', ws => {
+      const send = ws.send.bind(ws)
+      const dispatch = R.compose(send, JSON.stringify, handler)
 
-  endpoints({query}) {
-    return ENDPOINTS
-  }
-
-  tables({query}) {
-    const endpoint = ENDPOINTS.find(e => e.region === query.region)
-
-    return getTables(endpoint)
-  }
-
-  records({query}) {
-    console.log('records', query)
-    return ENDPOINTS
-  }
+      ws.on('message', R.compose(dispatch, JSON.parse))
+      dispatch({type: Action.WS_CONNECTED})
+      r(dispatch)
+    })
+  })
 }
 
-export const api = new Api()
-
+const handler = (action) => {
+  const {type, payload} = action
+  switch (type) {
+    case Action.READ_ENDPOINTS: {
+      return {type: Action.OK_READ_ENDPOINTS, payload: ENDPOINTS}
+    }
+  }
+  return action
+}
 const ENDPOINTS = [
   {name: 'US East (Ohio)', region: 'us-east-2', endpoint: 'dynamodb.us-east-2.amazonaws.com'},
   {name: 'US East (N. Virginia)', region: 'us-east-1', endpoint: 'dynamodb.us-east-1.amazonaws.com'},

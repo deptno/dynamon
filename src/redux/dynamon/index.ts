@@ -1,82 +1,52 @@
 import {ItemList, TableDescription} from 'aws-sdk/clients/dynamodb'
-import {api} from './api'
+import * as R from 'ramda'
+import {EDynamonActionTypes as Action} from '../../../dynamon-action-types'
 
 export const reducer = (state = defaultState, action) => {
   switch (action.type) {
-    case ActionTypes.SET_TABLE:
+    case Action.SET_TABLE:
       return {...state, table: state.tables.find(t => t.TableName === action.payload)}
-    case ActionTypes.READ_ENDPOINTS:
+    case Action.READ_ENDPOINTS:
       return {...state, loadingEndpoints: true}
-    case ActionTypes.READ_RECORDS:
+    case Action.READ_RECORDS:
       return {...state, records: defaultState.records}
-    case ActionTypes.READ_TABLES:
+    case Action.READ_TABLES:
       return {...state, tables: defaultState.tables}
 
-    case ActionTypes.OK_READ_ENDPOINTS:
+    case Action.OK_READ_ENDPOINTS:
       return {...state, endpoints: action.payload, loadingEndpoints: false}
-    case ActionTypes.OK_READ_TABLES:
+    case Action.OK_READ_TABLES:
       return {...state, tables: action.payload}
-    case ActionTypes.OK_READ_RECORDS:
+    case Action.OK_READ_RECORDS:
       return {...state, records: action.payload}
   }
   return state
 }
 
-/**
- * action types
- */
-export enum ActionTypes {
-  SET_TABLE         = 'set table',
-  READ_ENDPOINTS    = 'read endpoints',
-  OK_READ_ENDPOINTS = 'ok read endpoints',
-
-  READ_TABLES       = 'read tables',
-  OK_READ_TABLES    = 'ok read tables',
-
-  CREATE_TABLE      = 'create table',
-  READ_TABLE        = 'read table',
-  UPDATE_TABLE      = 'update table',
-  DELETE_TABLE      = 'delete table',
-
-  CREATE_RECORDS    = 'create records',
-  READ_RECORDS      = 'read records',
-  OK_READ_RECORDS   = 'ok read records',
-  UPDATE_RECORDS    = 'update records',
-  DELETE_RECORDS    = 'delete records',
-
-  CREATE_RECORD     = 'create record',
-  UPDATE_RECORD     = 'update record',
-  DELETE_RECORD     = 'delete record',
-}
-
-/**
- * actions
- */
 export const actions = {
-  setTable     : (tableName: string) => action(false, ActionTypes.SET_TABLE, tableName),
-  readEndpoints: () => {
-    return (dispatch, getState) => {
-      dispatch(action(true, ActionTypes.READ_ENDPOINTS))
-      dispatch(api(ActionTypes.READ_ENDPOINTS))
+  setTable(tableName: string) {
+    return action(Action.SET_TABLE, tableName)
+  },
+  readEndpoints() {
+    return async (dispatch, getState, {send}) => {
+      dispatch(R.tap(await send, action(Action.READ_ENDPOINTS)))
     }
   },
   readTables   : (endpoint: Endpoint['region']) => {
     return (dispatch, getState) => {
-      dispatch(action(true, ActionTypes.READ_TABLES))
-      dispatch(api(ActionTypes.READ_TABLES, endpoint))
+      dispatch(action(Action.READ_TABLES))
     }
   },
-  readTable    : (tableName: string) => action(true, ActionTypes.READ_TABLE, tableName),
-  createRecords: (tableName: string, records: any[]) => action(true, ActionTypes.CREATE_RECORDS, {tableName, records}),
+  readTable    : (tableName: string) => action(Action.READ_TABLE, tableName),
+  createRecords: (tableName: string, records: any[]) => action(Action.CREATE_RECORDS, {tableName, records}),
   readRecords  : (tableName: string) => {
     return (dispatch, actions) => {
-      dispatch(action(true, ActionTypes.READ_RECORDS, tableName))
-      dispatch(api(ActionTypes.READ_RECORDS, tableName))
+      dispatch(action(Action.READ_RECORDS, tableName))
     }
   },
-  createRecord : (tableName: string, record: any) => action(true, ActionTypes.CREATE_RECORD, {tableName, record}),
-  updateRecord : (tableName: string, record: any) => action(true, ActionTypes.UPDATE_RECORD, {tableName, record}),
-  deleteRecord : (record: any) => action(true, ActionTypes.DELETE_RECORD, record),
+  createRecord : (tableName: string, record: any) => action(Action.CREATE_RECORD, {tableName, record}),
+  updateRecord : (tableName: string, record: any) => action(Action.UPDATE_RECORD, {tableName, record}),
+  deleteRecord : (record: any) => action(Action.DELETE_RECORD, record),
 }
 
 export const defaultState: DynamonState = {
@@ -89,13 +59,13 @@ export const defaultState: DynamonState = {
 /**
  * internal helper functions
  */
-export function action<A extends ActionTypes>(universal: boolean, type: A): TypedAction<A>
-export function action<A extends ActionTypes, P>(universal: boolean, type: A, payload: P): TypedActionWithPayload<A, P>
-export function action<A extends ActionTypes, P>(universal: boolean, type: A, payload?: P) {
+export function action<A extends Action>(type: A): TypedAction<A>
+export function action<A extends Action, P>(type: A, payload: P): TypedActionWithPayload<A, P>
+export function action<A extends Action, P>(type: A, payload?: P) {
   if (payload !== undefined) {
-    return {type, payload, universal}
+    return {type, payload}
   }
-  return {type, universal}
+  return {type}
 }
 
 

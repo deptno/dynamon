@@ -1,22 +1,27 @@
 import qs from 'querystring'
 import {TableDescription} from 'aws-sdk/clients/dynamodb'
-import {action, ActionTypes, Endpoint} from './index'
+import {action, Action, Endpoint} from './index'
 
-export const api = (type: ActionTypes, body?) =>
+
+export const ws = (type: ActionTypes, body?) =>
   async (dispatch, getState) => {
-    switch (type) {
-      case ActionTypes.READ_ENDPOINTS: {
-        const response = await fetch('/api/endpoints')
-        return dispatch(responseAction(ActionTypes.OK_READ_ENDPOINTS, await response.json()))
+    try {
+      switch (type) {
+        case ActionTypes.READ_ENDPOINTS: {
+          const response = await fetch('/api/endpoints')
+          return dispatch(responseAction(ActionTypes.OK_READ_ENDPOINTS, await response.json()))
+        }
+        case ActionTypes.READ_TABLES: {
+          const response = await fetch(`/api/tables?${qs.stringify({region: body})}`)
+          return dispatch(responseAction(ActionTypes.OK_READ_ENDPOINTS, await response.json()))
+        }
+        case ActionTypes.READ_RECORDS: {
+          const response = await fetch('/api/records')
+          return dispatch(responseAction(ActionTypes.OK_READ_ENDPOINTS, await response.json()))
+        }
       }
-      case ActionTypes.READ_TABLES: {
-        const response = await fetch(`/api/tables?${qs.stringify({region: body})}`)
-        return dispatch(responseAction(ActionTypes.OK_READ_ENDPOINTS, await response.json()))
-      }
-      case ActionTypes.READ_RECORDS: {
-        const response = await fetch('/api/records')
-        return dispatch(responseAction(ActionTypes.OK_READ_ENDPOINTS, await response.json()))
-      }
+    } catch (e) {
+      console.error(e)
     }
   }
 
