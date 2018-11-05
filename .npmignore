@@ -1,0 +1,6 @@
+**/*
+!dynamon-action-types.js
+!server.js
+!dynamon.js
+!.next/**/*
+!backend/**/*.js
