@@ -11,9 +11,11 @@ export class Json extends React.Component<Props, State> {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.src !== prevState.src) {
-      return {
-        src  : nextProps.src,
-        dirty: false,
+      if (nextProps.src) {
+        return {
+          src  : nextProps.src,
+          dirty: false,
+        }
       }
     }
     return null
@@ -22,19 +24,21 @@ export class Json extends React.Component<Props, State> {
   readonly state = {
     expend: false,
     dirty : false,
-    src   : {},
+    src: {
+      NOTICE: 'Select document'
+    }
   }
 
   render() {
     const {expend, dirty, src} = this.state
-    const style = expend ?
-      {} :
-      {maxWidth: '30em', maxHeight: '45em', overflow: 'scroll'}
+    const style = expend
+      ? {minHeight: '22em', overflow: 'scroll'}
+      : {height: '22em', overflow: 'scroll'}
 
     return (
-      <div style={style} className="pa2">
-        <label className="bp3-label bp3-inline pa1 pb3" style={{marginTop: '10px', marginBottom: 0}}>
-          <h2 className="ma2">{this.props.title}</h2>
+      <div style={style} className="ma2">
+        <label className="bp3-label bp3-inline pb1" style={{marginTop: '10px', marginBottom: 0}}>
+          <h3 className="ma2">{this.props.title}</h3>
           <button
             className={classnames('bp3-button bp3-icon-confirm bp3-minimal', {'bp3-intent-success': dirty})}
             onClick={this.handleApplyChanges}
@@ -51,8 +55,10 @@ export class Json extends React.Component<Props, State> {
             onClick={this.handleSize}
           />
         </label>
-          {src && <JSONView
+        <div className="overflow-auto word-normal w-100">
+          <JSONView
             src={src}
+            defaultValue="select document"
             name={null}
             theme="ocean"
             iconStyle="circle"
@@ -61,7 +67,8 @@ export class Json extends React.Component<Props, State> {
             onEdit={this.props.onEdit && this.handleEdit}
             onAdd={this.props.onEdit && this.handleEdit}
             onDelete={this.props.onEdit && this.handleEdit}
-          />}
+          />
+        </div>
       </div>
     )
   }

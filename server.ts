@@ -10,12 +10,23 @@ const app = next({dev})
 !(async () => {
   await app.prepare()
   const server = express()
+  const port = 5945
 
   server.get('*', app.getRequestHandler())
-  server.listen(3000, (err) => err || console.log('😈 Ready to work'))
+  server.listen(port, (err) => err || console.log('😈 Ready to work'))
 
-  const [dispatch, endpoint] = await Promise.all([createWs(), dynamodbLocal()])
+  /**
+   * DyanmoDB local test
+   */
+  // const [dispatch, endpoint] = await Promise.all([createWs(), dynamodbLocal()])
+  // dispatch({type: Action.ADD_ENDPOINT, payload: endpoint})
+  const dispatch = await createWs()
+  dispatch({type: Action.ADD_ENDPOINT, payload: {
+    name    : 'Dynamon Local DB',
+    region  : 'local',
+    endpoint: `http://localhost:8000`,
+  }})
 
-  dispatch({type: Action.ADD_ENDPOINT, payload: endpoint})
+  console.log(`open http://localhost:${port}`)
 })()
 

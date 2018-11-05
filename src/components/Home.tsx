@@ -20,7 +20,7 @@ export class HomeComponent extends React.Component<Props, State> {
           <SelectEndpoint/>
           <SelectTable/>
         </div>
-        <Json src={this.state.json} onEdit={this.handleJsonEdit}/>
+        <Json title="Document" src={this.state.json} onEdit={this.handleJsonEdit}/>
         <DynamoTable onItemSelected={this.handleOnItemSelected} onRefresh={this.handleOnRefreshRecords}/>
       </div>
     )
@@ -32,7 +32,8 @@ export class HomeComponent extends React.Component<Props, State> {
     this.props.readRecords(this.props.table.TableName)
     if (!next) {
       if (confirm('delete row?')) {
-
+        // @todo delete row
+        console.log('@todo delete row')
       }
     }
   }
@@ -45,7 +46,6 @@ export class HomeComponent extends React.Component<Props, State> {
     if (!this.selectedTable.startsWith('__')) {
       this.props.readRecords(this.selectedTable)
     }
-    console.log(this.selectedTable)
   }
 }
 
