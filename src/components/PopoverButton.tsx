@@ -11,7 +11,7 @@ export const PopoverButton: React.SFC<Props> = props =>
   </Popover>
 
 interface Props {
-  content: JSX.Element
+  content: JSX.Element|string
   icon: 'zoom-in'|'remove'|'add'|'refresh'
   color: 'primary'|'success'|'danger'
   disabled?: boolean

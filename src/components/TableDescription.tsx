@@ -1,11 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {RootState} from '../redux'
-import {JsonComponent} from './Json'
+import {Json} from './Json'
 
 export class TableDescriptionComponent extends React.Component<Props, State> {
   render() {
-    return <JsonComponent src={this.props.table}/>
+    return <Json title="Table description" src={this.props.table}/>
   }
 }
 

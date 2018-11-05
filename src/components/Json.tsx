@@ -2,10 +2,13 @@ import React from 'react'
 import classnames from 'classnames'
 import dynamic from 'next/dynamic'
 
-export class JsonComponent extends React.Component<Props, State> {
+const JSONView = dynamic(() => import('react-json-view'), {ssr: false})
+
+export class Json extends React.Component<Props, State> {
   static defaultProps = {
-    title: 'JSON'
+    title: 'JSON',
   }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.src !== prevState.src) {
       return {
@@ -24,11 +27,14 @@ export class JsonComponent extends React.Component<Props, State> {
 
   render() {
     const {expend, dirty, src} = this.state
+    const style = expend ?
+      {} :
+      {maxWidth: '30em', maxHeight: '45em', overflow: 'scroll'}
 
     return (
-      <div style={expend ? {} : {maxHeight: '300px', overflow: 'scroll'}}>
-        <label className="bp3-label bp3-inline" style={{marginTop: '10px', marginBottom: 0}}>
-          {this.props.title}
+      <div style={style} className="pa2">
+        <label className="bp3-label bp3-inline pa1 pb3" style={{marginTop: '10px', marginBottom: 0}}>
+          <h2 className="ma2">{this.props.title}</h2>
           <button
             className={classnames('bp3-button bp3-icon-confirm bp3-minimal', {'bp3-intent-success': dirty})}
             onClick={this.handleApplyChanges}
@@ -45,8 +51,7 @@ export class JsonComponent extends React.Component<Props, State> {
             onClick={this.handleSize}
           />
         </label>
-        {src && this.RJV && (
-          <this.RJV
+          {src && <JSONView
             src={src}
             name={null}
             theme="ocean"
@@ -56,16 +61,11 @@ export class JsonComponent extends React.Component<Props, State> {
             onEdit={this.props.onEdit && this.handleEdit}
             onAdd={this.props.onEdit && this.handleEdit}
             onDelete={this.props.onEdit && this.handleEdit}
-          />
-        )}
+          />}
       </div>
     )
   }
 
-  RJV
-  async componentDidMount() {
-    this.RJV = await dynamic(() => import('react-json-view'))
-  }
   handleApplyChanges = () => {
     this.props.onEdit(this.props.src, this.state.src)
     this.setState({dirty: false})

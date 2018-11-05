@@ -2,7 +2,7 @@ import React from 'react'
 import {StackableJsonTableComponent} from './StackableJsonTable'
 import {Popover} from '@blueprintjs/core'
 import {TableStateDescription} from './TableStateDescription'
-import {JsonComponent} from './Json'
+import {Json} from './Json'
 import {connect} from 'react-redux'
 import {RootState} from '../redux'
 import {Actions, actions} from '../redux/dynamon'
@@ -36,7 +36,7 @@ export class DynamoTableComponent extends React.Component<Props, State> {
           {table && (
             <Popover>
               <button className="bp3-button bp3-icon-add bp3-intent-primary bp3-inline bp3-minimal"/>
-              <JsonComponent
+              <Json
                 title="Add record"
                 src={table.KeySchema.reduce((p, c) => {
                   p[c.AttributeName] = `input valid(type: string) ${c.AttributeName}`

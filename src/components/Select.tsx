@@ -13,7 +13,7 @@ export class SelectComponent extends React.Component<Props, State> {
     default: '',
   }
   readonly state = {
-    selected: ''
+    selected: '',
   }
   rSelect = React.createRef<HTMLSelectElement>()
 
@@ -26,7 +26,7 @@ export class SelectComponent extends React.Component<Props, State> {
             handleOnZoom,
             handleOnCreate,
             handleOnDelete,
-            handleOnRefresh
+            handleOnRefresh,
           } = this.props
     return (
       <div>
@@ -47,37 +47,31 @@ export class SelectComponent extends React.Component<Props, State> {
           </div>
         </label>
         <div className="bp3-button-group bp3-align-right bp3-minimal">
-          {handleOnCreate && (
-            <PopoverButton
-              content={<TableCreator />}
-              icon="add"
-              color="success"
-            />
-          )}
-          {handleOnDelete && (
-            <PopoverButton
-              content={<TableDescription name={this.state.selected}/>}
-              icon="remove"
-              color="danger"
-              disabled={!this.state.selected}
-            />
-          )}
-          {handleOnRefresh && (
-            <PopoverButton
-              content={<TableDescription name={this.state.selected}/>}
-              icon="refresh"
-              color="primary"
-              disabled={!this.state.selected}
-            />
-          )}
-          {handleOnZoom && (
-            <PopoverButton
-              content={<TableDescription name={this.state.selected}/>}
-              icon="zoom-in"
-              color="primary"
-              disabled={!this.state.selected}
-            />
-          )}
+          {handleOnRefresh && <button
+            type="button"
+            className={`bp3-button bp3-icon-refresh bp3-intent-primary bp3-inline`}
+          />}
+          {handleOnZoom && <PopoverButton
+            content={<TableDescription name={this.state.selected}/>}
+            icon="zoom-in"
+            color="primary"
+            disabled={!this.state.selected}
+          />}
+          {handleOnCreate && <PopoverButton
+            content={<TableCreator />}
+            icon="add"
+            color="success"
+          />}
+          {handleOnDelete && <button
+            type="button"
+            className={`bp3-button bp3-icon-remove bp3-intent-danger bp3-inline`}
+            disabled={!this.state.selected}
+            onClick={() => {
+              if (confirm('Do you want to delete table?')) {
+                alert('Deleted')
+              }
+            }}
+          />}
         </div>
       </div>
     )

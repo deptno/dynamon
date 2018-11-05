@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {RootState} from '../redux'
 import {SelectComponent} from './Select'
-import {JsonComponent} from './Json'
+import {Json} from './Json'
 import {DynamoTable} from './DynamoTable'
 import {actions, Actions} from '../redux/dynamon'
 
@@ -57,7 +57,7 @@ export class HomeComponent extends React.Component<Props, State> {
             {tables.map(({TableName}) => <option key={TableName} value={TableName}>{TableName}</option>)}
           </SelectComponent>
         </div>
-        <JsonComponent src={this.state.json} onEdit={this.handleJsonEdit}/>
+        <Json src={this.state.json} onEdit={this.handleJsonEdit}/>
         <DynamoTable onItemSelected={this.handleOnItemSelected} onRefresh={this.handleOnRefreshRecords}/>
       </div>
     )

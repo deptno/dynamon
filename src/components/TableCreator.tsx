@@ -14,9 +14,7 @@ export class TableCreatorComponent extends React.Component<Props, State> {
       className="pa2"
     >
       <label className="bp3-label bp3-inline" style={{marginTop: '10px', marginBottom: 0}}>
-        <h2 className="ma2">
-          Create Table
-        </h2>
+        <h2 className="ma2">Create Table</h2>
       </label>
       <button
         className={classnames('bp3-button bp3-icon-confirm bp3-minimal', {'bp3-intent-success': dirty})}
