@@ -6,8 +6,6 @@ Dynamon is GUI client for DynamoDB.
 
 ---
 
-**Dynamon will deploy tomorrow.**
-
 ## Recent updated
 - Drop electron to develop fast
 - Drop monorepo to develop fast
