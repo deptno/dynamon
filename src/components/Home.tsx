@@ -1,10 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {RootState} from '../redux'
-import {SelectComponent} from './Select'
 import {Json} from './Json'
 import {DynamoTable} from './DynamoTable'
-import {actions, Actions} from '../redux/dynamon'
+import {actions} from '../redux/dynamon'
+import {SelectTable} from './SelectTable'
+import {SelectEndpoint} from './EndpointSelect'
 
 export class HomeComponent extends React.Component<Props, State> {
   private selectedTable = '__'
@@ -13,58 +14,16 @@ export class HomeComponent extends React.Component<Props, State> {
   }
 
   render() {
-    const {loadingEndpoints, endpoints, endpoint, tables, records, table} = this.props
-    const countTables = tables.length
     return (
       <div>
         <div className="bp3-control-group bp3-fill">
-          <SelectComponent
-            title="Endpoint"
-            description={loadingEndpoints ? 'Built-in DynamoDB initializing...' : `Select endpoint from ${endpoints.length} endpoints`}
-            onChange={this.handleOnEndpointChange}
-            handleOnRefresh={endpoint
-              ? () => {
-
-              }
-              : null}
-          >
-            {endpoints.map(({name, endpoint}) => <option key={endpoint} value={endpoint}>{name}</option>)}
-          </SelectComponent>
-          <SelectComponent
-            title="Table"
-            description={countTables > 0 ? `Select table from ${countTables} tables` : 'none'}
-            onChange={this.handleOnTableChange}
-            handleOnZoom={() => {
-              console.log(this.props, this.state)
-            }}
-            handleOnCreate={endpoint
-              ? () => {
-
-              }
-              : null}
-            handleOnDelete={endpoint
-              ? () => {
-
-              }
-              : null}
-            handleOnRefresh={endpoint
-              ? () => {
-
-              }
-              : null}
-            disabled={countTables === 0}
-          >
-            {tables.map(({TableName}) => <option key={TableName} value={TableName}>{TableName}</option>)}
-          </SelectComponent>
+          <SelectEndpoint/>
+          <SelectTable/>
         </div>
         <Json src={this.state.json} onEdit={this.handleJsonEdit}/>
         <DynamoTable onItemSelected={this.handleOnItemSelected} onRefresh={this.handleOnRefreshRecords}/>
       </div>
     )
-  }
-
-  async componentDidMount() {
-    this.props.readEndpoints()
   }
 
   handleJsonEdit = async (prev, next) => {
@@ -76,35 +35,6 @@ export class HomeComponent extends React.Component<Props, State> {
 
       }
     }
-  }
-
-  handleOnEndpointChange = ev => {
-    const value = ev.target.value
-
-    if (!value.startsWith('__')) {
-      const endpoint = this.props.endpoints.find(({endpoint}) => endpoint === value)
-
-      if (endpoint) {
-        this.props.readTables(endpoint)
-      }
-    }
-    //todo: add
-    console.log(value)
-  }
-
-  handleOnTableChange = async ev => {
-    const value = ev.target.value
-
-    if (!value.startsWith('__')) {
-      this.props.setTable(value)
-      await this.props.readRecords(value)
-      //todo: remove selectedTable, it moved redux
-      this.selectedTable = value
-      return
-    }
-    this.selectedTable = '__'
-    //todo: add
-    console.log(value)
   }
 
   handleOnItemSelected = json => {

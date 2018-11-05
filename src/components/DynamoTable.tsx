@@ -10,7 +10,7 @@ import dynamic from 'next/dynamic'
 
 const Editor = dynamic(() => import('./Editor'), {ssr: false})
 
-export class DynamoTableComponent extends React.Component<Props, State> {
+class DynamoTableComponent extends React.Component<Props, State> {
   static getDerivedStateFromProps(nextProps: Props, _) {
     if (nextProps.table) {
       return {

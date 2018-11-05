@@ -4,8 +4,16 @@ import {EDynamonActionTypes as Action} from '../../../dynamon-action-types'
 
 export const reducer = (state = defaultState, action) => {
   switch (action.type) {
-    case Action.SET_TABLE:
-      return {...state, table: state.tables.find(t => t.TableName === action.payload)}
+    case Action.SET_TABLE: {
+      const table = state.tables.find(t => t.TableName === action.payload)
+      return {
+        ...state,
+        table,
+        selectedTable: table
+          ? table.TableName
+          : defaultState.selectedTable
+      }
+    }
     case Action.READ_ENDPOINTS:
       return {...state, loadingEndpoints: true}
     case Action.READ_RECORDS:
@@ -37,7 +45,7 @@ export const actions = {
     return async (dispatch, getState, {send}) => {
       dispatch(R.tap(await send, action(Action.CREATE_TABLE, {
         endpoint: getState().dynamon.endpoint,
-        table
+        table,
       })))
     }
   },
@@ -83,6 +91,7 @@ export const actions = {
 export const defaultState = {
   endpoints       : [],
   tables          : [],
+  selectedTable   : '__',
   records         : null,
   table           : null,
   loadingEndpoints: false,
@@ -120,6 +129,7 @@ export interface DynamonState {
   endpoints: Endpoint[]
   tables: TableDescription[]
   table: TableDescription
+  selectedTable: string
   records: ItemList
   loadingEndpoints: boolean
   endpoint: Endpoint
