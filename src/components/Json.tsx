@@ -14,7 +14,9 @@ export class Json extends React.Component<Props, State> {
       if (nextProps.src) {
         return {
           src  : nextProps.src,
-          dirty: false,
+          dirty: nextProps.dirty !== undefined
+            ? nextProps.dirty
+            : prevState.dirty,
         }
       }
     }
@@ -24,9 +26,9 @@ export class Json extends React.Component<Props, State> {
   readonly state = {
     expend: false,
     dirty : false,
-    src: {
-      NOTICE: 'Select document'
-    }
+    src   : {
+      NOTICE: 'Select document',
+    },
   }
 
   render() {
@@ -35,25 +37,28 @@ export class Json extends React.Component<Props, State> {
       ? {minHeight: '22em', overflow: 'scroll'}
       : {height: '22em', overflow: 'scroll'}
 
+    console.log('dirty', dirty)
     return (
       <div style={style} className="ma2">
         <label className="bp3-label bp3-inline pb1" style={{marginTop: '10px', marginBottom: 0}}>
           <h3 className="ma2">{this.props.title}</h3>
-          <button
-            className={classnames('bp3-button bp3-icon-confirm bp3-minimal', {'bp3-intent-success': dirty})}
-            onClick={this.handleApplyChanges}
-            disabled={!dirty}
-          />
-          <button
-            type="button"
-            className={classnames('bp3-button bp3-minimal', {
-              'bp3-intent-success': !expend,
-              'bp3-icon-maximize' : !expend,
-              'bp3-intent-danger' : expend,
-              'bp3-icon-minimize' : expend,
-            })}
-            onClick={this.handleSize}
-          />
+          <div className="bp3-button-group bp3-align-right bp3-minimal">
+            <button
+              className={classnames('bp3-button bp3-icon-confirm bp3-minimal', {'bp3-intent-success': dirty})}
+              onClick={this.handleApplyChanges}
+              disabled={!dirty}
+            />
+            <button
+              type="button"
+              className={classnames('bp3-button bp3-minimal', {
+                'bp3-intent-success': !expend,
+                'bp3-icon-maximize' : !expend,
+                'bp3-intent-danger' : expend,
+                'bp3-icon-minimize' : expend,
+              })}
+              onClick={this.handleSize}
+            />
+          </div>
         </label>
         <div className="overflow-auto word-normal w-100">
           <JSONView
@@ -74,6 +79,7 @@ export class Json extends React.Component<Props, State> {
   }
 
   handleApplyChanges = () => {
+    console.log('handleApplyChanges')
     this.props.onEdit(this.props.src, this.state.src)
     this.setState({dirty: false})
   }

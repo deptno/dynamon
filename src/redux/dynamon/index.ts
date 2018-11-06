@@ -57,7 +57,7 @@ export const actions = {
       return dispatch(R.tap(await send, action(Action.READ_ENDPOINTS)))
     }
   },
-  readTables   : (endpoint) => {
+  readTables(endpoint) {
     return async (dispatch, getState, {send}) => {
       return dispatch(R.tap(await send, action(Action.READ_TABLES, {endpoint})))
     }
@@ -70,8 +70,25 @@ export const actions = {
       }))
     }
   },
-  createRecords: (tableName: string, records: any[]) => action(Action.CREATE_RECORDS, {tableName, records}),
-  readRecords  : (tableName: string) => {
+  /**
+   * @todo endpoint, table, records
+   */
+  createRecord(tableName: string, record: any) {
+    return async (dispatch, getState, {send}) => {
+      const endpoint = getState().dynamon.endpoint
+      return dispatch(R.tap(await send, action(Action.CREATE_RECORD, {endpoint, tableName, record})))
+    }
+  },
+  /**
+   * @todo endpoint, table, records
+   */
+  createRecords(tableName: string, records: any[]) {
+    return async (dispatch, getState, {send}) => {
+      const endpoint = getState().dynamon.endpoint
+      return dispatch(R.tap(await send, action(Action.CREATE_RECORDS, {tableName, records})))
+    }
+  },
+  readRecords : (tableName: string) => {
     return async (dispatch, getState, {send}) => {
       dispatch(R.tap(await send, action(Action.READ_RECORDS, {
         endpoint: getState().dynamon.endpoint,
@@ -79,9 +96,8 @@ export const actions = {
       })))
     }
   },
-  createRecord : (tableName: string, record: any) => action(Action.CREATE_RECORD, {tableName, record}),
-  updateRecord : (tableName: string, record: any) => action(Action.UPDATE_RECORD, {tableName, record}),
-  deleteRecord : (record: any) => action(Action.DELETE_RECORD, record),
+  updateRecord: (tableName: string, record: any) => action(Action.UPDATE_RECORD, {tableName, record}),
+  deleteRecord: (record: any) => action(Action.DELETE_RECORD, record),
 }
 
 export const defaultState = {
