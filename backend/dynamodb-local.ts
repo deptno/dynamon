@@ -4,14 +4,14 @@
 // export async function dynamodbLocal(port = 8000) {
 //   const docker = new Docker()
 //
-//   console.log('Pulling DynamoDB local')
-//   console.log('Running DynamoDB local.')
+//   logger('Pulling DynamoDB local')
+//   logger('Running DynamoDB local.')
 //
 //   await docker.command('pull amazon/dynamodb-local')
 //   docker.command(`run -d --name dynamon-db --rm -p ${port}:8000 amazon/dynamodb-local`)
 //     .catch(e => {
 //       console.warn(e)
-//       console.log('DynamoDB local is already running.')
+//       logger('DynamoDB local is already running.')
 //     })
 //
 //   return {

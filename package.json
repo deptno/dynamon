@@ -1,6 +1,6 @@
 {
   "name": "dynamon",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "bin": {
     "dynamon": "./dynamon.js"
   },
@@ -26,6 +26,7 @@
     "aws-sdk": "^2.347.0",
     "classnames": "^2.2.6",
     "express": "^4.16.4",
+    "filename-logger": "^0.1.1",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.22.2",
     "monaco-editor": "^0.14.3",
