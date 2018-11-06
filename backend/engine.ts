@@ -42,5 +42,8 @@ export const createTable = async (params) => {
 
 export const deleteTable = async (params) => {
   const ddb = getDdb(params.endpoint)
+  return ddb
+    .deleteTable(params.table)
+    .promise()
 
 }

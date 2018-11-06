@@ -14,7 +14,7 @@ declare module 'react' {
 class SelectTableComponent extends React.Component<Props> {
   render() {
     const {props, handleOnTableChange, handleOnCreate, handleOnDelete} = this
-    const {tables, selectedTable} = props
+    const {tables, selectedTable, endpoint} = props
 
     return <div className="ph2">
       <Select
@@ -39,7 +39,12 @@ class SelectTableComponent extends React.Component<Props> {
           color="primary"
           disabled={!this.hasSelectedTable()}
         />
-        <PopoverButton content={<TableCreator handleOnCreate={handleOnCreate}/>} icon="add" color="success"/>
+        <PopoverButton
+          content={<TableCreator handleOnCreate={handleOnCreate}/>}
+          icon="add"
+          color="success"
+          disabled={!endpoint}
+        />
         <button
           type="button"
           className={`bp3-button bp3-icon-remove bp3-intent-danger bp3-inline`}
@@ -55,17 +60,20 @@ class SelectTableComponent extends React.Component<Props> {
   }
 
   handleOnRefresh = ev => {
+    this.props.readTables(this.props.endpoint)
   }
   handleOnCreate = ev => {
   }
   handleOnDelete = ev => {
     if (this.hasSelectedTable()) {
-      if (!confirm('Do you want to delete table?')) {
-        return
+      const {records, selectedTable} = this.props
+
+      // if (records.length !== 0) {
+      //   return alert('Record MUST not be exist.')
+      // }
+      if (confirm('Do you want to delete table?')) {
+        return this.props.deleteTable({TableName: selectedTable})
       }
-      // @todo record count must be 0
-      const table = this.props.selectedTable
-      console.log('dispatch action to delete this table', table)
     }
   }
   handleOnTableChange = async ev => {

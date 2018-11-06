@@ -43,7 +43,7 @@ export class TableCreatorComponent extends React.Component<Props, State> {
                 WriteCapacityUnits: parseInt(wCapacity.value),
               },
             }
-            if (rangeKey) {
+            if (rangeKey.value) {
               params.KeySchema.push({
                 AttributeName: rangeKey.value,
                 KeyType      : 'RANGE',

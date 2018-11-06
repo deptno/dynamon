@@ -10,6 +10,12 @@ Dynamon is GUI client for DynamoDB.
 - Drop electron to develop fast
 - Drop monorepo to develop fast
 - Connect dynamodb-local (`docker run -p 8000:8000 amazon/dynamodb-local`)
+```json
+{
+  "region": "dynamon",
+  "endpoint": "http://localhost:8000"
+}
+```
 - Support create table
 
 ---

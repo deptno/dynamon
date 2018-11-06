@@ -5,7 +5,7 @@ import {createWs} from './backend/ws'
 import {EDynamonActionTypes as Action} from './dynamon-action-types'
 
 const dev = process.env.NODE_ENV !== 'production'
-const app = next({dev: false, dir: __dirname})
+const app = next({dev, dir: __dirname})
 
 !(async () => {
   await app.prepare()
@@ -23,7 +23,7 @@ const app = next({dev: false, dir: __dirname})
   const dispatch = await createWs()
   dispatch({type: Action.ADD_ENDPOINT, payload: {
     name    : 'Dynamon Local DB',
-    region  : 'local',
+    region  : 'dynamon',
     endpoint: `http://localhost:8000`,
   }})
 })()

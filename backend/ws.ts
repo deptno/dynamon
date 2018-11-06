@@ -19,6 +19,7 @@ export const createWs = (): Promise<(action: ({type: Action, payload?: any})) =>
 
 const handler = async (action) => {
   const {type, payload} = action
+  console.log(JSON.stringify(action))
   switch (type) {
     case Action.READ_ENDPOINTS:
       return {type: Action.OK_READ_ENDPOINTS, payload: ENDPOINTS}

@@ -11,7 +11,7 @@ export const reducer = (state = defaultState, action) => {
         table,
         selectedTable: table
           ? table.TableName
-          : defaultState.selectedTable
+          : defaultState.selectedTable,
       }
     }
     case Action.READ_ENDPOINTS:
@@ -29,8 +29,6 @@ export const reducer = (state = defaultState, action) => {
       return {...state, tables: action.payload}
     case Action.OK_READ_RECORDS:
       return {...state, records: action.payload.Items || [], lastEvaluateKey: action.payload.LastEvaluatedKey}
-    case Action.CREATE_TABLE:
-      return {...state}
     case Action.DELETE_TABLE:
       return {...state}
   }
@@ -43,27 +41,25 @@ export const actions = {
   },
   createTable(table) {
     return async (dispatch, getState, {send}) => {
-      dispatch(R.tap(await send, action(Action.CREATE_TABLE, {
-        endpoint: getState().dynamon.endpoint,
-        table,
-      })))
+      const endpoint = getState().dynamon.endpoint
+      await dispatch(R.tap(await send, action(Action.CREATE_TABLE, {endpoint, table})))
+      await dispatch(await this.readTables(endpoint))
     }
   },
-  deleteTable(tableName: string) {
+  deleteTable(table) {
     return async (dispatch, getState, {send}) => {
-      dispatch(R.tap(await send, action(Action.DELETE_TABLE, {
-        endpoint: getState().dynamon.endpoint,
-      })))
+      const endpoint = getState().dynamon.endpoint
+      await dispatch(R.tap(await send, action(Action.DELETE_TABLE, {endpoint, table})))
     }
   },
   readEndpoints() {
     return async (dispatch, getState, {send}) => {
-      dispatch(R.tap(await send, action(Action.READ_ENDPOINTS)))
+      return dispatch(R.tap(await send, action(Action.READ_ENDPOINTS)))
     }
   },
   readTables   : (endpoint) => {
     return async (dispatch, getState, {send}) => {
-      dispatch(R.tap(await send, action(Action.READ_TABLES, {endpoint})))
+      return dispatch(R.tap(await send, action(Action.READ_TABLES, {endpoint})))
     }
   },
   readTable(tableName: string) {
@@ -92,7 +88,7 @@ export const defaultState = {
   endpoints       : [],
   tables          : [],
   selectedTable   : '__',
-  records         : null,
+  records         : [],
   table           : null,
   loadingEndpoints: false,
 } as DynamonState

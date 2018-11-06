@@ -1,5 +1,5 @@
 export enum EDynamonActionTypes {
-  WS_CONNECTED = 'ws connected',
+  WS_CONNECTED      = 'ws connected',
   ADD_ENDPOINT      = 'add endpoint',
 
   CONNECTED         = 'connected',
@@ -12,11 +12,11 @@ export enum EDynamonActionTypes {
   OK_READ_TABLES    = 'ok read tables',
 
   CREATE_TABLE      = 'create table',
-  OK_CREATE_TABLE      = 'ok create table',
+  OK_CREATE_TABLE   = 'ok create table',
   READ_TABLE        = 'read table',
   UPDATE_TABLE      = 'update table',
   DELETE_TABLE      = 'delete table',
-  OK_DELETE_TABLE      = 'ok delete table',
+  OK_DELETE_TABLE   = 'ok delete table',
 
   CREATE_RECORDS    = 'create records',
   READ_RECORDS      = 'read records',
