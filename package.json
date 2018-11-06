@@ -2,7 +2,7 @@
   "name": "dynamon",
   "version": "0.2.0",
   "bin": {
-    "dyanmon": "./dynamon.js"
+    "dynamon": "./dynamon.js"
   },
   "description": "Dynamodb GUI client",
   "repository": "https://github.com/deptno/dynamon.git",
