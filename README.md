@@ -1,14 +1,13 @@
 # :smiling_imp: Dynamon. DynamoDB GUI client
 
-![Logo](assets/dynamon.png) [![CircleCI](https://circleci.com/gh/deptno/dynamon.svg?style=svg)](https://circleci.com/gh/deptno/dynamon)
+![Logo](assets/dynamon.png) [![CircleCI](https://circleci.com/gh/deptno/dynamon.svg?style=shield)](https://circleci.com/gh/deptno/dynamon)
 
 Dynamon is GUI client for DynamoDB.
 
 ---
 
 ## Recent updated
-- Drop electron to develop fast
-- Drop monorepo to develop fast
+- Drop {electron, monorepo} to develop fast
 - Connect dynamodb-local (`docker run -p 8000:8000 amazon/dynamodb-local`)
 ```json
 {
@@ -17,6 +16,7 @@ Dynamon is GUI client for DynamoDB.
 }
 ```
 - Support create table
+- Broken add record(s)
 
 ---
 
@@ -27,7 +27,7 @@ Dynamon is GUI client for DynamoDB.
 
 - [Old electron version](https://github.com/deptno/dynamon/releases)
 
-## install
+## run
 
 ```bash
 npm -g i dynamon
@@ -56,9 +56,13 @@ npm run start
   * Table
     * [x] Add Table
     * [ ] Edit Table
-    * [ ] Delete Table
+    * [x] Delete Table
   * Record
     * [ ] Add multiple records
     * [ ] Add record
     * [ ] Edit record
     * [ ] Delete record
+    
+## link
+- [LICENSE](LICENSE)
+- [CHANGELOG](CHANGELOG)
