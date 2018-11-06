@@ -30,11 +30,11 @@ class DynamoTableComponent extends React.Component<Props, State> {
     const {table, records, onItemSelected, onRefresh} = this.props
 
     return (
-      <div>
+      <div className="pa3">
         <label className="bp3-label bp3-inline">
-          Records
-          {table && (
-            <Popover>
+          <h3 className="ma0">Records</h3>
+          <div className="bp3-button-group bp3-align-right bp3-minimal">
+            {table && <Popover>
               <button className="bp3-button bp3-icon-add bp3-intent-primary bp3-inline bp3-minimal"/>
               <Json
                 title="Add record"
@@ -44,30 +44,27 @@ class DynamoTableComponent extends React.Component<Props, State> {
                 }, {})}
                 onEdit={this.handleOnEdit}
               />
-            </Popover>
-          )}
-          {table && (
-            <Popover>
+            </Popover>}
+            {table && <Popover>
               <button className="bp3-button bp3-icon-add-to-artifact bp3-intent-primary bp3-inline bp3-minimal"/>
               <Editor schema={table.KeySchema} onSave={this.writeRows}/>
-            </Popover>
-          )}
-          <button
-            onClick={onRefresh}
-            className="bp3-button bp3-icon-refresh bp3-intent-danger bp3-inline bp3-minimal"
-            disabled={!records}
-          />
+            </Popover>}
+            <button
+              type="button"
+              onClick={onRefresh}
+              className="bp3-button bp3-icon-refresh bp3-intent-primary bp3-inline bp3-minimal"
+              disabled={!records}
+            />
+          </div>
         </label>
         {records
           ? records.length > 0
-            ? (
-              <StackableJsonTableComponent
-                keyOrder={this.state.keys}
-                collection={records}
-                onItemSelect={onItemSelected}
-                onItemDelete={this.handleOnItemDelete}
-              />
-            )
+            ? <StackableJsonTableComponent
+              keyOrder={this.state.keys}
+              collection={records}
+              onItemSelect={onItemSelected}
+              onItemDelete={this.handleOnItemDelete}
+            />
             : <TableStateDescription description="Empty"/>
           : <TableStateDescription description="Select Table"/>
         }

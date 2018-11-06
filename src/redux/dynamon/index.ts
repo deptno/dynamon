@@ -88,7 +88,7 @@ export const defaultState = {
   endpoints       : [],
   tables          : [],
   selectedTable   : '__',
-  records         : [],
+  records         : null,
   table           : null,
   loadingEndpoints: false,
 } as DynamonState

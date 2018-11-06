@@ -8,7 +8,6 @@ import {SelectTable} from './SelectTable'
 import {SelectEndpoint} from './EndpointSelect'
 
 export class HomeComponent extends React.Component<Props, State> {
-  private selectedTable = '__'
   state = {
     json: null,
   }
@@ -28,7 +27,7 @@ export class HomeComponent extends React.Component<Props, State> {
 
   handleJsonEdit = async (prev, next) => {
     console.log('before edit', prev, 'after edit', next)
-    await this.props.updateRecord(this.selectedTable, next)
+    await this.props.updateRecord(this.props.selectedTable, next)
     this.props.readRecords(this.props.table.TableName)
     if (!next) {
       if (confirm('delete row?')) {
@@ -43,8 +42,8 @@ export class HomeComponent extends React.Component<Props, State> {
   }
 
   handleOnRefreshRecords = () => {
-    if (!this.selectedTable.startsWith('__')) {
-      this.props.readRecords(this.selectedTable)
+    if (!this.props.selectedTable.startsWith('__')) {
+      this.props.readRecords(this.props.selectedTable)
     }
   }
 }
