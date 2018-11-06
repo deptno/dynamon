@@ -11,8 +11,8 @@ jobs:
       - checkout
       - restore_cache:
           key: v1-yarn-deps-{{ checksum "package.json" }}
-      - run: yarn
-      - run: yarn check:syntax
+      - run: npm i
+      - run: npm run syntax
       - save_cache:
           key: v1-yarn-deps-{{ checksum "package.json" }}
           paths:
