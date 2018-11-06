@@ -6,7 +6,7 @@ Dynamon is GUI client for DynamoDB.
 
 ---
 
-## Recent updated
+## Recent update
 - Drop {electron, monorepo} to develop fast
 - Connect dynamodb-local (`docker run -p 8000:8000 amazon/dynamodb-local`)
 ```json
