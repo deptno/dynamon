@@ -3,7 +3,7 @@ import {Filter} from './Filter'
 import {RangeCondition} from './RangeCondition'
 import {RadioOrder} from './RadioOrder'
 
-export class Query extends Component {
+export class Query extends Component<Props> {
   render() {
     return <div>
       <RangeCondition/>
@@ -13,4 +13,8 @@ export class Query extends Component {
       <RadioOrder/>
     </div>
   }
+}
+
+interface Props {
+  id: number
 }
