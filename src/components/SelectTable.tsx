@@ -27,7 +27,7 @@ class SelectTableComponent extends React.Component<Props> {
       >
         {tables.map(({TableName}) => <option key={TableName} value={TableName}>{TableName}</option>)}
       </Select>
-      <div className="bp3-button-group bp3-align-right bp3-minimal">
+      <div className="bp3-button-group bp3-align-right bp3-minimal mt2">
         <button
           type="button"
           className={`bp3-button bp3-icon-refresh bp3-intent-primary bp3-inline`}

@@ -20,7 +20,7 @@ class EndpointTableComponent extends React.Component<Props, State> {
       <Select title="Endpoint" description={description} onChange={this.handleOnEndpointChange}>
         {endpoints.map(({name, endpoint}) => <option key={endpoint} value={endpoint}>{name}</option>)}
       </Select>
-      <div className="bp3-button-group bp3-align-right bp3-minimal">
+      <div className="bp3-button-group bp3-align-right bp3-minimal mt2">
         <button
           type="button"
           className={`bp3-button bp3-icon-refresh bp3-intent-primary bp3-inline`}

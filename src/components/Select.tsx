@@ -1,27 +1,28 @@
 import React from 'react'
+import cx from 'classnames'
 
 export class Select extends React.Component<Props, State> {
   static defaultProps = {
-    default: '',
+    default    : '',
   }
   readonly state = {
     selected: '',
   }
 
   render() {
-    const {title, description, disabled, children} = this.props
+    const {title, description, disabled, children, className} = this.props
 
-    return <label className="bp3-label">
-      <h3 className="mv2">{title}</h3>
-      <div className="bp3-select">
+    return <div className={cx('bp3-label', className)}>
+      {title && <h3 className="mv2">{title}</h3>}
+      <div className="bp3-select w-100">
         <select onChange={this.handleChange} defaultValue={this.props.default} disabled={disabled}>
-          <option key="__unselected" value="">
+          {description && <option key="__unselected" value="">
             {description}
-          </option>
+          </option>}
           {children}
         </select>
       </div>
-    </label>
+    </div>
   }
 
   handleChange = (e) => {
@@ -34,11 +35,12 @@ export class Select extends React.Component<Props, State> {
 }
 
 interface Props {
-  title: string
-  default?: string
-  description: string
-  disabled?: boolean
   onChange(ev): any
+  title?: string
+  default?: string
+  description?: string
+  disabled?: boolean
+  className?: string
 }
 interface State {
   selected: string

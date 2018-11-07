@@ -3,7 +3,7 @@ import classnames from 'classnames'
 export const ConditionColumn: React.SFC<ConditionColumn> = props =>
   <input
     name={props.name}
-    className={classnames('bp3-input w-100 mh2', props.className)}
+    className={classnames('bp3-input mh2', props.className)}
     type={props.type}
     placeholder={props.placeholder}
     disabled={props.disabled}

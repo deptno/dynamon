@@ -14,8 +14,8 @@ export class Search extends Component<Props> {
     const {className} = this.props
     const {tabId, tabs} = this.state
 
-    return <div className={classnames('ma3', className)}>
-      <Select title="Indexes" onChange={console.log} description="Select Index" default="default">
+    return <div className={classnames('ma2', className)}>
+      <Select title="Indexes" onChange={console.log} description="Select Index" default="default" className="mb2">
         <option key={1} value="default">Default Index</option>
         <option key={2} value="gsi">GSI: byTheWay</option>
         <option key={3} value="lsi">LSI: mayNotGood</option>
