@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import classnames from 'classnames'
 import {Checkbox} from '@blueprintjs/core'
+import {ConditionColumn} from './ConditionColumn'
 
 export class ConditionRow extends Component<Props, State> {
   readonly state = {
@@ -24,24 +25,6 @@ export class ConditionRow extends Component<Props, State> {
 interface Props {
   required?: boolean
 }
-
-const ConditionColumn: React.SFC<ConditionColumn> = props =>
-  <input
-    name={props.name}
-    className={classnames('bp3-input w-100 mh2', props.className)}
-    type={props.type}
-    placeholder={props.placeholder}
-    disabled={props.disabled}
-  />
-
-interface ConditionColumn {
-  name: string
-  type: string
-  placeholder: string
-  className?: string
-  disabled?: boolean
-}
-
 interface State {
   enabled: boolean
 }
