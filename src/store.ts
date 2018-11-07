@@ -50,6 +50,11 @@ export const getStore = (state, isServer?): Store<RootState> => {
       )
       store.dispatch(session());
       ws.onmessage = R.compose(store.dispatch, JSON.parse, R.prop('data'))
+      ws.onclose = () => {
+        if (confirm('Websocket connection closed. Do you want to reload?')) {
+          location.reload()
+        }
+      }
 
       const whitelist = ['persist']
       persistStore(store, {whitelist}, _ => {

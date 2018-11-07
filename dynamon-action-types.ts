@@ -29,5 +29,7 @@ export enum EDynamonActionTypes {
   DELETE_RECORD     = 'delete record',
 
   SCAN              = 'scan',
+  OK_SCAN           = 'ok scan',
   QUERY             = 'query',
+  OK_QUERY          = 'ok query',
 }

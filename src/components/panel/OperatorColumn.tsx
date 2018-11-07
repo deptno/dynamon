@@ -8,17 +8,48 @@ export const OperatorColumn: React.SFC<OperatorColumn> = props =>
     // type={props.type}
     // placeholder={props.placeholder}
     // disabled={props.disabled}
-    default="="
+    default="eq"
     onChange={console.log}
   >
-    {operatorList[props.type].map(op => <option key={op} value={op}>{op}</option>)}
+    {operatorList[props.type].map(([op, value]) => <option key={op} value={value}>{op}</option>)}
   </Select>
 
-const S = ['=', '<>', '<', '<=', '>', '>=', 'between', 'exists', 'not_exists', 'contains', 'not_contains', 'begins_with']
-const N = ['=', '<>', '<', '<=', '>', '>=', 'between', 'exists', 'not_exists']
-const B = ['=', '<>', '<', '<=', '>', '>=', 'between', 'exists', 'not_exists', 'contains', 'not_contains', 'begins_with']
-const BOOL = ['=', '<>', 'exists', 'not_exists']
-const NULL = ['exists', 'not_exists']
+const S = [
+  ['=', 'eq'],
+  ['<>', 'ne'],
+  ['<', 'lt'],
+  ['<=', 'le'],
+  ['>', 'gt'],
+  ['>=', 'ge'],
+  ['between', 'between'],
+  ['exists', 'exists'],
+  ['not_exists', 'notExists'],
+  ['contains', 'contains'],
+  ['not_contains', 'notContains'],
+  ['begins_with', 'beginsWith'],
+]
+const N = [
+  ['=', 'eq'],
+  ['<>', 'ne'],
+  ['<', 'lt'],
+  ['<=', 'le'],
+  ['>', 'gt'],
+  ['>=', 'ge'],
+  ['between', 'between'],
+  ['exists', 'exists'],
+  ['not_exists', 'notExists'],
+]
+const B = S
+const BOOL = [
+  ['=', 'eq'],
+  ['<>', 'ne'],
+  ['exists', 'exists'],
+  ['not_exists', 'notExists'],
+]
+const NULL = [
+  ['exists', 'exists'],
+  ['not_exists', 'notExists'],
+]
 const operatorList = {S, N, B, BOOL, NULL}
 
 export type TOperatorType = keyof typeof operatorList

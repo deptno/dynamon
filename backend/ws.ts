@@ -1,7 +1,7 @@
 import WebSocket from 'ws'
 import R from 'ramda'
 import {EDynamonActionTypes as Action} from '../dynamon-action-types'
-import {createTable, deleteTable, listRecords, listTables} from './engine'
+import {createTable, deleteTable, listRecords, listTables, query, scan} from './engine'
 import {createLogger} from './util'
 
 const logger = createLogger(__filename)
@@ -24,6 +24,10 @@ const handler = async (action) => {
   const {type, payload} = action
   logger(JSON.stringify(action))
   switch (type) {
+    case Action.SCAN:
+      return {type: Action.OK_SCAN, payload: await scan(payload)}
+    case Action.QUERY:
+      return {type: Action.OK_QUERY, payload: await query(payload)}
     case Action.READ_ENDPOINTS:
       return {type: Action.OK_READ_ENDPOINTS, payload: ENDPOINTS}
     case Action.READ_TABLES:

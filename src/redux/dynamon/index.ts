@@ -27,6 +27,9 @@ export const reducer = (state = defaultState, action) => {
       return {...state, endpoints: [action.payload].concat(state.endpoints)}
     case Action.OK_READ_TABLES:
       return {...state, tables: action.payload}
+      // @todo unify interface OK_SCAN OK_QUERY OK_READ_RECORDS
+    case Action.OK_SCAN:
+      return {...state, records: action.payload.Items || [], lastEvaluateKey: action.payload.LastEvaluatedKey}
     case Action.OK_READ_RECORDS:
       return {...state, records: action.payload.Items || [], lastEvaluateKey: action.payload.LastEvaluatedKey}
     case Action.DELETE_TABLE:
