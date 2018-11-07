@@ -3,7 +3,7 @@ import {Select} from '../Select'
 
 export const OperatorColumn: React.SFC<OperatorColumn> = props =>
   <Select
-    // name={props.name}
+    name={props.name}
     className={classnames('w-10 mh2', props.className)}
     // type={props.type}
     // placeholder={props.placeholder}

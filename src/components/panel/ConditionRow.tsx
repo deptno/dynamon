@@ -11,15 +11,15 @@ export class ConditionRow extends Component<Props, State> {
     type: 'S' as TOperatorType
   }
   render() {
-    const {required} = this.props
+    const {id, required} = this.props
     const {enabled, type} = this.state
 
     return <div className="flex justify-around">
       <Checkbox checked={enabled} disabled={required} onChange={this.handleEnabledChange}/>
-      <ConditionColumn disabled={!enabled} name="property" type="text" placeholder="Property" className="w-20"/>
-      <TypeColumn disabled={!enabled} name="type" type="text" placeholder="Type" onChange={this.handleTypeChange}/>
-      <OperatorColumn disabled={!enabled} name="operator" type={type} placeholder="Operator"/>
-      <ConditionColumn disabled={!enabled} name="value" type="text" placeholder="Value" className="w-60"/>
+      <ConditionColumn disabled={!enabled} name={'property' + id} type="text" placeholder="Property" className="w-20"/>
+      <TypeColumn disabled={!enabled} name={'type' + id} type="text" placeholder="Type" onChange={this.handleTypeChange}/>
+      <OperatorColumn disabled={!enabled} name={'operator' + id} type={type} placeholder="Operator"/>
+      <ConditionColumn disabled={!enabled} name={'value' + id} type="text" placeholder="Value" className="w-60"/>
     </div>
   }
   handleEnabledChange = e => this.setState({enabled: !this.state.enabled})
@@ -27,7 +27,9 @@ export class ConditionRow extends Component<Props, State> {
 }
 
 interface Props {
+  id: number
   required?: boolean
+  rangeKey?: boolean
 }
 interface State {
   enabled: boolean

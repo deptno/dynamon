@@ -9,8 +9,8 @@ export class RadioOrder extends Component<{}, State> {
   render() {
     const {order} = this.state
     return <RadioGroup label="Order" onChange={this.handleOrderChange} selectedValue={order} inline>
-      <Radio label="Ascending" value={EOrder.ASC}/>
-      <Radio label="Descending" value={EOrder.DESC}/>
+      <Radio label="ascending" value={EOrder.ASC}/>
+      <Radio label="descending" value={EOrder.DESC}/>
     </RadioGroup>
   }
 

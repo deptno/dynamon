@@ -10,12 +10,12 @@ export class Select extends React.Component<Props, State> {
   }
 
   render() {
-    const {title, description, disabled, children, className} = this.props
+    const {title, description, disabled, children, name, className} = this.props
 
     return <div className={cx('bp3-label', className)}>
       {title && <h3 className="mv2">{title}</h3>}
       <div className="bp3-select w-100">
-        <select onChange={this.handleChange} defaultValue={this.props.default} disabled={disabled}>
+        <select onChange={this.handleChange} defaultValue={this.props.default} disabled={disabled} name={name}>
           {description && <option key="__unselected" value="">
             {description}
           </option>}
@@ -36,6 +36,7 @@ export class Select extends React.Component<Props, State> {
 
 interface Props {
   onChange(ev): any
+  name?: string
   title?: string
   default?: string
   description?: string

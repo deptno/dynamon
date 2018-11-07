@@ -2,10 +2,11 @@ import React from 'react'
 import {ConditionRow} from './ConditionRow'
 
 export const RangeCondition: React.SFC<Props> = props => <div>
-  <ConditionRow required/>
-  {props.hasRangeKey && <ConditionRow required/>}
+  <ConditionRow id={props.id} required/>
+  {props.hasRangeKey && <ConditionRow id={props.id} required rangeKey/>}
 </div>
 
 interface Props {
+  id: number
   hasRangeKey?: boolean
 }

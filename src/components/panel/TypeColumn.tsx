@@ -3,6 +3,7 @@ import {Select} from '../Select'
 
 export const TypeColumn: React.SFC<TypeColumn> = props =>
   <Select
+    name={props.name}
     className={classnames('w-10 mh2', props.className)}
     default="S"
     onChange={props.onChange}
