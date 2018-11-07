@@ -15,13 +15,16 @@ export class RadioOrder extends Component<{}, State> {
   }
 
   handleOrderChange = ev => {
-    const order = this.state.order === 'desc' ? 'asc' : 'desc'
-    this.setState({order})
+    this.setState({
+      order: this.state.order === EOrder.DESC
+        ? EOrder.ASC
+        : EOrder.DESC,
+    })
   }
 }
 
 interface State {
-  order: 'asc' | 'desc'
+  order: EOrder
 }
 
 enum EOrder {
