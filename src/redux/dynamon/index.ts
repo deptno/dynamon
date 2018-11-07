@@ -36,6 +36,20 @@ export const reducer = (state = defaultState, action) => {
 }
 
 export const actions = {
+  scan(conditions) {
+    return async (dispatch, getState, {send}) => {
+      const {endpoint, table} = getState().dynamon
+      console.log(action(Action.SCAN, {endpoint, table, conditions}))
+      await dispatch(R.tap(await send, action(Action.SCAN, {endpoint, table, conditions})))
+    }
+  },
+  query(conditions) {
+    return async (dispatch, getState, {send}) => {
+      const {endpoint, table} = getState().dynamon
+      debugger
+      await dispatch(R.tap(await send, action(Action.QUERY, {endpoint, table, conditions})))
+    }
+  },
   setTable(tableName: string) {
     return action(Action.SET_TABLE, tableName)
   },

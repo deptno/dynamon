@@ -4,8 +4,11 @@ import {Tab, Tabs} from '@blueprintjs/core'
 import {Select} from '../Select'
 import {Scan} from './Scan'
 import {Query} from './Query'
+import {actions} from '../../redux/dynamon'
+import {connect} from 'react-redux'
+import {RootState} from '../../redux'
 
-export class Search extends Component<Props> {
+export class SearchComponent extends Component<Props> {
   readonly state = {
     tabId: 'scan0',
     tabs: true
@@ -58,12 +61,24 @@ export class Search extends Component<Props> {
   handleSearch = ev => {
     const rxpExtractTypeId = /(\S+)([0-9]+)/
     const [_, type, id] = rxpExtractTypeId.exec(this.state.tabId)
-    const data = this.ref[type][id].current.getData()
+    const conditions = this.ref[type][id].current.getData()
 
-    console.table(data)
+    console.table(conditions)
+    if (type === 'scan') {
+      this.props.scan(conditions)
+    } else if (type === 'query') {
+      this.props.query(conditions)
+    }
   }
 }
+const mapStateToProps = (state: RootState) => state.dynamon
+const mapDispatchToProps = actions
+export const Search = connect<StateProps, DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps)(SearchComponent)
 
-interface Props {
+type StateProps = ReturnType<typeof mapStateToProps>
+type DispatchProps = typeof mapDispatchToProps
+interface OwnProps {
   className?: string
 }
+type Props = StateProps & DispatchProps & OwnProps
+
