@@ -34,27 +34,29 @@ class DynamoTableComponent extends React.Component<Props, State> {
         <label className="bp3-label bp3-inline">
           <h3 className="ma0">Records</h3>
           <div className="bp3-button-group bp3-align-right bp3-minimal">
-            {table && <Popover>
-              <button className="bp3-button bp3-icon-add bp3-intent-primary bp3-inline bp3-minimal"/>
-              <Json
+            {table && <>
+              <button
+                type="button"
+                onClick={onRefresh}
+                className="bp3-button bp3-icon-refresh bp3-intent-primary bp3-inline bp3-minimal"
+                disabled={!records}
+              />
+              <Popover content={<Json
                 title="Add record"
                 src={table.KeySchema.reduce((p, c) => {
                   p[c.AttributeName] = `input valid(type: string) ${c.AttributeName}`
                   return p
                 }, {})}
                 onEdit={this.handleOnEdit}
-              />
-            </Popover>}
-            {table && <Popover>
-              <button className="bp3-button bp3-icon-add-to-artifact bp3-intent-primary bp3-inline bp3-minimal"/>
-              <Editor schema={table.KeySchema} onSave={this.writeRows}/>
-            </Popover>}
-            <button
-              type="button"
-              onClick={onRefresh}
-              className="bp3-button bp3-icon-refresh bp3-intent-primary bp3-inline bp3-minimal"
-              disabled={!records}
-            />
+              />}>
+                <button className="bp3-button bp3-icon-add bp3-intent-primary bp3-inline bp3-minimal"/>
+              </Popover>
+              <Popover>
+                <button className="bp3-button bp3-icon-add-to-artifact bp3-intent-primary bp3-inline bp3-minimal"/>
+                <Editor schema={table.KeySchema} onSave={this.writeRows}/>
+              </Popover>
+            </>
+            }
           </div>
         </label>
         {records

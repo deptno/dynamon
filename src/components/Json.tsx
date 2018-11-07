@@ -37,7 +37,6 @@ export class Json extends React.Component<Props, State> {
       ? {minHeight: '22em', overflow: 'scroll'}
       : {height: '22em', overflow: 'scroll'}
 
-    console.log('dirty', dirty)
     return (
       <div style={style} className="ma2">
         <label className="bp3-label bp3-inline pb1" style={{marginTop: '10px', marginBottom: 0}}>

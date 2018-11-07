@@ -6,6 +6,7 @@ import {DynamoTable} from './DynamoTable'
 import {actions} from '../redux/dynamon'
 import {SelectTable} from './SelectTable'
 import {SelectEndpoint} from './EndpointSelect'
+import {Search} from './panel/Search'
 
 export class HomeComponent extends React.Component<Props, State> {
   state = {
@@ -19,6 +20,7 @@ export class HomeComponent extends React.Component<Props, State> {
           <SelectEndpoint/>
           <SelectTable/>
         </div>
+        <Search />
         <Json title="Document" src={this.state.json} onEdit={this.handleJsonEdit}/>
         <DynamoTable onItemSelected={this.handleOnItemSelected} onRefresh={this.handleOnRefreshRecords}/>
       </div>
