@@ -11,7 +11,7 @@
   "scripts": {
     "start": "node server",
     "start:carlo": "node bin",
-    "develop": "next",
+    "start:fe": "next",
     "watch": "npm run build:env -- --watch",
     "build": "npm run build:env && next build",
     "build:env": "tsc -p tsconfig.env.json",

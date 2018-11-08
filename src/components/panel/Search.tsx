@@ -7,6 +7,7 @@ import {Query} from './Query'
 import {actions} from '../../redux/dynamon'
 import {connect} from 'react-redux'
 import {RootState} from '../../redux'
+import {SelectIndex} from './SelectIndex'
 
 export class SearchComponent extends Component<Props> {
   readonly state = {
@@ -23,11 +24,7 @@ export class SearchComponent extends Component<Props> {
     const {scan, query: query} = this.ref
 
     return <div className={classnames('ma2', className)}>
-      <Select title="Indexes" onChange={console.log} description="Select Index" default="default" className="mb2">
-        <option key={0} value="default">Default Index</option>
-        <option key={1} value="gsi">GSI: byTheWay</option>
-        <option key={2} value="lsi">LSI: mayNotGood</option>
-      </Select>
+      <SelectIndex />
       <Tabs id="TabsExample" selectedTabId={tabId} onChange={this.handleTabChange}>
         <Tab id="scan0" className="f5" title="Scan" panel={tabs && <Scan id={0} ref={scan[0]}/>}/>
         <Tab id="query0" className="f5" title="Query" panel={tabs && <Query id={0} ref={query[0]}/>}/>

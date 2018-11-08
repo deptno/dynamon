@@ -57,11 +57,11 @@ npm run start
     * [x] Add Table
     * [ ] Edit Table
     * [x] Delete Table
-  * Record
-    * [ ] Add multiple records
-    * [ ] Add record
-    * [ ] Edit record
-    * [ ] Delete record
+  * Document
+    * [ ] Add multiple documents
+    * [ ] Add document
+    * [ ] Edit document
+    * [ ] Delete document
     
 ## link
 - [LICENSE](LICENSE)
