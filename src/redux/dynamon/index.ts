@@ -6,7 +6,9 @@ export const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case Action.SET_TABLE: {
       const table = state.tables.find(t => t.TableName === action.payload)
-      const indexes = [...table.GlobalSecondaryIndexes || [], ...table.LocalSecondaryIndexes || []]
+      const indexes = table
+        ? [...table.GlobalSecondaryIndexes || [], ...table.LocalSecondaryIndexes || []]
+        : []
       return {
         ...state,
         table,
