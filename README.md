@@ -2,7 +2,10 @@
 
 ![Logo](assets/dynamon.png) [![CircleCI](https://circleci.com/gh/deptno/dynamon.svg?style=shield)](https://circleci.com/gh/deptno/dynamon)
 
+### **WIP**
+
 Dynamon is GUI client for DynamoDB.
+
 
 ---
 
