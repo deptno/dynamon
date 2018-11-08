@@ -4,6 +4,9 @@ import {RangeCondition} from './RangeCondition'
 import {RadioOrder} from './RadioOrder'
 import {aggregator} from './hoc-aggregator'
 
+/**
+ * @todo inject key <RangeCondition />
+ */
 export const Query = aggregator(
   class extends Component<Props> {
     render() {

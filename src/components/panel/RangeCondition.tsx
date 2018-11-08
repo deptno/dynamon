@@ -1,21 +1,23 @@
 import React, {Component} from 'react'
-import {ConditionRow} from './ConditionRow'
 import {connect} from 'react-redux'
 import {actions} from '../../redux/dynamon'
 import {RootState} from '../../redux'
+import {KeyConditionRow} from './KeyConditionRow'
 
 export class RangeConditionComponent extends Component<Props> {
   render() {
-    const {table} = this.props
-    const hashKey = table
-      ? table.KeySchema.find(k => k.KeyType === 'HASH')
-      : null
-    const rangeKey = table
-      ? table.KeySchema.find(k => k.KeyType === 'RANGE') || null
-      : null
+    const {table, keys} = this.props
+
+    if (!table) {
+      return null
+    }
+
+    const hashKey = keys.find(k => k.KeyType === 'HASH')
+    const rangeKey = keys.find(k => k.KeyType === 'RANGE') || null
+
     return <div>
-      <ConditionRow id={this.props.id} pk={hashKey}/>
-      {rangeKey && <ConditionRow id={this.props.id} pk={rangeKey}/>}
+      <KeyConditionRow id={this.props.id} pk={hashKey}/>
+      {rangeKey && <KeyConditionRow id={this.props.id} pk={rangeKey}/>}
     </div>
   }
 }

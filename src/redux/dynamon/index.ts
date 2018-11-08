@@ -9,10 +9,17 @@ export const reducer = (state = defaultState, action) => {
       const indexes = table
         ? [...table.GlobalSecondaryIndexes || [], ...table.LocalSecondaryIndexes || []]
         : []
+      const keys = table
+        ? table.KeySchema.reduce((ret, key, i) => {
+          ret.push(R.merge(key, table.AttributeDefinitions.find(a => a.AttributeName === key.AttributeName)))
+          return ret
+        }, [])
+        : []
       return {
         ...state,
         table,
         indexes,
+        keys,
         selectedTable: table
           ? table.TableName
           : defaultState.selectedTable,
@@ -125,6 +132,7 @@ export const defaultState = {
   endpoints       : [],
   tables          : [],
   indexes         : [],
+  keys            : [],
   selectedTable   : '__',
   records         : null,
   table           : null,
@@ -164,6 +172,7 @@ export interface DynamonState {
   tables: TableDescription[]
   table: TableDescription
   indexes: TableDescription['GlobalSecondaryIndexes'] & TableDescription['LocalSecondaryIndexes']
+  keys: (DynamonState['table']['KeySchema'][0] & DynamonState['table']['AttributeDefinitions'][0])[]
   selectedTable: string
   records: ItemList
   loadingEndpoints: boolean

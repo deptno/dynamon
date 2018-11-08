@@ -1,11 +1,12 @@
 import classnames from 'classnames'
 import {Select} from '../Select'
+import {RootState} from '../../redux'
 
-export const TypeColumn: React.SFC<TypeColumn> = props => {
+export const KeyTypeColumn: React.SFC<TypeColumn> = props => {
   return <Select
     name={props.name}
     className={classnames('w-10 mh2', props.className)}
-    default="S"
+    default={props.data.AttributeType}
     onChange={props.onChange}
     disabled={props.disabled}
   >
@@ -23,6 +24,7 @@ interface TypeColumn {
   placeholder: string
   className?: string
   disabled?: boolean
+  data?: RootState['dynamon']['keys'][0]
   onChange(e): void
 }
 
