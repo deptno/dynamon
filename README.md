@@ -6,9 +6,7 @@
 
 Dynamon is GUI client for DynamoDB.
 
-
 ---
-
 ## Recent update
 - Drop {electron, monorepo} to develop fast
 - Connect dynamodb-local (`docker run -p 8000:8000 amazon/dynamodb-local`)
@@ -45,10 +43,18 @@ npm run watch # for typescript compile
 npm run start
 ```
 
+### Logging
+
+```bash
+DEBUG=dynamon* npm run start # dynamon only
+DEBUG=dynalee* npm run start # dynalee(aws-sdk wrapper, engine for dynamon)
+DEBUG=dyna* npm run start # dynamon, dynalee
+DEBUG=* npm run start # ??
+```
+
 ## features
 
 * [x] Local DynamoDB (port 8000)
-* [ ] Built-in Local DynamoDB (can't spawn in production)
 * View
   * Table view
     * [x] Sub collection view
@@ -60,6 +66,10 @@ npm run start
     * [x] Add Table
     * [ ] Edit Table
     * [x] Delete Table
+  * Search
+    * [x] Scan
+    * [ ] Query
+    * [ ] Index
   * Document
     * [ ] Add multiple documents
     * [ ] Add document
