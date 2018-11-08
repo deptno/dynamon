@@ -42,7 +42,8 @@
     "redux-persist": "^4.9.1",
     "redux-thunk": "^2.3.0",
     "tachyons": "^4.11.1",
-    "ws": "^6.1.0"
+    "ws": "^6.1.0",
+    "dynalee": "^0.1.5"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.6",
