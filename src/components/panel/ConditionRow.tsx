@@ -4,6 +4,7 @@ import {Checkbox} from '@blueprintjs/core'
 import {ConditionColumn} from './ConditionColumn'
 import {TypeColumn} from './TypeColumn'
 import {OperatorColumn, TOperatorType} from './OperatorColumn'
+import {RootState} from '../../redux'
 
 export class ConditionRow extends Component<Props, State> {
   readonly state = {
@@ -11,14 +12,14 @@ export class ConditionRow extends Component<Props, State> {
     type: 'S' as TOperatorType
   }
   render() {
-    const {id, required} = this.props
+    const {id, pk} = this.props
     const {enabled, type} = this.state
 
     return <div className="flex justify-around">
-      <Checkbox checked={enabled} disabled={required} onChange={this.handleEnabledChange}/>
-      <ConditionColumn disabled={!enabled} name={'property' + id} type="text" placeholder="Property" className="w-20"/>
-      <TypeColumn disabled={!enabled} name={'type' + id} type="text" placeholder="Type" onChange={this.handleTypeChange}/>
-      <OperatorColumn disabled={!enabled} name={'operator' + id} type={type} placeholder="Operator"/>
+      <Checkbox onChange={this.handleEnabledChange} checked={enabled} disabled={!!pk}/>
+      <ConditionColumn name={'property' + id} type="text" placeholder="Property" className="w-20" disabled={!enabled || !!pk}/>
+      <TypeColumn name={'type' + id} type="text" placeholder="Type" onChange={this.handleTypeChange} disabled={!enabled || !!pk}/>
+      <OperatorColumn name={'operator' + id} type={type} placeholder="Operator" disabled={!enabled || !!pk && pk.KeyType === 'HASH'}/>
       <ConditionColumn disabled={!enabled} name={'value' + id} type="text" placeholder="Value" className="w-60"/>
     </div>
   }
@@ -28,8 +29,7 @@ export class ConditionRow extends Component<Props, State> {
 
 interface Props {
   id: number
-  required?: boolean
-  rangeKey?: boolean
+  pk?: RootState['dynamon']['table']['KeySchema'][0]
 }
 interface State {
   enabled: boolean

@@ -6,9 +6,11 @@ export const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case Action.SET_TABLE: {
       const table = state.tables.find(t => t.TableName === action.payload)
+      const indexes = [...table.GlobalSecondaryIndexes || [], ...table.LocalSecondaryIndexes || []]
       return {
         ...state,
         table,
+        indexes,
         selectedTable: table
           ? table.TableName
           : defaultState.selectedTable,
@@ -27,7 +29,7 @@ export const reducer = (state = defaultState, action) => {
       return {...state, endpoints: [action.payload].concat(state.endpoints)}
     case Action.OK_READ_TABLES:
       return {...state, tables: action.payload}
-      // @todo unify interface OK_SCAN OK_QUERY OK_READ_RECORDS
+    // @todo unify interface OK_SCAN OK_QUERY OK_READ_RECORDS
     case Action.OK_SCAN:
       return {...state, records: action.payload.Items || [], lastEvaluateKey: action.payload.LastEvaluatedKey}
     case Action.OK_READ_RECORDS:
@@ -120,6 +122,7 @@ export const actions = {
 export const defaultState = {
   endpoints       : [],
   tables          : [],
+  indexes         : [],
   selectedTable   : '__',
   records         : null,
   table           : null,
@@ -158,6 +161,7 @@ export interface DynamonState {
   endpoints: Endpoint[]
   tables: TableDescription[]
   table: TableDescription
+  indexes: TableDescription['GlobalSecondaryIndexes'] & TableDescription['LocalSecondaryIndexes']
   selectedTable: string
   records: ItemList
   loadingEndpoints: boolean

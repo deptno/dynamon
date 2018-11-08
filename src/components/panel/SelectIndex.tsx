@@ -7,15 +7,14 @@ import {RootState} from '../../redux'
 
 export class SelectIndexComponent extends Component<Props> {
   render() {
-    const {table} = this.props
+    const {indexes} = this.props
+
     return <div className="ph2">
       <Select title="Indexes" onChange={console.log} default="default" className="mb2" disabled>
         <option value="default">Default Index</option>
-        {table && [...table.GlobalSecondaryIndexes, ...table.LocalSecondaryIndexes]
-          .map(idx =>
-            <option value={idx.IndexArn}>{idx.IndexName} ({idx.KeySchema.map(k => k.AttributeName).join(', ')})</option>,
-          )
-        }
+        {indexes.map(idx =>
+          <option value={idx.IndexArn}>{idx.IndexName} ({idx.KeySchema.map(k => k.AttributeName).join(', ')})</option>
+        )}
       </Select>
       <div className="bp3-button-group bp3-align-right bp3-minimal">
         <button

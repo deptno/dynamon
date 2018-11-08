@@ -7,6 +7,7 @@ export const TypeColumn: React.SFC<TypeColumn> = props =>
     className={classnames('w-10 mh2', props.className)}
     default="S"
     onChange={props.onChange}
+    disabled={props.disabled}
   >
     <option value="S">S</option>
     <option value="N">N</option>

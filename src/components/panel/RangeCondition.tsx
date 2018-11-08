@@ -7,9 +7,15 @@ import {RootState} from '../../redux'
 export class RangeConditionComponent extends Component<Props> {
   render() {
     const {table} = this.props
+    const hashKey = table
+      ? table.KeySchema.find(k => k.KeyType === 'HASH')
+      : null
+    const rangeKey = table
+      ? table.KeySchema.find(k => k.KeyType === 'RANGE') || null
+      : null
     return <div>
-      <ConditionRow id={this.props.id} required/>
-      {this.props.hasRangeKey && <ConditionRow id={this.props.id} required rangeKey/>}
+      <ConditionRow id={this.props.id} pk={hashKey}/>
+      {rangeKey && <ConditionRow id={this.props.id} pk={rangeKey}/>}
     </div>
   }
 }
@@ -20,5 +26,5 @@ export const RangeCondition = connect(mapStateToProps, actions)(RangeConditionCo
 type ConnectedProps = ReturnType<typeof mapStateToProps> & typeof actions
 interface Props extends ConnectedProps {
   id: number
-  hasRangeKey?: boolean
+  hasRangeKey?: boolean // @todo unused?
 }

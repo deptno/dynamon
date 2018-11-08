@@ -7,9 +7,9 @@ export const OperatorColumn: React.SFC<OperatorColumn> = props =>
     className={classnames('w-10 mh2', props.className)}
     // type={props.type}
     // placeholder={props.placeholder}
-    // disabled={props.disabled}
     default="eq"
     onChange={console.log}
+    disabled={props.disabled}
   >
     {operatorList[props.type].map(([op, value]) => <option key={op} value={value}>{op}</option>)}
   </Select>
