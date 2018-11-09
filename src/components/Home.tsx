@@ -29,8 +29,8 @@ export class HomeComponent extends React.Component<Props, State> {
 
   handleJsonEdit = async (prev, next) => {
     console.log('before edit', prev, 'after edit', next)
-    await this.props.updateRecord(this.props.selectedTable, next)
-    this.props.readRecords(this.props.table.TableName)
+    await this.props.updateDocument(this.props.selectedTable, next)
+    this.props.readDocuments(this.props.table.TableName)
     if (!next) {
       if (confirm('delete row?')) {
         // @todo delete row
@@ -45,7 +45,7 @@ export class HomeComponent extends React.Component<Props, State> {
 
   handleOnRefreshRecords = () => {
     if (!this.props.selectedTable.startsWith('__')) {
-      this.props.readRecords(this.props.selectedTable)
+      this.props.readDocuments(this.props.selectedTable)
     }
   }
 }

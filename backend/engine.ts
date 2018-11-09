@@ -105,3 +105,29 @@ export const query = async (params) => {
   const Model = getModel(params.endpoint, params.table)
   return []
 }
+
+export const createDocument = async (params) => {
+  logger('@todo createDocument')
+  logger(params)
+  const Model = getModel(params.endpoint, params.table)
+  const document = Model.of(params.document)
+  return document.put()
+}
+export const updateDocument = async (params) => {
+  logger('@todo updateDocument')
+  logger(params)
+}
+
+export const deleteDocument = async (params) => {
+  logger('@todo deleteDocument')
+  logger(params)
+}
+
+export const createDocuments = async (params) => {
+  logger('@todo createDocument')
+  logger(params)
+  const Model = getModel(params.endpoint, params.table)
+  const response = await Model.batchPut(params.documents)
+  logger('response', response)
+  return response
+}

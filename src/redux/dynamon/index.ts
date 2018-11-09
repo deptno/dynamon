@@ -27,8 +27,8 @@ export const reducer = (state = defaultState, action) => {
     }
     case Action.READ_ENDPOINTS:
       return {...state, loadingEndpoints: true}
-    case Action.READ_RECORDS:
-      return {...state, records: defaultState.records}
+    case Action.READ_DOCUMENTS:
+      return {...state, documents: defaultState.documents}
     case Action.READ_TABLES:
       return {...state, tables: defaultState.tables, endpoint: action.payload.endpoint}
 
@@ -40,9 +40,9 @@ export const reducer = (state = defaultState, action) => {
       return {...state, tables: action.payload}
     // @todo unify interface OK_SCAN OK_QUERY OK_READ_RECORDS
     case Action.OK_SCAN:
-      return {...state, records: action.payload.Items || [], lastEvaluateKey: action.payload.LastEvaluatedKey}
-    case Action.OK_READ_RECORDS:
-      return {...state, records: action.payload.Items || [], lastEvaluateKey: action.payload.LastEvaluatedKey}
+      return {...state, documents: action.payload.Items || [], lastEvaluateKey: action.payload.LastEvaluatedKey}
+    case Action.OK_READ_DOCUMENTS:
+      return {...state, documents: action.payload.Items || [], lastEvaluateKey: action.payload.LastEvaluatedKey}
     case Action.DELETE_TABLE:
       return {...state}
   }
@@ -99,33 +99,41 @@ export const actions = {
     }
   },
   /**
-   * @todo endpoint, table, records
+   * @todo endpoint, table, documents
    */
-  createRecord(tableName: string, record: any) {
+  createDocument(document: any) {
     return async (dispatch, getState, {send}) => {
-      const endpoint = getState().dynamon.endpoint
-      return dispatch(R.tap(await send, action(Action.CREATE_RECORD, {endpoint, tableName, record})))
+      const {endpoint, table} = getState().dynamon
+      return dispatch(R.tap(await send, action(Action.CREATE_DOCUMENT, {
+        endpoint,
+        table,
+        document,
+      })))
     }
   },
   /**
-   * @todo endpoint, table, records
+   * @todo endpoint, table, documents
    */
-  createRecords(tableName: string, records: any[]) {
+  createDocuments(documents: any[]) {
     return async (dispatch, getState, {send}) => {
-      const endpoint = getState().dynamon.endpoint
-      return dispatch(R.tap(await send, action(Action.CREATE_RECORDS, {tableName, records})))
+      const {endpoint, table} = getState().dynamon
+      return dispatch(R.tap(await send, action(Action.CREATE_DOCUMENTS, {
+        endpoint,
+        table,
+        documents,
+      })))
     }
   },
-  readRecords : (tableName: string) => {
+  readDocuments : (tableName: string) => {
     return async (dispatch, getState, {send}) => {
-      dispatch(R.tap(await send, action(Action.READ_RECORDS, {
+      dispatch(R.tap(await send, action(Action.READ_DOCUMENTS, {
         endpoint: getState().dynamon.endpoint,
         tableName,
       })))
     }
   },
-  updateRecord: (tableName: string, record: any) => action(Action.UPDATE_RECORD, {tableName, record}),
-  deleteRecord: (record: any) => action(Action.DELETE_RECORD, record),
+  updateDocument: (tableName: string, document: any) => action(Action.UPDATE_DOCUMENT, {tableName, document}),
+  deleteDocument: (document: any) => action(Action.DELETE_DOCUMENT, document),
 }
 
 export const defaultState = {
@@ -134,7 +142,7 @@ export const defaultState = {
   indexes         : [],
   keys            : [],
   selectedTable   : '__',
-  records         : null,
+  documents       : null,
   table           : null,
   loadingEndpoints: false,
 } as DynamonState
@@ -174,7 +182,7 @@ export interface DynamonState {
   indexes: TableDescription['GlobalSecondaryIndexes'] & TableDescription['LocalSecondaryIndexes']
   keys: (DynamonState['table']['KeySchema'][0] & DynamonState['table']['AttributeDefinitions'][0])[]
   selectedTable: string
-  records: ItemList
+  documents: ItemList
   loadingEndpoints: boolean
   endpoint: Endpoint
   lastEvaluatedKey: any

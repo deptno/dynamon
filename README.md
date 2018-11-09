@@ -39,7 +39,7 @@ dyanmon # run
 
 ```bash
 npm i
-npm run watch # for typescript compile
+npm run watch # for backend typescript compile
 npm run start
 ```
 

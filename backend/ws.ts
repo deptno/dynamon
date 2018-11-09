@@ -1,7 +1,17 @@
 import WebSocket from 'ws'
 import R from 'ramda'
 import {EDynamonActionTypes as Action} from '../dynamon-action-types'
-import {createTable, deleteTable, listRecords, listTables, query, scan} from './engine'
+import {
+  createDocument,
+  createDocuments,
+  createTable,
+  deleteDocument,
+  deleteTable,
+  listRecords,
+  listTables,
+  query,
+  scan, updateDocument,
+} from './engine'
 import {createLogger} from './util'
 
 const logger = createLogger(__filename)
@@ -24,6 +34,14 @@ const handler = async (action) => {
   const {type, payload} = action
   logger(JSON.stringify(action))
   switch (type) {
+    case Action.CREATE_DOCUMENT:
+      return {type: Action.OK_CREATE_DOCUMENT, payload: await createDocument(payload)}
+    case Action.UPDATE_DOCUMENT:
+      return {type: Action.OK_UPDATE_DOCUMENT, payload: await updateDocument(payload)}
+    case Action.DELETE_DOCUMENT:
+      return {type: Action.OK_DELETE_DOCUMENT, payload: await deleteDocument(payload)}
+    case Action.CREATE_DOCUMENTS:
+      return {type: Action.OK_CREATE_DOCUMENTS, payload: await createDocuments(payload)}
     case Action.SCAN:
       return {type: Action.OK_SCAN, payload: await scan(payload)}
     case Action.QUERY:
@@ -32,8 +50,8 @@ const handler = async (action) => {
       return {type: Action.OK_READ_ENDPOINTS, payload: ENDPOINTS}
     case Action.READ_TABLES:
       return {type: Action.OK_READ_TABLES, payload: await listTables(payload)}
-    case Action.READ_RECORDS:
-      return {type: Action.OK_READ_RECORDS, payload: await listRecords(payload)}
+    case Action.READ_DOCUMENTS:
+      return {type: Action.OK_READ_DOCUMENTS, payload: await listRecords(payload)}
     case Action.CREATE_TABLE:
       return {type: Action.OK_CREATE_TABLE, payload: await createTable(payload)}
     case Action.DELETE_TABLE:

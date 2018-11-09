@@ -66,7 +66,7 @@ class SelectTableComponent extends React.Component<Props> {
   }
   handleOnDelete = ev => {
     if (this.hasSelectedTable()) {
-      const {records, selectedTable} = this.props
+      const {documents, selectedTable} = this.props
 
       // if (records.length !== 0) {
       //   return alert('Record MUST not be exist.')
@@ -81,7 +81,7 @@ class SelectTableComponent extends React.Component<Props> {
 
     this.props.setTable(value)
     if (!value.startsWith('__')) {
-      await this.props.readRecords(value)
+      await this.props.readDocuments(value)
       return
     }
     //todo: add

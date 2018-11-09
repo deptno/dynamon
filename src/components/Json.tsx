@@ -10,25 +10,16 @@ export class Json extends React.Component<Props, State> {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.src !== prevState.src) {
-      if (nextProps.src) {
-        return {
-          src  : nextProps.src,
-          dirty: nextProps.dirty !== undefined
-            ? nextProps.dirty
-            : prevState.dirty,
-        }
-      }
+    return {
+      src: prevState.src || nextProps.src
     }
-    return null
   }
+
 
   readonly state = {
     expend: false,
     dirty : false,
-    src   : {
-      NOTICE: 'Select document',
-    },
+    src   : null
   }
 
   render() {

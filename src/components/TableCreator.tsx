@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {RootState} from '../redux'
 import classnames from 'classnames'
 import {actions} from '../redux/dynamon'
+import {DynamoDB} from 'aws-sdk'
 
 export class TableCreatorComponent extends React.Component<Props, State> {
   private refForm = createRef<HTMLFormElement>()
@@ -20,7 +21,7 @@ export class TableCreatorComponent extends React.Component<Props, State> {
         className={classnames('bp3-button bp3-icon-confirm bp3-minimal', {'bp3-intent-success': dirty})}
         onClick={(a) => {
           const {elements} = this.refForm.current
-          const {tableName, hashKey, hashKeyType, rangeKey, rangeKeyType, wCapacity, rCapacity} = elements
+          const {tableName, hashKey, hashKeyType, rangeKey, rangeKeyType, wCapacity, rCapacity, stream} = elements
           for (const {name, value, placeholder} of elements) {
             if (!value && !name.startsWith('range')) {
               return alert(`${placeholder || name} is required`)
@@ -28,7 +29,7 @@ export class TableCreatorComponent extends React.Component<Props, State> {
           }
           if (confirm('Do you want to create table?')) {
             // @todo dispatch create table
-            const params = {
+            const params: DynamoDB.TableDescription = {
               TableName            : tableName.value,
               KeySchema            : [{
                 AttributeName: hashKey.value,
@@ -53,6 +54,12 @@ export class TableCreatorComponent extends React.Component<Props, State> {
                 AttributeType: rangeKeyType.value,
               })
             }
+            if (stream.value) {
+              params.StreamSpecification = {
+                StreamEnabled: true,
+                StreamViewType: stream.value
+              }
+            }
             this.props.createTable(params)
           }
         }}
@@ -76,6 +83,13 @@ export class TableCreatorComponent extends React.Component<Props, State> {
                defaultValue="1"/>
         <input name="rCapacity" className="bp3-input w-100" type="number" placeholder="Read capacity" min={1} max={20}
                defaultValue="1"/>
+        <select name="stream" className="bp3-input bp3-select w-100">
+          <option key="off" value="">Stream disabled</option>
+          <option key="NEW_IMAGE" value="NEW_IMAGE">NEW_IMAGE</option>
+          <option key="OLD_IMAGE" value="OLD_IMAGE">OLD_IMAGE</option>
+          <option key="NEW_AND_OLD_IMAGES" value="NEW_AND_OLD_IMAGES">NEW_AND_OLD_IMAGES</option>
+          <option key="KEYS_ONLY" value="KEYS_ONLY">KEYS_ONLY</option>
+        </select>
       </form>
     </div>
   }

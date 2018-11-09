@@ -27,7 +27,7 @@ class DynamoTableComponent extends React.Component<Props, State> {
   }
 
   render() {
-    const {table, records, onItemSelected, onRefresh} = this.props
+    const {table, documents, onItemSelected, onRefresh} = this.props
 
     return (
       <div className="pa3">
@@ -39,7 +39,7 @@ class DynamoTableComponent extends React.Component<Props, State> {
                 type="button"
                 onClick={onRefresh}
                 className="bp3-button bp3-icon-refresh bp3-intent-primary bp3-inline bp3-minimal"
-                disabled={!records}
+                disabled={!documents}
               />
               <Popover content={<Json
                 title="Add record"
@@ -59,11 +59,11 @@ class DynamoTableComponent extends React.Component<Props, State> {
             }
           </div>
         </label>
-        {records
-          ? records.length > 0
+        {documents
+          ? documents.length > 0
             ? <StackableJsonTableComponent
               keyOrder={this.state.keys}
-              collection={records}
+              collection={documents}
               onItemSelect={onItemSelected}
               onItemDelete={this.handleOnItemDelete}
             />
@@ -75,17 +75,21 @@ class DynamoTableComponent extends React.Component<Props, State> {
   }
 
   handleOnEdit = async (prev, next) => {
-    await this.props.createRecord(this.props.table.TableName, next)
-    this.props.readRecords(this.props.table.TableName)
+    console.log('handleOnEdit()', prev, next)
+    await this.props.createDocument(next)
+    // @todo fixme
+    setTimeout(() => {
+      this.props.readDocuments(this.props.table.TableName)
+    }, 500)
   }
   handleOnItemDelete = async item => {
-    await this.props.deleteRecord(item)
-    this.props.readRecords(this.props.table.TableName)
+    await this.props.deleteDocument(item)
+    this.props.readDocuments(this.props.table.TableName)
   }
   writeRows = async data => {
     const records = Array.isArray(data) ? data : [data]
-    await this.props.createRecords(this.props.table.TableName, records)
-    this.props.readRecords(this.props.table.TableName)
+    await this.props.createDocuments(records)
+    this.props.readDocuments(this.props.table.TableName)
   }
 }
 
