@@ -1,5 +1,10 @@
 # changelog
 
+### 0.2.3
+- Features
+  - Table creation supports stream
+  - Recover create record
+
 ### 0.2.2
 - Features
   - Table creation, deletion

@@ -72,7 +72,7 @@ DEBUG=* npm run start # ??
     * [ ] Index
   * Document
     * [ ] Add multiple documents
-    * [ ] Add document
+    * [x] Add document
     * [ ] Edit document
     * [ ] Delete document
     
