@@ -77,6 +77,7 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> 
         <div style={{clear: 'both', marginBottom: '15px'}}/>
         <Table
           numRows={rows}
+          numFrozenColumns={this.props.keyOrder.length}
           onFocusedCell={this.handleFocusedCell}
           onSelection={(x) => console.log('handleOnSelect', x)}
           selectionModes={[RegionCardinality.CELLS]}
