@@ -7,6 +7,7 @@ import {connect} from 'react-redux'
 import {RootState} from '../redux'
 import {Actions, actions} from '../redux/dynamon'
 import dynamic from 'next/dynamic'
+import * as R from 'ramda'
 
 const Editor = dynamic(() => import('./Editor'), {ssr: false})
 
@@ -84,7 +85,8 @@ class DynamoTableComponent extends React.Component<Props, State> {
     }, 500)
   }
   handleOnItemDelete = async item => {
-    await this.props.deleteDocument(item)
+    const key = R.pick(this.props.table.KeySchema.map(k => k.AttributeName), item)
+    await this.props.deleteDocument(key)
     this.props.readDocuments(this.props.table.TableName)
   }
   writeRows = async data => {

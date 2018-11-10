@@ -7,7 +7,7 @@ export class ContextMenuRowCellComponent extends RowHeaderCell {
   renderContextMenu() {
     return (
       <Menu>
-        <MenuItem onClick={this.handleDelete} text={`Delete Row(${this.props.index})`}/>
+        <MenuItem onClick={this.handleDelete} text={`Delete Document(${this.props.index})`}/>
       </Menu>
     )
   }

@@ -124,7 +124,7 @@ export const actions = {
       })))
     }
   },
-  readDocuments : (tableName: string) => {
+  readDocuments(tableName: string) {
     return async (dispatch, getState, {send}) => {
       dispatch(R.tap(await send, action(Action.READ_DOCUMENTS, {
         endpoint: getState().dynamon.endpoint,
@@ -133,7 +133,18 @@ export const actions = {
     }
   },
   updateDocument: (tableName: string, document: any) => action(Action.UPDATE_DOCUMENT, {tableName, document}),
-  deleteDocument: (document: any) => action(Action.DELETE_DOCUMENT, document),
+  deleteDocument(key) {
+    console.log('deletedocument')
+    console.log(key)
+    return async (dispatch, getState, {send}) => {
+      const {endpoint, table} = getState().dynamon
+      dispatch(R.tap(await send, action(Action.DELETE_DOCUMENT, {
+        endpoint,
+        table,
+        key
+      })))
+    }
+  }
 }
 
 export const defaultState = {

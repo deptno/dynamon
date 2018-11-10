@@ -121,6 +121,9 @@ export const updateDocument = async (params) => {
 export const deleteDocument = async (params) => {
   logger('@todo deleteDocument')
   logger(params)
+  const {endpoint, table, key} = params
+  const Model = getModel(endpoint, table)
+  return Model.delete(key)
 }
 
 export const createDocuments = async (params) => {

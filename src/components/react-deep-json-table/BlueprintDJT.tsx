@@ -150,7 +150,7 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> 
   renderRowHeaderCellMenu = (index) => {
     return (
       <Menu>
-        <MenuItem onClick={() => this.props.onDelete(index)} text={`Delete Row(${index})`}/>
+        <MenuItem onClick={() => this.props.onDelete(index)} text={`Delete Document(${index})`}/>
       </Menu>
     )
   }
