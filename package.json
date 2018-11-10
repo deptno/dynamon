@@ -25,6 +25,7 @@
     "@types/express": "^4.16.0",
     "aws-sdk": "^2.347.0",
     "classnames": "^2.2.6",
+    "clipboard-copy": "^2.0.1",
     "dynalee": "^0.1.6",
     "express": "^4.16.4",
     "filename-logger": "^0.1.1",

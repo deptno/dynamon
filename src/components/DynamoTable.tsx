@@ -70,6 +70,7 @@ class DynamoTableComponent extends React.Component<Props, State> {
             : <TableStateDescription description="Empty"/>
           : <TableStateDescription description="Select Table"/>
         }
+        <div className="mb4" />
       </div>
     )
   }

@@ -1,4 +1,6 @@
 import React from 'react'
+import copy from 'clipboard-copy'
+import * as R from 'ramda'
 import {DeepJsonTableComponent} from './DeepJsonTable'
 import {RowModel} from './Row'
 import {Cell, Column, ColumnHeaderCell, RegionCardinality, RowHeaderCell, Table} from '@blueprintjs/table'
@@ -11,14 +13,14 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> 
   static getDerivedStateFromProps(nextProps, _) {
     const headers = nextProps.keyOrder
       .concat(
-        Object
-          .keys(nextProps.data[0] || {})
+        Array
+          .from(new Set(R.flatten(nextProps.data.map(Object.keys))))
           .filter(header => !nextProps.keyOrder.some(key => header === key))
       )
     return {
-      step: [],
+      step      : [],
       collection: nextProps.data,
-      headers
+      headers,
     }
   }
 
@@ -56,9 +58,9 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> 
             Show cell as JSON
           </Button>
           <Button type="button"
-            icon="zoom-in"
-            disabled={rows === 0 || disabled.collection}
-            onClick={this.showColumnsAsTable}
+                  icon="zoom-in"
+                  disabled={rows === 0 || disabled.collection}
+                  onClick={this.showColumnsAsTable}
           >
             Show columns as table
           </Button>
@@ -88,7 +90,7 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> 
               name={header}
               cellRenderer={this.renderCell}
               columnHeaderCellRenderer={this.renderHeader.bind(this, header)}
-            />
+            />,
           )}
         </Table>
       </div>
@@ -181,6 +183,8 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> 
     const header = this.state.headers[col]
     const rowData = this.state.collection[row]
     const cell = rowData[header]
+
+    copy(cell).then(() => console.log('copied'))
 
     if (Array.isArray(cell)) {
       this.setState({

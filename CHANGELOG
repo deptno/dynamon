@@ -1,4 +1,9 @@
-# changelog
+#### 0.2.4
+- Features
+  - Copy to clipboard on click cell
+  - Recover create record changelog
+- Fixes
+  - Unexpected omit column headers
 
 ### 0.2.3
 - Features
