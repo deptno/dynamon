@@ -94,6 +94,7 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> 
             />,
           )}
         </Table>
+        <Button className="w-100 mt3" rightIcon="arrow-right" intent="success" text="Next" disabled/>
       </div>
     )
   }
