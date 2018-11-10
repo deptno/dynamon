@@ -55,8 +55,7 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> 
           <Button type="button" icon="code" disabled={rows === 0 || disabled.cell} onClick={this.showCellAsJson}>
             Show cell as JSON
           </Button>
-          <Button
-            type="button"
+          <Button type="button"
             icon="zoom-in"
             disabled={rows === 0 || disabled.collection}
             onClick={this.showColumnsAsTable}
@@ -77,7 +76,7 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> 
         <Table
           numRows={rows}
           onFocusedCell={this.handleFocusedCell}
-          onSelection={console.log}
+          onSelection={(x) => console.log('handleOnSelect', x)}
           selectionModes={[RegionCardinality.CELLS]}
           rowHeaderCellRenderer={this.renderRowHeaderCell}
           enableColumnReordering
@@ -89,7 +88,7 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> 
               name={header}
               cellRenderer={this.renderCell}
               columnHeaderCellRenderer={this.renderHeader.bind(this, header)}
-            />,
+            />
           )}
         </Table>
       </div>
@@ -124,7 +123,7 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> 
 
   renderHeader(header) {
     //todo fixme: row = 0
-    const [_, __, ___, ____, row] = this.state.collection
+    const row = this.state.collection[4]
 
     if (row) {
       const cell = row[header]

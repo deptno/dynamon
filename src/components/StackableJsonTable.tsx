@@ -33,15 +33,18 @@ export class StackableJsonTableComponent extends React.Component<Props, State> {
   }
 
   handleOnItemSelected = (item = this.props.collection) => {
+    console.log('handleOnItemSelected')
     return this.props.onItemSelect(item)
   }
 
   handleRowClick(json) {
+    console.log('handleRowClick')
     console.dir(json)
     console.dirxml(json)
   }
 
   handleOnEnterArray = collection => {
+    console.log('handleOnEnterArray')
     console.table(collection)
     const stack = [
       {
@@ -52,6 +55,7 @@ export class StackableJsonTableComponent extends React.Component<Props, State> {
     this.setState({stack})
   }
   handleOnDelete = rowIndex => {
+    console.log('handleOnDelete')
     if (this.props.onItemDelete) {
       this.props.onItemDelete(this.props.collection[rowIndex])
     }

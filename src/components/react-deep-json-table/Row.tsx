@@ -15,7 +15,7 @@ export class RowComponent extends React.Component<Props, State> {
 export class RowModel {
   static content(column) {
     if (column === undefined) {
-      return 'undefined'
+      return
     } else if (column === null) {
       return 'null'
     } else if (Array.isArray(column)) {
