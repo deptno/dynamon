@@ -17,6 +17,9 @@ export class BlueprintDJTComponent extends DeepJsonTableComponent<Props, State> 
           .from(new Set(R.flatten(nextProps.data.map(Object.keys))))
           .filter(header => !nextProps.keyOrder.some(key => header === key))
       )
+      // .sort((a, b) => {
+      //
+      // })
     return {
       step      : [],
       collection: nextProps.data,
