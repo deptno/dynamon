@@ -13,8 +13,8 @@ export const HomeComponent: FunctionComponent<Props> = props => {
   const [json, setJson] = useState(null)
   const handleJsonEdit = async (prev, next) => {
     console.log('before edit', prev, 'after edit', next)
-    await this.props.updateDocument(props.selectedTable, next)
-    this.props.readDocuments(props.table.TableName)
+    await props.updateDocument(props.selectedTable, next)
+    props.readDocuments(props.table.TableName)
     if (!next) {
       if (confirm('delete row?')) {
         // @todo delete row
@@ -23,8 +23,8 @@ export const HomeComponent: FunctionComponent<Props> = props => {
     }
   }
   const handleOnRefreshRecords = () => {
-    if (!this.props.selectedTable.startsWith('__')) {
-      this.props.readDocuments(this.props.selectedTable)
+    if (!props.selectedTable.startsWith('__')) {
+      props.readDocuments(props.selectedTable)
     }
   }
 

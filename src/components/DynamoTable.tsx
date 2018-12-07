@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {StackableJsonTableComponent} from './StackableJsonTable'
 import {Popover} from '@blueprintjs/core'
 import {TableStateDescription} from './TableStateDescription'
@@ -10,25 +10,42 @@ import dynamic from 'next/dynamic'
 import * as R from 'ramda'
 
 const Editor = dynamic(() => import('./Editor'), {ssr: false})
-
-class DynamoTableComponent extends React.Component<Props, State> {
-  static getDerivedStateFromProps(nextProps: Props, _) {
-    if (nextProps.table) {
-      return {
-        keys: nextProps.table.KeySchema
-          .sort((p, c) => p.KeyType === 'HASH_KEY' ? 1 : 0)
-          .map(key => key.AttributeName),
+const mapStateToProps = (state: RootState) => ({
+  table: state.dynamon.table,
+  documents: state.dynamon.documents
+})
+const mapDispatchToProps = actions
+export const DynamoTable = connect<StateProps, DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps)(
+  (props: Props) => {
+    const [keys, setKeys] = useState([])
+    const {table, documents, onItemSelected, onRefresh, createDocument, createDocuments, deleteDocument, readDocuments} = props
+    useEffect(() => {
+      if (!table) {
+        return
       }
+      setKeys(table.KeySchema
+        .sort((p, c) => p.KeyType === 'HASH_KEY' ? 1 : 0)
+        .map(key => key.AttributeName))
+    }, [table])
+
+    const handleOnEdit = async (prev, next) => {
+      console.log('handleOnEdit()', prev, next)
+      await createDocument(next)
+      // @todo fixme
+      setTimeout(() => {
+        readDocuments(table.TableName)
+      }, 500)
     }
-    return null
-  }
-
-  readonly state = {
-    keys: [],
-  }
-
-  render() {
-    const {table, documents, onItemSelected, onRefresh} = this.props
+    const handleOnItemDelete = async item => {
+      const key = R.pick(table.KeySchema.map(k => k.AttributeName), item)
+      await deleteDocument(key)
+      readDocuments(table.TableName)
+    }
+    const writeRows = async data => {
+      const records = Array.isArray(data) ? data : [data]
+      await createDocuments(records)
+      readDocuments(table.TableName)
+    }
 
     return (
       <div className="pa3">
@@ -48,13 +65,13 @@ class DynamoTableComponent extends React.Component<Props, State> {
                   p[c.AttributeName] = `input valid(type: string) ${c.AttributeName}`
                   return p
                 }, {})}
-                onEdit={this.handleOnEdit}
+                onEdit={handleOnEdit}
               />}>
                 <button className="bp3-button bp3-icon-add bp3-intent-primary bp3-inline bp3-minimal"/>
               </Popover>
               <Popover>
                 <button className="bp3-button bp3-icon-add-to-artifact bp3-intent-primary bp3-inline bp3-minimal"/>
-                <Editor schema={table.KeySchema} onSave={this.writeRows}/>
+                <Editor schema={table.KeySchema} onSave={writeRows}/>
               </Popover>
             </>
             }
@@ -63,42 +80,19 @@ class DynamoTableComponent extends React.Component<Props, State> {
         {documents
           ? documents.length > 0
             ? <StackableJsonTableComponent
-              keyOrder={this.state.keys}
+              keyOrder={keys}
               collection={documents}
               onItemSelect={onItemSelected}
-              onItemDelete={this.handleOnItemDelete}
+              onItemDelete={handleOnItemDelete}
             />
             : <TableStateDescription description="Empty"/>
           : <TableStateDescription description="Select Table"/>
         }
-        <div className="mb4" />
+        <div className="mb4"/>
       </div>
     )
-  }
-
-  handleOnEdit = async (prev, next) => {
-    console.log('handleOnEdit()', prev, next)
-    await this.props.createDocument(next)
-    // @todo fixme
-    setTimeout(() => {
-      this.props.readDocuments(this.props.table.TableName)
-    }, 500)
-  }
-  handleOnItemDelete = async item => {
-    const key = R.pick(this.props.table.KeySchema.map(k => k.AttributeName), item)
-    await this.props.deleteDocument(key)
-    this.props.readDocuments(this.props.table.TableName)
-  }
-  writeRows = async data => {
-    const records = Array.isArray(data) ? data : [data]
-    await this.props.createDocuments(records)
-    this.props.readDocuments(this.props.table.TableName)
-  }
-}
-
-const mapStateToProps = (state: RootState) => state.dynamon
-const mapDispatchToProps = actions
-export const DynamoTable = connect<StateProps, DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps)(DynamoTableComponent)
+  },
+)
 
 type StateProps = ReturnType<typeof mapStateToProps>
 type DispatchProps = typeof mapDispatchToProps
@@ -107,5 +101,3 @@ interface OwnProps {
   onRefresh?(): void
 }
 type Props = StateProps & DispatchProps & OwnProps
-interface State {
-}
