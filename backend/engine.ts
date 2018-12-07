@@ -4,6 +4,8 @@ import {createLogger} from './util'
 import {define} from 'dynalee'
 import {DocumentClient} from 'aws-sdk/lib/dynamodb/document_client'
 import TableDescription = DocumentClient.TableDescription
+import {getRecordBox} from './connect-dynamodb-stream'
+import * as fetch from 'isomorphic-fetch'
 
 const logger = createLogger(__filename)
 
@@ -94,6 +96,30 @@ export const scan = async (params) => {
     ...response,
     Items: response.Items.map(r => r.head()),
   }
+}
+
+export const connectStream = async (params) => {
+ const iter = await getRecordBox(params.endpoint, 8000, params.tableName)
+  return setInterval(async () => {
+    const records = await iter()
+    if (!records) {
+      return
+    }
+    if (records.length > 0) {
+      // refresh trigger
+    }
+    if (params.stream && params.stream.endpoint) {
+      try {
+        await fetch(params.stream.endpoint, {
+          method: 'post',
+          body: JSON.stringify({Records: records})
+        })
+      } catch(e) {
+        console.log('error', e)
+      }
+    }
+
+  }, 1000)
 }
 
 /**
