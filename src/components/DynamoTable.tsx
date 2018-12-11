@@ -11,21 +11,26 @@ import * as R from 'ramda'
 
 const Editor = dynamic(() => import('./Editor'), {ssr: false})
 const mapStateToProps = (state: RootState) => ({
-  table: state.dynamon.table,
-  documents: state.dynamon.documents
+  table    : state.dynamon.table,
+  documents: state.dynamon.documents,
 })
 const mapDispatchToProps = actions
 export const DynamoTable = connect<StateProps, DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps)(
   (props: Props) => {
     const [keys, setKeys] = useState([])
     const {table, documents, onItemSelected, onRefresh, createDocument, createDocuments, deleteDocument, readDocuments} = props
+
     useEffect(() => {
       if (!table) {
         return
       }
-      setKeys(table.KeySchema
+      const keys = table.KeySchema
         .sort((p, c) => p.KeyType === 'HASH_KEY' ? 1 : 0)
-        .map(key => key.AttributeName))
+        .map(key => key.AttributeName)
+      const attrs = table.AttributeDefinitions
+        .filter(ad => !keys.includes(ad.AttributeName))
+        .map(ad => ad.AttributeName)
+      setKeys(keys.concat(attrs))
     }, [table])
 
     const handleOnEdit = async (prev, next) => {
