@@ -8,7 +8,7 @@ import {RootState} from '../../redux'
 export const SelectIndexComponent: FunctionComponent<Props> = props => {
   const {indexes} = props
 
-  return <div className="ph2">
+  return <div className="">
     <Select
       title="Indexes"
       onChange={e => alert(`${e.target.value}\n@todo`)}

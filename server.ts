@@ -11,27 +11,27 @@ const app = next({dev, dir: __dirname})
 const version = R.compose(R.concat('v'), R.prop('version'), JSON.parse, fs.readFileSync)
 
 !(async () => {
-  await app.prepare()
-  const server = express()
-  const port = 5500
+    await app.prepare()
+    const server = express()
+    const port = 5500
 
-  server.get('*', app.getRequestHandler())
-  server.listen(port, err => console.log(
-    R.concat(
-      `${version(path.join(__dirname, '/package.json'))} `,
-      err || `😈 Ready to work, open http://localhost:${port}`),
-    ),
-  )
+    server.get('*', app.getRequestHandler())
+    server.listen(port, err => console.log(
+      R.concat(
+        `${version(path.join(__dirname, '/package.json'))} `,
+        err || `😈 Ready to work, open http://localhost:${port}`),
+      ),
+    )
 
-  const dispatch = await createWs()
+    const dispatch = await createWs()
 
-  dispatch({
-    type: Action.ADD_ENDPOINT, payload: {
-      name    : 'Dynamon Local DB',
-      region  : 'dynamon',
-      endpoint: `http://localhost:8000`,
-    },
-  })
-}
+    dispatch({
+      type: Action.ADD_ENDPOINT, payload: {
+        name    : 'Dynamon Local DB',
+        region  : 'dynamon',
+        endpoint: `http://localhost:8000`,
+      },
+    })
+  }
 )()
 
