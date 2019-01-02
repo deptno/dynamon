@@ -98,28 +98,40 @@ export const scan = async (params) => {
   }
 }
 
-export const connectStream = async (params) => {
- const iter = await getRecordBox(params.endpoint, 8000, params.tableName)
-  return setInterval(async () => {
+let timer
+export const connectStream = (params) => {
+  if (timer) {
+    clearInterval(timer)
+  }
+  const box = getRecordBox(params.region, 8000, params.tableName)
+  timer = setInterval(async () => {
+    logger('run')
+    logger(params.functionEndpoint)
+    const iter = await box
     const records = await iter()
     if (!records) {
       return
     }
-    if (records.length > 0) {
-      // refresh trigger
+    if (records.length === 0) {
+      return
     }
-    if (params.stream && params.stream.endpoint) {
+    logger('!!')
+    logger(records.length)
+    logger(params.functionEndpoint)
+    if (params.functionEndpoint) {
       try {
-        await fetch(params.stream.endpoint, {
+        await fetch(params.functionEndpoint, {
           method: 'post',
-          body: JSON.stringify({Records: records})
+          body  : JSON.stringify({Records: records}),
         })
-      } catch(e) {
+      } catch (e) {
         console.log('error', e)
       }
     }
-
   }, 1000)
+}
+export const disconnectStream = () => {
+  clearTimeout(timer)
 }
 
 /**

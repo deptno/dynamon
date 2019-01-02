@@ -2,11 +2,12 @@ import WebSocket from 'ws'
 import R from 'ramda'
 import {EDynamonActionTypes as Action} from '../dynamon-action-types'
 import {
+  connectStream,
   createDocument,
   createDocuments,
   createTable,
   deleteDocument,
-  deleteTable,
+  deleteTable, disconnectStream,
   listRecords,
   listTables,
   query,
@@ -56,6 +57,20 @@ const handler = async (action) => {
       return {type: Action.OK_CREATE_TABLE, payload: await createTable(payload)}
     case Action.DELETE_TABLE:
       return {type: Action.OK_DELETE_TABLE, payload: await deleteTable(payload)}
+    case Action.CONNECT_STREAM:
+      logger(payload, 'here')
+      await connectStream({
+        region: payload.endpoint.region,
+        tableName: payload.tableName,
+        functionEndpoint: payload.functionEndpoint
+      })
+      return {
+        type: 'ok',
+      }
+    case Action.DISCONNECT_STREAM:
+      disconnectStream()
+      return {type: 'OK!'}
+
     case Action.ADD_ENDPOINT:
       ENDPOINTS.unshift(payload)
   }
