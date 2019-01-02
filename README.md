@@ -2,12 +2,12 @@
 
 ![Logo](assets/dynamon.png) [![CircleCI](https://circleci.com/gh/deptno/dynamon.svg?style=shield)](https://circleci.com/gh/deptno/dynamon)
 
-### **WIP**
-
 Dynamon is GUI client for DynamoDB.
 
 ---
 ## Recent update
+- support Local dynamodb stream(v0.3)
+![Logo](assets/dynamon-stream.gif)
 - Drop {electron, monorepo} to develop fast
 - Connect dynamodb-local (`docker run -p 8000:8000 amazon/dynamodb-local`)
 ```json
@@ -17,11 +17,10 @@ Dynamon is GUI client for DynamoDB.
 }
 ```
 - Support create table
-- Broken add record(s)
 
 ---
 
-> unstable (under development)
+> unstable (dynamon developed targeting local environment)
 
 [![](https://user-images.githubusercontent.com/1223020/38453064-7a2d421c-3a8a-11e8-821f-c607fff85642.png)](https://www.youtube.com/watch?v=UI9xyrAKAg0&feature=youtu.be)
 :eyes: Click to watch screenshot
@@ -59,7 +58,7 @@ DEBUG=* npm run start # ??
   * Table view
     * [x] Sub collection view
     * [x] Table schema view
-    * [ ] Nested JSON(Enter, Leave)
+    * [ ] ~~Nested JSON(Enter, Leave)~~
   * [x] JSON view
 * Operation
   * Table
@@ -75,9 +74,9 @@ DEBUG=* npm run start # ??
     * [x] Add document
     * [ ] Edit document
     * [ ] Delete document
+* [x] Stream - support function endpoint
     
 ## link
 - [LICENSE](LICENSE)
 - [CHANGELOG](CHANGELOG)
 - [Dynalee - Heart of dynamon](https://github.com/deptno/dynalee) 
-- [Offline-gateway - You can test dynamodb stream with this](https://github.com/deptno/offline-gateway) 
