@@ -126,6 +126,9 @@ export const actions = {
   },
   readDocuments(tableName: string) {
     return async (dispatch, getState, {send}) => {
+      if (!tableName) {
+        return
+      }
       dispatch(R.tap(await send, action(Action.READ_DOCUMENTS, {
         endpoint: getState().dynamon.endpoint,
         tableName,
@@ -144,7 +147,25 @@ export const actions = {
         key
       })))
     }
+  },
+  connectStream(tableName, functionEndpoint) {
+    return async (dispatch, getState, {send}) => {
+      dispatch(R.tap(await send, action(Action.CONNECT_STREAM, {
+        endpoint: getState().dynamon.endpoint,
+        tableName,
+        functionEndpoint
+      })))
+    }
+  },
+  disconnectStream(tableName) {
+    return async (dispatch, getState, {send}) => {
+      dispatch(R.tap(await send, action(Action.DISCONNECT_STREAM, {
+        endpoint: getState().dynamon.endpoint,
+        tableName,
+      })))
+    }
   }
+
 }
 
 export const defaultState = {

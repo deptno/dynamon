@@ -32,6 +32,9 @@ export enum EDynamonActionTypes {
   DELETE_DOCUMENT    = 'delete document',
   OK_DELETE_DOCUMENT = 'ok delete document',
 
+  CONNECT_STREAM     = 'connect stream',
+  DISCONNECT_STREAM     = 'disconnect stream',
+
   SCAN               = 'scan',
   OK_SCAN            = 'ok scan',
   QUERY              = 'query',

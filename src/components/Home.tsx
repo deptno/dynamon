@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react'
+import React, {FunctionComponent, useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {RootState} from '../redux'
 import {Json} from './Json'
@@ -7,10 +7,11 @@ import {actions} from '../redux/dynamon'
 import {SelectTable} from './SelectTable'
 import {SelectEndpoint} from './EndpointSelect'
 import {Search} from './panel/Search'
-import * as R from 'ramda'
+import {TableStream} from './Stream'
 
 export const HomeComponent: FunctionComponent<Props> = props => {
   const [json, setJson] = useState(null)
+  const [connectable, setConnectable] = useState(false)
   const handleJsonEdit = async (prev, next) => {
     console.log('before edit', prev, 'after edit', next)
     await props.updateDocument(props.selectedTable, next)
@@ -28,12 +29,28 @@ export const HomeComponent: FunctionComponent<Props> = props => {
     }
   }
 
+  useEffect(() => {
+    if (props.table) {
+      const enabled = props.table.StreamSpecification.StreamEnabled
+      if (enabled) {
+        const localTable = props.table.TableArn.split('/')[0].endsWith('000000000000:table')
+        if (localTable) {
+          setConnectable(true)
+          return () => {
+            setConnectable(false)
+          }
+        }
+      }
+    }
+  }, [props.table])
+
   return (
     <div>
       <div className="bp3-control-group bp3-fill">
         <SelectEndpoint/>
         <SelectTable/>
       </div>
+      {connectable && <TableStream />}
       <Search/>
       <Json title="Document" src={json} onEdit={handleJsonEdit}/>
       <DynamoTable onItemSelected={setJson} onRefresh={handleOnRefreshRecords}/>
