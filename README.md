@@ -1,6 +1,6 @@
 # :smiling_imp: Dynamon. DynamoDB GUI client
-
-![Logo](assets/dynamon.png) [![CircleCI](https://circleci.com/gh/deptno/dynamon.svg?style=shield)](https://circleci.com/gh/deptno/dynamon)
+ [![CircleCI](https://circleci.com/gh/deptno/dynamon.svg?style=shield)](https://circleci.com/gh/deptno/dynamon)
+![Logo](assets/dynamon.png)
 
 Dynamon is GUI client for DynamoDB.
 

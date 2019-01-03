@@ -1,7 +1,7 @@
 import React, {Component, createRef} from 'react'
 import * as R from 'ramda'
 
-export const aggregator = <P extends Props>(A: React.ComponentType<P>) => {
+export const aggregator = <P extends Props>(A: React.ComponentType<any>) => {
   return class extends Component<{id: number}> {
     private form = createRef() as any
 

@@ -102,7 +102,7 @@ export const TableCreator = connect<StateProps, DispatchProps, OwnProps>(mapStat
 type StateProps = ReturnType<typeof mapStateToProps>
 type DispatchProps = typeof mapDispatchToProps
 interface OwnProps {
+  handleOnCreate?(ev): void
 }
 interface Props extends StateProps, DispatchProps, OwnProps {
-  handleOnCreate?(ev): void
 }

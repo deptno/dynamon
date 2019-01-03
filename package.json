@@ -1,6 +1,6 @@
 {
   "name": "dynamon",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "bin": {
     "dynamon": "./dynamon.js"
   },
@@ -52,7 +52,7 @@
     "@types/jest": "^23.3.3",
     "@types/node": "^8.10.14",
     "@types/react": "^16.7.18",
-    "@types/react-redux": "^6.0.11",
+    "@types/react-redux": "^6.0.0",
     "@types/ws": "^6.0.1",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-typescript": "^1.1.1",
@@ -65,7 +65,7 @@
     "lint-staged": "^7.0.2",
     "postcss": "^7.0.5",
     "postcss-preset-env": "^6.3.0",
-    "react-redux": "^5.1.1",
+    "react-redux": "^5.0.7",
     "ts-jest": "^23.10.4",
     "tslint": "^5.11.0",
     "typescript": "^3.2.2",
