@@ -1,6 +1,6 @@
 {
   "name": "dynamon",
-  "version": "0.3.5",
+  "version": "0.3.8",
   "bin": {
     "dynamon": "./dynamon.js"
   },
@@ -32,12 +32,13 @@
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.22.2",
     "monaco-editor": "^0.14.3",
-    "next": "^7.0.2",
+    "next": "^8.0.0-canary.2",
     "ramda": "^0.25.0",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",
     "react-ga": "^2.5.3",
     "react-json-view": "^1.19.1",
+    "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-persist": "^4.9.1",
@@ -65,10 +66,9 @@
     "lint-staged": "^7.0.2",
     "postcss": "^7.0.5",
     "postcss-preset-env": "^6.3.0",
-    "react-redux": "^5.0.7",
     "ts-jest": "^23.10.4",
     "tslint": "^5.11.0",
-    "typescript": "^3.2.2",
+    "typescript": "^3.1.6",
     "url-loader": "^1.1.2"
   },
   "jest": {
