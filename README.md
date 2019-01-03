@@ -5,9 +5,10 @@
 Dynamon is GUI client for DynamoDB.
 
 ---
+> version 0.3 was failed to deploy use `dynamon@0.2`
 ## Recent update
 - support Local dynamodb stream(v0.3)
-![Logo](assets/dynamon-stream.gif)
+![Stream](assets/dynamon-stream.gif)
 - Drop {electron, monorepo} to develop fast
 - Connect dynamodb-local (`docker run -p 8000:8000 amazon/dynamodb-local`)
 ```json

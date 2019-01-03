@@ -7,7 +7,6 @@
     "experimentalDecorators": true,
     "noImplicitUseStrict": true,
     "removeComments": true,
-    "esModuleInterop": true,
-    "keyofStringsOnly": true
+    "esModuleInterop": true
   }
 }

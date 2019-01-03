@@ -21,7 +21,7 @@ let store
 
 export const getStore = (state, isServer?): Store<RootState> => {
   if (isServer && typeof window === 'undefined') {
-    return createStore<RootState, any, {}, undefined>(reducer, state, applyMiddleware(thunk))
+    return createStore<RootState, any, any, any>(reducer, state, applyMiddleware(thunk))
   } else {
     const composeEnhancers = DEV && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -43,7 +43,7 @@ export const getStore = (state, isServer?): Store<RootState> => {
         }));
       }
 
-      store = createStore<RootState, any, {}, undefined>(
+      store = createStore<RootState, any, any, any>(
         reducer,
         state,
         composeEnhancers(applyMiddleware(...mw), autoRehydrate())

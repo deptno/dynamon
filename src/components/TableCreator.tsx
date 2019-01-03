@@ -5,7 +5,7 @@ import classnames from 'classnames'
 import {actions} from '../redux/dynamon'
 import {DynamoDB} from 'aws-sdk'
 
-export class TableCreatorComponent extends React.Component<Props, State> {
+export class TableCreatorComponent extends React.Component<Props> {
   private refForm = createRef<HTMLFormElement>()
 
   render() {
@@ -97,7 +97,7 @@ export class TableCreatorComponent extends React.Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => state.dynamon
 const mapDispatchToProps = actions
-export const TableCreator = connect<StateProps, DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps)(TableCreatorComponent)
+export const TableCreator = connect<StateProps, DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps)(TableCreatorComponent as any)
 
 type StateProps = ReturnType<typeof mapStateToProps>
 type DispatchProps = typeof mapDispatchToProps
@@ -105,6 +105,4 @@ interface OwnProps {
 }
 interface Props extends StateProps, DispatchProps, OwnProps {
   handleOnCreate?(ev): void
-}
-interface State {
 }

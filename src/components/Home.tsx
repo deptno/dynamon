@@ -10,8 +10,8 @@ import {Search} from './panel/Search'
 import {TableStream} from './Stream'
 
 export const HomeComponent: FunctionComponent<Props> = props => {
-  const [json, setJson] = useState(null)
   const [connectable, setConnectable] = useState(false)
+  const [json, setJson] = useState(null)
   const handleJsonEdit = async (prev, next) => {
     console.log('before edit', prev, 'after edit', next)
     await props.updateDocument(props.selectedTable, next)
