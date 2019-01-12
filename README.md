@@ -5,7 +5,7 @@
 Dynamon is GUI client for DynamoDB.
 
 ---
-> version 0.3 was failed to deploy use `dynamon@0.2`
+
 ## Recent update
 - support Local dynamodb stream(v0.3)
 ![Stream](assets/dynamon-stream.gif)
