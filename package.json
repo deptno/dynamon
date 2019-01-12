@@ -1,6 +1,6 @@
 {
   "name": "dynamon",
-  "version": "0.3.8",
+  "version": "0.3.10",
   "bin": {
     "dynamon": "./dynamon.js"
   },
@@ -34,8 +34,8 @@
     "monaco-editor": "^0.14.3",
     "next": "^8.0.0-canary.2",
     "ramda": "^0.25.0",
-    "react": "^16.7.0-alpha.2",
-    "react-dom": "^16.7.0-alpha.2",
+    "react": "^16.8.0-alpha.0",
+    "react-dom": "^16.8.0-alpha.0",
     "react-ga": "^2.5.3",
     "react-json-view": "^1.19.1",
     "react-redux": "^5.0.7",
