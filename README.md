@@ -32,7 +32,7 @@ Dynamon is GUI client for DynamoDB.
 
 ```bash
 npm -g i dynamon
-dyanmon # run
+dynamon # run
 ```
 
 ## contribution
