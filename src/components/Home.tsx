@@ -31,14 +31,17 @@ export const HomeComponent: FunctionComponent<Props> = props => {
 
   useEffect(() => {
     if (props.table) {
-      const enabled = props.table.StreamSpecification.StreamEnabled
-      if (enabled) {
-        const localTable = props.table.TableArn.split('/')[0].endsWith('000000000000:table')
-        if (localTable) {
-          setConnectable(true)
-          return () => {
-            setConnectable(false)
-          }
+      if (!props.table.StreamSpecification) {
+        return
+      }
+      if (!props.table.StreamSpecification.StreamEnabled) {
+        return
+      }
+      const localTable = props.table.TableArn.split('/')[0].endsWith('000000000000:table')
+      if (localTable) {
+        setConnectable(true)
+        return () => {
+          setConnectable(false)
         }
       }
     }
@@ -50,7 +53,7 @@ export const HomeComponent: FunctionComponent<Props> = props => {
         <SelectEndpoint/>
         <SelectTable/>
       </div>
-      {connectable && <TableStream />}
+      {connectable && <TableStream/>}
       <Search/>
       <Json title="Document" src={json} onEdit={handleJsonEdit}/>
       <DynamoTable onItemSelected={setJson} onRefresh={handleOnRefreshRecords}/>
